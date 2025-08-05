@@ -53,6 +53,8 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :journey, log_level: :warning
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

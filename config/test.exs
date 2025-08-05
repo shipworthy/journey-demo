@@ -13,6 +13,13 @@ config :demo, Demo.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
+config :journey, Journey.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "demo_journey_test#{System.get_env("MIX_TEST_PARTITION")}",
+  pool_size: System.schedulers_online() * 2
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :demo, DemoWeb.Endpoint,
