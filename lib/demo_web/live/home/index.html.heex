@@ -1,0 +1,8 @@
+<%= if @connected? do %>
+    <div class=" text-left text-lg mt-1 pt-1 ">
+      Connected.
+      <div :if={@execution_id != nil}>
+        <%= @execution_id %>
+      </div>
+    </div>
+<% end %>
