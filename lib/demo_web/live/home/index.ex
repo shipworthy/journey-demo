@@ -126,24 +126,28 @@ defmodule DemoWeb.Live.Home.Index do
         value
       end
 
-    # Load execution, set the value, and reload to get updated values
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, field_atom, parsed_value)
+    if !Map.has_key?(socket.assigns.values, field_atom) and String.trim(parsed_value) == "" do
+      {:noreply, socket}
+    else
+      # Load execution, set the value, and reload to get updated values
+      execution = Journey.load(socket.assigns.execution_id)
+      updated_execution = Journey.set_value(execution, field_atom, parsed_value)
 
-    summary = Journey.Tools.summarize(updated_execution.id)
+      summary = Journey.Tools.summarize(updated_execution.id)
 
-    # Get updated computation states
-    computation_states = get_computation_states(updated_execution.id)
+      # Get updated computation states
+      computation_states = get_computation_states(updated_execution.id)
 
-    socket =
-      socket
-      # todo: no need to do this here.
-      |> assign(:values, Journey.values(updated_execution))
-      |> assign(:all_values, Journey.values_all(updated_execution))
-      |> assign(:execution_summary, summary)
-      |> assign(:computation_states, computation_states)
+      socket =
+        socket
+        # todo: no need to do this here.
+        |> assign(:values, Journey.values(updated_execution))
+        |> assign(:all_values, Journey.values_all(updated_execution))
+        |> assign(:execution_summary, summary)
+        |> assign(:computation_states, computation_states)
 
-    {:noreply, socket}
+      {:noreply, socket}
+    end
   end
 
   @impl true
@@ -220,7 +224,8 @@ defmodule DemoWeb.Live.Home.Index do
       horoscope: Journey.Tools.computation_state(execution_id, :horoscope),
       anonymize_name: Journey.Tools.computation_state(execution_id, :anonymize_name),
       email_horoscope: Journey.Tools.computation_state(execution_id, :email_horoscope),
-      weekly_reminder_schedule: Journey.Tools.computation_state(execution_id, :weekly_reminder_schedule),
+      weekly_reminder_schedule:
+        Journey.Tools.computation_state(execution_id, :weekly_reminder_schedule),
       send_weekly_reminder: Journey.Tools.computation_state(execution_id, :send_weekly_reminder),
       schedule_archive: Journey.Tools.computation_state(execution_id, :schedule_archive),
       auto_archive: Journey.Tools.computation_state(execution_id, :auto_archive)
@@ -229,9 +234,11 @@ defmodule DemoWeb.Live.Home.Index do
 
   # Helper function to format timestamp fields
   def format_timestamp(nil), do: "not set"
+
   def format_timestamp(unix_timestamp) when is_integer(unix_timestamp) do
     DateTime.from_unix!(unix_timestamp)
     |> Calendar.strftime("%B %d, %Y at %I:%M %p")
   end
+
   def format_timestamp(_), do: "not set"
 end
