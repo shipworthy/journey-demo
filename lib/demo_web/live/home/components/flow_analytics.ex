@@ -3,8 +3,6 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalytics do
 
   @moduledoc false
 
-  import DemoWeb.Live.Classes
-
   def render(assigns) do
     ~H"""
     <div id="flow-analytics-table" class="mt-2 p-4 bg-white border rounded">

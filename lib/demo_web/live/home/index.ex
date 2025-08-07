@@ -195,4 +195,12 @@ defmodule DemoWeb.Live.Home.Index do
 
     {:noreply, socket}
   end
+
+  # Helper function to format timestamp fields
+  def format_timestamp(nil), do: "not set"
+  def format_timestamp(unix_timestamp) when is_integer(unix_timestamp) do
+    DateTime.from_unix!(unix_timestamp)
+    |> Calendar.strftime("%B %d, %Y at %I:%M %p")
+  end
+  def format_timestamp(_), do: "not set"
 end

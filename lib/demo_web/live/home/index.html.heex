@@ -164,66 +164,76 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Name Validation -->
-        <%= if Map.has_key?(@values, :name_validation) do %>
-          <div>
-            <label class={Classes.label()}>name_validation</label>
-            <div class={Classes.read_only_value()}>
-              {Map.get(@values, :name_validation)}
-            </div>
+        <div>
+          <label class={Classes.label()}>name_validation</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
+            {Map.get(@values, :name_validation, "not set")}
           </div>
-        <% end %>
+        </div>
         
-<!-- Zodiac Sign -->
-        <%= if Map.has_key?(@values, :zodiac_sign) do %>
-          <div>
-            <label class={Classes.label()}>zodiac_sign</label>
-            <div class={Classes.read_only_value()}>
-              {Map.get(@values, :zodiac_sign)}
-            </div>
+        <!-- Zodiac Sign -->
+        <div>
+          <label class={Classes.label()}>zodiac_sign</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
+            {Map.get(@values, :zodiac_sign, "not set")}
           </div>
-        <% end %>
+        </div>
         
-<!-- Email Status -->
-        <%= if Map.has_key?(@values, :email_horoscope) do %>
-          <div>
-            <label class={Classes.label()}>email_horoscope</label>
-            <div class={Classes.read_only_value()}>
-              {Map.get(@values, :email_horoscope)}
-            </div>
+        <!-- Email Horoscope -->
+        <div>
+          <label class={Classes.label()}>email_horoscope</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
+            {Map.get(@values, :email_horoscope, "not set")}
           </div>
-        <% end %>
+        </div>
         
-<!-- Weekly Reminder Schedule -->
-        <%= if Map.has_key?(@values, :weekly_reminder_schedule) do %>
-          <div>
-            <label class={Classes.label()}>weekly_reminder_schedule</label>
-            <div class={Classes.read_only_value()}>
-              {DateTime.from_unix!(Map.get(@values, :weekly_reminder_schedule))
-              |> Calendar.strftime("%B %d, %Y at %I:%M %p")}
-            </div>
+        <!-- Weekly Reminder Schedule -->
+        <div>
+          <label class={Classes.label()}>weekly_reminder_schedule</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
+            {format_timestamp(Map.get(@values, :weekly_reminder_schedule))}
           </div>
-        <% end %>
+        </div>
         
-<!-- Archive Schedule -->
-        <%= if Map.has_key?(@values, :schedule_archive) do %>
-          <div>
-            <label class={Classes.label()}>schedule_archive</label>
-            <div class={Classes.read_only_value()}>
-              {DateTime.from_unix!(Map.get(@values, :schedule_archive))
-              |> Calendar.strftime("%B %d, %Y at %I:%M %p")}
-            </div>
+        <!-- Schedule Archive -->
+        <div>
+          <label class={Classes.label()}>schedule_archive</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :schedule_archive))}>
+            {format_timestamp(Map.get(@values, :schedule_archive))}
           </div>
-        <% end %>
+        </div>
         
-<!-- Horoscope -->
-        <%= if Map.has_key?(@values, :horoscope) do %>
-          <div class="md:col-span-2">
-            <label class={Classes.label()}>horoscope</label>
-            <div class={Classes.read_only_value()}>
-              {Map.get(@values, :horoscope)}
-            </div>
+        <!-- Send Weekly Reminder -->
+        <div>
+          <label class={Classes.label()}>send_weekly_reminder</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :send_weekly_reminder))}>
+            {Map.get(@values, :send_weekly_reminder, "not set")}
           </div>
-        <% end %>
+        </div>
+        
+        <!-- Auto Archive -->
+        <div>
+          <label class={Classes.label()}>auto_archive</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :auto_archive))}>
+            {Map.get(@values, :auto_archive, "not set")}
+          </div>
+        </div>
+        
+        <!-- Anonymize Name -->
+        <div>
+          <label class={Classes.label()}>anonymize_name</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
+            {Map.get(@values, :anonymize_name, "not set")}
+          </div>
+        </div>
+        
+        <!-- Horoscope -->
+        <div class="md:col-span-2">
+          <label class={Classes.label()}>horoscope</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
+            {Map.get(@values, :horoscope, "not set")}
+          </div>
+        </div>
       </div>
     </div>
     
