@@ -6,6 +6,7 @@ defmodule DemoWeb.Live.Home.Index do
   require Logger
 
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.ComputationState
   alias DemoWeb.Live.Home.Components.FlowAnalytics
 
   # alias DemoWeb.Live.Home.Components.Footer
@@ -126,7 +127,7 @@ defmodule DemoWeb.Live.Home.Index do
         value
       end
 
-    if !Map.has_key?(socket.assigns.values, field_atom) and String.trim(parsed_value) == "" do
+    if !Map.has_key?(socket.assigns.values, field_atom) and parsed_value == "" do
       {:noreply, socket}
     else
       # Load execution, set the value, and reload to get updated values

@@ -2,6 +2,14 @@ defmodule DemoWeb.Live.Classes do
   # Home page classes (starting)
 
   # Home page classes (ending)
+
+  def debug_info() do
+    "p-2 bg-blue-50 rounded text-sm text-gray-600"
+    # "text-sm font-mono text-gray-600"
+    # "p-2 bg-blue-50 border rounded text-sm font-mono text-left"
+    # "mt-2 p-2 bg-gray-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
+  end
+
   def read_only_value(has_value?) do
     base =
       "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none min-h-[2.75rem]"
@@ -30,7 +38,7 @@ defmodule DemoWeb.Live.Classes do
   end
 
   def computation_state() do
-    "mt-2 p-2 bg-gray-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
+    "mt-2 p-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
   end
 
   # -----------------

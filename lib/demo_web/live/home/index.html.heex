@@ -1,11 +1,11 @@
 <div class="max-w-4xl mx-auto p-6">
   <h1 class="text-3xl font-bold mb-6">Horoscope Journey</h1>
 
-  <div class="mb-4 p-4 bg-blue-50 rounded">
-    <div class="text-sm text-gray-600">
+  <div class={Classes.debug_info()}>
+    <div>
       Status: {if @connected?, do: "Connected", else: "Not connected"}
     </div>
-    <div class="text-xs text-gray-500 mt-1">
+    <div>
       Execution: {if @execution_id, do: @execution_id, else: "nil"}
     </div>
   </div>
@@ -169,9 +169,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
             {Map.get(@values, :name_validation, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :name_validation, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:name_validation} computation_states={@computation_states} />
         </div>
         
         <!-- Zodiac Sign -->
@@ -180,9 +178,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :zodiac_sign, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:zodiac_sign} computation_states={@computation_states} />
         </div>
         
         <!-- Email Horoscope -->
@@ -191,9 +187,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
             {Map.get(@values, :email_horoscope, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :email_horoscope, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:email_horoscope} computation_states={@computation_states} />
         </div>
         
         <!-- Weekly Reminder Schedule -->
@@ -202,9 +196,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
             {format_timestamp(Map.get(@values, :weekly_reminder_schedule))}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :weekly_reminder_schedule, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:weekly_reminder_schedule} computation_states={@computation_states} />
         </div>
         
         <!-- Schedule Archive -->
@@ -213,9 +205,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :schedule_archive))}>
             {format_timestamp(Map.get(@values, :schedule_archive))}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :schedule_archive, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:schedule_archive} computation_states={@computation_states} />
         </div>
         
         <!-- Send Weekly Reminder -->
@@ -224,9 +214,8 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :send_weekly_reminder))}>
             {Map.get(@values, :send_weekly_reminder, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :send_weekly_reminder, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:send_weekly_reminder} computation_states={@computation_states} />
+
         </div>
         
         <!-- Auto Archive -->
@@ -235,9 +224,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :auto_archive))}>
             {Map.get(@values, :auto_archive, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :auto_archive, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:auto_archive} computation_states={@computation_states} />
         </div>
         
         <!-- Anonymize Name -->
@@ -246,9 +233,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
             {Map.get(@values, :anonymize_name, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :anonymize_name, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:anonymize_name} computation_states={@computation_states} />
         </div>
         
         <!-- Horoscope -->
@@ -257,9 +242,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
             {Map.get(@values, :horoscope, "not set")}
           </div>
-          <div class={Classes.computation_state()}>
-            {Map.get(@computation_states, :horoscope, "No computation state")}
-          </div>
+          <ComputationState.render node_name={:horoscope} computation_states={@computation_states} />
         </div>
       </div>
     </div>
