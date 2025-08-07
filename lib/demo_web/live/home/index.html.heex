@@ -16,7 +16,10 @@
       </label>
     </form>
   </div>
-  <div :if={Map.get(@values, :show_computation_states, false)} class={" my-4 " <> Classes.debug_info()}>
+  <div
+    :if={Map.get(@values, :show_computation_states, false)}
+    class={" my-4 " <> Classes.debug_info()}
+  >
     <div>
       Status: {if @connected?, do: "Connected", else: "Not connected"}
     </div>
@@ -25,7 +28,13 @@
     </div>
     <div>
       Implemented with this Journey Graph:
-      <a href="https://github.com/shipworthy/journey-demo/blob/7da3b5121f63d3eb70582db7a9b8a584f78cedd6/lib/demo/horoscope_graph.ex#L26-L154" target="_blank" class="text-blue-600 hover:underline">https://github.com/shipworthy/journey-demo/blob/main/lib/demo/horoscope_graph.ex</a>
+      <a
+        href="https://github.com/shipworthy/journey-demo/blob/7da3b5121f63d3eb70582db7a9b8a584f78cedd6/lib/demo/horoscope_graph.ex#L26-L154"
+        target="_blank"
+        class="text-blue-600 hover:underline"
+      >
+        https://github.com/shipworthy/journey-demo/blob/main/lib/demo/horoscope_graph.ex
+      </a>
     </div>
   </div>
 
@@ -53,48 +62,80 @@
           <label class={Classes.label()}>birth_month</label>
           <form phx-change="update_select">
             <input type="hidden" name="field" value="birth_month" />
-            <select
-              name="birth_month"
-              disabled={!@connected?}
-              class={Classes.editable_value()}
-            >
+            <select name="birth_month" disabled={!@connected?} class={Classes.editable_value()}>
               <option value="" selected={Map.get(@values, :birth_month, "") == ""}>
                 Select month...
               </option>
-              <option value="January" selected={String.downcase(Map.get(@values, :birth_month, "")) == "january"}>
+              <option
+                value="January"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "january"}
+              >
                 January
               </option>
-              <option value="February" selected={String.downcase(Map.get(@values, :birth_month, "")) == "february"}>
+              <option
+                value="February"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "february"}
+              >
                 February
               </option>
-              <option value="March" selected={String.downcase(Map.get(@values, :birth_month, "")) == "march"}>
+              <option
+                value="March"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "march"}
+              >
                 March
               </option>
-              <option value="April" selected={String.downcase(Map.get(@values, :birth_month, "")) == "april"}>
+              <option
+                value="April"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "april"}
+              >
                 April
               </option>
-              <option value="May" selected={String.downcase(Map.get(@values, :birth_month, "")) == "may"}>
+              <option
+                value="May"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "may"}
+              >
                 May
               </option>
-              <option value="June" selected={String.downcase(Map.get(@values, :birth_month, "")) == "june"}>
+              <option
+                value="June"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "june"}
+              >
                 June
               </option>
-              <option value="July" selected={String.downcase(Map.get(@values, :birth_month, "")) == "july"}>
+              <option
+                value="July"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "july"}
+              >
                 July
               </option>
-              <option value="August" selected={String.downcase(Map.get(@values, :birth_month, "")) == "august"}>
+              <option
+                value="August"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "august"}
+              >
                 August
               </option>
-              <option value="September" selected={String.downcase(Map.get(@values, :birth_month, "")) == "september"}>
+              <option
+                value="September"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "september"}
+              >
                 September
               </option>
-              <option value="October" selected={String.downcase(Map.get(@values, :birth_month, "")) == "october"}>
+              <option
+                value="October"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "october"}
+              >
                 October
               </option>
-              <option value="November" selected={String.downcase(Map.get(@values, :birth_month, "")) == "november"}>
+              <option
+                value="November"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "november"}
+              >
                 November
               </option>
-              <option value="December" selected={String.downcase(Map.get(@values, :birth_month, "")) == "december"}>
+              <option
+                value="December"
+                selected={String.downcase(Map.get(@values, :birth_month, "")) == "december"}
+              >
                 December
               </option>
             </select>
@@ -121,11 +162,7 @@
           <label class={Classes.label()}>pet_preference</label>
           <form phx-change="update_select">
             <input type="hidden" name="field" value="pet_preference" />
-            <select
-              name="pet_preference"
-              disabled={!@connected?}
-              class={Classes.editable_value()}
-            >
+            <select name="pet_preference" disabled={!@connected?} class={Classes.editable_value()}>
               <option value="" selected={Map.get(@values, :pet_preference, "") == ""}>
                 Select...
               </option>
@@ -176,47 +213,61 @@
         </div>
       </div>
     </div>
-    
-
 
     <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
       <div class="space-y-4">
-
         
-        <!-- Zodiac Sign -->
+<!-- Zodiac Sign -->
         <div>
           <label class={Classes.label()}>zodiac_sign</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:zodiac_sign} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:zodiac_sign}
+            computation_states={@computation_states}
+          />
         </div>
         
-
-        
-        <!-- Weekly Reminder Schedule -->
-
-        
-
-        
-
-
-        
-        <!-- Horoscope -->
+<!-- Horoscope -->
         <div>
           <label class={Classes.label()}>horoscope</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
             {Map.get(@values, :horoscope, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:horoscope} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:horoscope}
+            computation_states={@computation_states}
+          />
+        </div>
+        
+<!-- Email Horoscope -->
+        <div>
+          <label class={Classes.label()}>email_horoscope</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
+            {Map.get(@values, :email_horoscope, "not set")}
+          </div>
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:email_horoscope}
+            computation_states={@computation_states}
+          />
         </div>
       </div>
     </div>
-
+    
 <!-- Computed Values Section -->
-    <div :if={@connected? and Map.get(@values, :show_computation_states, false)} class="bg-white p-6 rounded-lg shadow">
+    <div
+      :if={@connected? and Map.get(@values, :show_computation_states, false)}
+      class="bg-white p-6 rounded-lg shadow"
+    >
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 
       <div class="space-y-4">
@@ -226,112 +277,135 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
             {Map.get(@values, :name_validation, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:name_validation} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:name_validation}
+            computation_states={@computation_states}
+          />
         </div>
         
-        
-        <!-- Email Horoscope -->
-        <div>
-          <label class={Classes.label()}>email_horoscope</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
-            {Map.get(@values, :email_horoscope, "not set")}
-          </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:email_horoscope} computation_states={@computation_states} />
-        </div>
-        
-        <!-- Weekly Reminder Schedule -->
+<!-- Weekly Reminder Schedule -->
         <div>
           <label class={Classes.label()}>weekly_reminder_schedule</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
             {format_timestamp(Map.get(@values, :weekly_reminder_schedule))}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:weekly_reminder_schedule} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:weekly_reminder_schedule}
+            computation_states={@computation_states}
+          />
         </div>
         
-        <!-- Schedule Archive -->
+<!-- Schedule Archive -->
         <div>
           <label class={Classes.label()}>schedule_archive</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :schedule_archive))}>
             {format_timestamp(Map.get(@values, :schedule_archive))}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:schedule_archive} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:schedule_archive}
+            computation_states={@computation_states}
+          />
         </div>
         
-        <!-- Send Weekly Reminder -->
+<!-- Send Weekly Reminder -->
         <div>
           <label class={Classes.label()}>send_weekly_reminder</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :send_weekly_reminder))}>
             {Map.get(@values, :send_weekly_reminder, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:send_weekly_reminder} computation_states={@computation_states} />
-
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:send_weekly_reminder}
+            computation_states={@computation_states}
+          />
         </div>
         
-        <!-- Auto Archive -->
+<!-- Auto Archive -->
         <div>
           <label class={Classes.label()}>auto_archive</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :auto_archive))}>
             {Map.get(@values, :auto_archive, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:auto_archive} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:auto_archive}
+            computation_states={@computation_states}
+          />
         </div>
         
-        <!-- Anonymize Name -->
+<!-- Anonymize Name -->
         <div>
           <label class={Classes.label()}>anonymize_name</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
             {Map.get(@values, :anonymize_name, "not set")}
           </div>
-          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:anonymize_name} computation_states={@computation_states} />
+          <ComputationState.render
+            :if={Map.get(@values, :show_computation_states, false)}
+            execution_id={@execution_id}
+            node_name={:anonymize_name}
+            computation_states={@computation_states}
+          />
         </div>
-        
-
       </div>
     </div>
-    
-<!-- Debug Values (optional - remove in production) -->
-    <details :if={@connected?} class="mt-6">
-      <summary class={Classes.summary()}>
-        Debug: Values
-      </summary>
-      <pre class={Classes.debug_pre()}><%= inspect(@all_values, pretty: true) %></pre>
-    </details>
-    
+
+    <div :if={@connected? and Map.get(@values, :show_computation_states, false)}>
+      <!-- Debug Values (optional - remove in production) -->
+      <details :if={@connected?} class="mt-6">
+        <summary class={Classes.summary()}>
+          Debug: Values
+        </summary>
+        <pre class={Classes.debug_pre()}><%= inspect(@all_values, pretty: true) %></pre>
+      </details>
+      
 <!-- Journey Execution Summary -->
-    <details :if={@connected?} class="mt-4">
-      <summary class={Classes.summary()}>
-        Debug: Journey Execution Summary
-      </summary>
-      <pre class={Classes.debug_pre()}><%= @execution_summary %></pre>
-    </details>
-    
+      <details :if={@connected?} class="mt-4">
+        <summary class={Classes.summary()}>
+          Debug: Journey Execution Summary
+        </summary>
+        <pre class={Classes.debug_pre()}><%= @execution_summary %></pre>
+      </details>
+      
 <!-- Flow Analytics -->
-    <details :if={@connected?} class="mt-4">
-      <summary class={Classes.summary()}>
-        Debug: Flow Analytics
-      </summary>
-      <pre class={Classes.debug_pre()}><%= inspect(@flow_analytics, pretty: true) %></pre>
-    </details>
-    
+      <details :if={@connected?} class="mt-4">
+        <summary class={Classes.summary()}>
+          Debug: Flow Analytics
+        </summary>
+        <pre class={Classes.debug_pre()}><%= inspect(@flow_analytics, pretty: true) %></pre>
+      </details>
+      
 <!-- Flow Analytics Table -->
-    <details :if={@connected? && @flow_analytics} class="mt-4">
-      <summary class={Classes.summary()}>
-        Debug: Flow Analytics Table
-      </summary>
-      <FlowAnalytics.render flow_analytics={@flow_analytics} />
-    </details>
-    
+      <details :if={@connected? && @flow_analytics} class="mt-4">
+        <summary class={Classes.summary()}>
+          Debug: Flow Analytics Table
+        </summary>
+        <FlowAnalytics.render flow_analytics={@flow_analytics} />
+      </details>
+      
 <!-- Workflow Graph -->
-    <details :if={@connected? && @graph_mermaid} class="mt-4">
-      <summary class={Classes.summary()}>
-        Debug: Workflow Graph (Mermaid)
-      </summary>
-      <div class="mt-2 p-4 bg-white border rounded">
-        <div class="text-md text-gray-600 mb-2">
-          Journey Workflow (Mermaid Format) - Paste into <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">https://mermaid.live/</a> to view the visual rendering
+      <details :if={@connected? && @graph_mermaid} class="mt-4">
+        <summary class={Classes.summary()}>
+          Debug: Workflow Graph (Mermaid)
+        </summary>
+        <div class="mt-2 p-4 bg-white border rounded">
+          <div class="text-md text-gray-600 mb-2">
+            Journey Workflow (Mermaid Format) - Paste into
+            <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">
+              https://mermaid.live/
+            </a>
+            to view the visual rendering
+          </div>
+          <pre class="text-xs bg-gray-50 p-4 rounded border overflow-x-auto font-mono whitespace-pre-wrap"><%= @graph_mermaid %></pre>
         </div>
-        <pre class="text-xs bg-gray-50 p-4 rounded border overflow-x-auto font-mono whitespace-pre-wrap"><%= @graph_mermaid %></pre>
-      </div>
-    </details>
+      </details>
+    </div>
   </div>
 </div>

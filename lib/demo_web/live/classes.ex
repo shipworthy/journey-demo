@@ -34,11 +34,11 @@ defmodule DemoWeb.Live.Classes do
   end
 
   def debug_pre() do
-    "mt-2 p-4 bg-gray-100 rounded text-md overflow-x-auto font-mono"
+    "mt-2 p-4 text-gray-600 bg-blue-50 rounded text-sm overflow-x-auto font-mono"
   end
 
   def computation_state() do
-    "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
+    "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre overflow-x-auto text-left"
   end
 
   # -----------------

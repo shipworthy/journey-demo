@@ -265,4 +265,37 @@ defmodule DemoWeb.Live.Home.Index do
   end
 
   def format_timestamp(_), do: "not set"
+
+  # Helper function to format Journey.Executions.history output into human-friendly strings
+  def format_history(history_entries) when is_list(history_entries) do
+    history_entries
+    |> Enum.reduce([], fn entry, acc ->
+      case entry do
+        %{
+          computation_or_value: :computation,
+          node_name: node_name,
+          node_type: node_type,
+          ex_revision_at_completion: revision
+        } ->
+          acc ++ [{revision, "computation `#{node_name}` (#{inspect(node_type)}) completed"}]
+
+        %{
+          computation_or_value: :value,
+          node_name: node_name,
+          value: value,
+          ex_revision_at_completion: revision
+        } ->
+          formatted_value = format_history_value(value)
+          acc ++ [{revision, "value `#{node_name}` was set (#{formatted_value})"}]
+
+        _ ->
+          acc
+      end
+    end)
+  end
+
+  defp format_history_value(value) when is_binary(value), do: inspect(value)
+  defp format_history_value(value) when is_integer(value), do: Integer.to_string(value)
+  defp format_history_value(value) when is_atom(value), do: inspect(value)
+  defp format_history_value(value), do: inspect(value)
 end
