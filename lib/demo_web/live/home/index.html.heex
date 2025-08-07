@@ -1,8 +1,399 @@
-<%= if @connected? do %>
-    <div class=" text-left text-lg mt-1 pt-1 ">
-      Connected.
-      <div :if={@execution_id != nil}>
-        <%= @execution_id %>
+<div class="max-w-4xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">Horoscope Journey</h1>
+
+  <div class="mb-4 p-4 bg-blue-50 rounded">
+    <div class="text-sm text-gray-600">
+      Status: {if @connected?, do: "Connected", else: "Not connected"}
+    </div>
+    <div class="text-xs text-gray-500 mt-1">
+      Execution: {if @execution_id, do: @execution_id, else: "nil"}
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <!-- Input Fields Section -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Name Input -->
+        <div>
+          <label class={Classes.label()}>name</label>
+          <input
+            type="text"
+            value={Map.get(@values, :name, "")}
+            phx-blur="update_value"
+            phx-value-field="name"
+            disabled={!@connected?}
+            class={Classes.editable_value()}
+          />
+        </div>
+        
+<!-- Birth Month Input -->
+        <div>
+          <label class={Classes.label()}>birth_month</label>
+          <input
+            type="text"
+            value={Map.get(@values, :birth_month, "")}
+            phx-blur="update_value"
+            phx-value-field="birth_month"
+            disabled={!@connected?}
+            placeholder="e.g., April"
+            class={Classes.editable_value()}
+          />
+        </div>
+        
+<!-- Birth Day Input -->
+        <div>
+          <label class={Classes.label()}>birth_day</label>
+          <input
+            type="number"
+            value={Map.get(@values, :birth_day, "")}
+            phx-blur="update_value"
+            phx-value-field="birth_day"
+            disabled={!@connected?}
+            min="1"
+            max="31"
+            class={Classes.editable_value()}
+          />
+        </div>
+        
+<!-- Pet Preference Select -->
+        <div>
+          <label class={Classes.label()}>pet_preference</label>
+          <form phx-change="update_select">
+            <input type="hidden" name="field" value="pet_preference" />
+            <select
+              name="pet_preference"
+              disabled={!@connected?}
+              class={Classes.editable_value()}
+            >
+              <option value="" selected={Map.get(@values, :pet_preference, "") == ""}>
+                Select...
+              </option>
+              <option value="cats" selected={Map.get(@values, :pet_preference) == "cats"}>
+                Cats
+              </option>
+              <option value="dogs" selected={Map.get(@values, :pet_preference) == "dogs"}>
+                Dogs
+              </option>
+              <option value="both" selected={Map.get(@values, :pet_preference) == "both"}>
+                Both
+              </option>
+              <option value="neither" selected={Map.get(@values, :pet_preference) == "neither"}>
+                Neither
+              </option>
+            </select>
+          </form>
+        </div>
+        
+<!-- Email Input -->
+        <div>
+          <label class={Classes.label()}>email_address</label>
+          <input
+            type="email"
+            value={Map.get(@values, :email_address, "")}
+            phx-blur="update_value"
+            phx-value-field="email_address"
+            disabled={!@connected?}
+            class={Classes.editable_value()}
+          />
+        </div>
+        
+<!-- Subscribe Weekly Checkbox -->
+        <div class="flex items-center">
+          <form phx-change="toggle_subscribe">
+            <input
+              type="checkbox"
+              name="subscribe_weekly"
+              id="subscribe_weekly"
+              checked={Map.get(@values, :subscribe_weekly, false) == true}
+              disabled={!@connected?}
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+            />
+            <label for="subscribe_weekly" class="ml-2 inline-block text-sm text-gray-700">
+              subscribe_weekly
+            </label>
+          </form>
+        </div>
       </div>
     </div>
-<% end %>
+    
+<!-- Computed Values Section -->
+    <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Your Computed Values</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Name Validation -->
+        <%= if Map.has_key?(@values, :name_validation) do %>
+          <div>
+            <label class={Classes.label()}>name_validation</label>
+            <div class={Classes.read_only_value()}>
+              {Map.get(@values, :name_validation)}
+            </div>
+          </div>
+        <% end %>
+        
+<!-- Zodiac Sign -->
+        <%= if Map.has_key?(@values, :zodiac_sign) do %>
+          <div>
+            <label class={Classes.label()}>zodiac_sign</label>
+            <div class={Classes.read_only_value()}>
+              {Map.get(@values, :zodiac_sign)}
+            </div>
+          </div>
+        <% end %>
+        
+<!-- Email Status -->
+        <%= if Map.has_key?(@values, :email_horoscope) do %>
+          <div>
+            <label class={Classes.label()}>email_horoscope</label>
+            <div class={Classes.read_only_value()}>
+              {Map.get(@values, :email_horoscope)}
+            </div>
+          </div>
+        <% end %>
+        
+<!-- Weekly Reminder Schedule -->
+        <%= if Map.has_key?(@values, :weekly_reminder_schedule) do %>
+          <div>
+            <label class={Classes.label()}>weekly_reminder_schedule</label>
+            <div class={Classes.read_only_value()}>
+              {DateTime.from_unix!(Map.get(@values, :weekly_reminder_schedule))
+              |> Calendar.strftime("%B %d, %Y at %I:%M %p")}
+            </div>
+          </div>
+        <% end %>
+        
+<!-- Archive Schedule -->
+        <%= if Map.has_key?(@values, :schedule_archive) do %>
+          <div>
+            <label class={Classes.label()}>schedule_archive</label>
+            <div class={Classes.read_only_value()}>
+              {DateTime.from_unix!(Map.get(@values, :schedule_archive))
+              |> Calendar.strftime("%B %d, %Y")}
+            </div>
+          </div>
+        <% end %>
+        
+<!-- Horoscope -->
+        <%= if Map.has_key?(@values, :horoscope) do %>
+          <div class="md:col-span-2">
+            <label class={Classes.label()}>horoscope</label>
+            <div class={Classes.read_only_value()}>
+              {Map.get(@values, :horoscope)}
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+<!-- Debug Values (optional - remove in production) -->
+    <details :if={@connected?} class="mt-6">
+      <summary class={Classes.summary()}>
+        Debug: Values
+      </summary>
+      <pre class={Classes.debug_pre()}><%= inspect(@all_values, pretty: true) %></pre>
+    </details>
+    
+<!-- Journey Execution Summary -->
+    <details :if={@connected?} class="mt-4">
+      <summary class={Classes.summary()}>
+        Debug: Journey Execution Summary
+      </summary>
+      <pre class={Classes.debug_pre()}><%= @execution_summary %></pre>
+    </details>
+    
+<!-- Flow Analytics -->
+    <details :if={@connected?} class="mt-4">
+      <summary class={Classes.summary()}>
+        Debug: Flow Analytics
+      </summary>
+      <pre class={Classes.debug_pre()}><%= inspect(@flow_analytics, pretty: true) %></pre>
+    </details>
+    
+<!-- Flow Analytics Table -->
+    <details :if={@connected? && @flow_analytics} class="mt-4">
+      <summary class={Classes.summary()}>
+        Debug: Flow Analytics Table
+      </summary>
+      <div class="mt-2 p-4 bg-white border rounded">
+        <div class="space-y-4">
+          <!-- Overview Stats -->
+          <div class="bg-gray-50 p-3 rounded">
+            <h4 class="font-semibold text-md mb-2">
+              Overview: {@flow_analytics.graph_name} ({@flow_analytics.graph_version})
+            </h4>
+            <div class="grid grid-cols-3 gap-4 text-md">
+              <div>
+                <span class="text-gray-600">Total Executions:</span>
+                <span class="font-medium ml-1">{@flow_analytics.executions.count}</span>
+              </div>
+              <div>
+                <span class="text-gray-600">Avg Duration:</span>
+                <span class="font-medium ml-1">
+                  <%= if avg = @flow_analytics.executions.duration_avg_seconds_to_last_update do %>
+                    {cond do
+                      avg < 60 ->
+                        "#{round(avg)}s"
+
+                      avg < 3600 ->
+                        minutes = div(round(avg), 60)
+                        secs = rem(round(avg), 60)
+                        if secs > 0, do: "#{minutes}m #{secs}s", else: "#{minutes}m"
+
+                      true ->
+                        hours = div(round(avg), 3600)
+                        minutes = div(rem(round(avg), 3600), 60)
+                        if minutes > 0, do: "#{hours}h #{minutes}m", else: "#{hours}h"
+                    end}
+                  <% else %>
+                    N/A
+                  <% end %>
+                </span>
+              </div>
+              <div>
+                <span class="text-gray-600">Median Duration:</span>
+                <span class="font-medium ml-1">
+                  <%= if median = @flow_analytics.executions.duration_median_seconds_to_last_update do %>
+                    {cond do
+                      median < 60 ->
+                        "#{round(median)}s"
+
+                      median < 3600 ->
+                        minutes = div(round(median), 60)
+                        secs = rem(round(median), 60)
+                        if secs > 0, do: "#{minutes}m #{secs}s", else: "#{minutes}m"
+
+                      true ->
+                        hours = div(round(median), 3600)
+                        minutes = div(rem(round(median), 3600), 60)
+                        if minutes > 0, do: "#{hours}h #{minutes}m", else: "#{hours}h"
+                    end}
+                  <% else %>
+                    N/A
+                  <% end %>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+<!-- Node Statistics Table -->
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b text-left">
+                <th class="pb-2">Node</th>
+                <th class="pb-2">Type</th>
+                <th class="pb-2 text-right">Reached</th>
+                <th class="pb-2 text-right">Avg Time</th>
+                <th class="pb-2 text-right">Drop-off</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for node <- (@flow_analytics.node_stats.nodes || []) |> Enum.sort_by(& &1.average_time_to_reach) do %>
+                <tr class={
+                  if node.reached_percentage < 100, do: "border-b bg-yellow-50", else: "border-b"
+                }>
+                  <td class="py-2 font-medium">{node.node_name}</td>
+                  <td class="py-2 text-gray-600">{node.node_type}</td>
+                  <td class="py-2 text-right">
+                    {node.reached_count}/{@flow_analytics.executions.count} ({Float.round(
+                      node.reached_percentage,
+                      1
+                    )}%)
+                  </td>
+                  <td class="py-2 text-right">
+                    {time = node.average_time_to_reach
+
+                    cond do
+                      time < 60 ->
+                        "#{round(time)}s"
+
+                      time < 3600 ->
+                        minutes = div(round(time), 60)
+                        secs = rem(round(time), 60)
+                        if secs > 0, do: "#{minutes}m #{secs}s", else: "#{minutes}m"
+
+                      true ->
+                        hours = div(round(time), 3600)
+                        minutes = div(rem(round(time), 3600), 60)
+                        if minutes > 0, do: "#{hours}h #{minutes}m", else: "#{hours}h"
+                    end}
+                  </td>
+                  <td class={
+                    "py-2 text-right " <> 
+                    if node.flow_ends_here_percentage_of_all > 0 do
+                      "text-orange-600"
+                    else
+                      "text-green-600"
+                    end
+                  }>
+                    {Float.round(node.flow_ends_here_percentage_of_all, 1)}%
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          
+<!-- Key Insights -->
+          <div class="bg-blue-50 p-3 rounded">
+            <h4 class="font-semibold text-md mb-2">Key Insights</h4>
+            <ul class="text-md space-y-1">
+              <% total = @flow_analytics.executions.count
+
+              completed_nodes =
+                (@flow_analytics.node_stats.nodes || [])
+                |> Enum.filter(&(&1.reached_percentage == 100.0))
+                |> length()
+
+              partial_nodes =
+                (@flow_analytics.node_stats.nodes || [])
+                |> Enum.filter(&(&1.reached_percentage < 100.0 && &1.reached_percentage > 0))
+
+              first_partial = if length(partial_nodes) > 0, do: hd(partial_nodes), else: nil %>
+              <li>• {completed_nodes} nodes reached by all {total} executions</li>
+              <%= if first_partial do %>
+                <li>
+                  • {first_partial.node_name} has {Float.round(
+                    first_partial.reached_percentage,
+                    1
+                  )}% conversion rate
+                </li>
+              <% end %>
+              <% email_node =
+                Enum.find(
+                  @flow_analytics.node_stats.nodes || [],
+                  &(&1.node_name == :email_address)
+                ) %>
+              <%= if email_node && email_node.average_time_to_reach > 120 do %>
+                <li>
+                  • Users take ~{div(round(email_node.average_time_to_reach), 60)} minutes before entering email
+                </li>
+              <% end %>
+              <% name_node =
+                Enum.find(@flow_analytics.node_stats.nodes || [], &(&1.node_name == :name)) %>
+              <%= if name_node && name_node.average_time_to_reach < 10 do %>
+                <li>
+                  • Quick start: names entered within {round(name_node.average_time_to_reach)} seconds
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </details>
+    
+<!-- Workflow Graph -->
+    <details :if={@connected? && @graph_mermaid} class="mt-4">
+      <summary class={Classes.summary()}>
+        Debug: Workflow Graph (Mermaid)
+      </summary>
+      <div class="mt-2 p-4 bg-white border rounded">
+        <div class="text-md text-gray-600 mb-2">
+          Journey Workflow (Mermaid Format) - Paste into <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">https://mermaid.live/</a> to view the visual rendering
+        </div>
+        <pre class="text-xs bg-gray-50 p-4 rounded border overflow-x-auto font-mono whitespace-pre-wrap"><%= @graph_mermaid %></pre>
+      </div>
+    </details>
+  </div>
+</div>

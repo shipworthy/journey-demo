@@ -14,10 +14,19 @@ defmodule Demo.HoroscopeGraph do
   import Journey.Node.UpstreamDependencies
   import Journey.Node.Conditions
 
+  require Logger
+
+  # Helper function to notify LiveView of updates
+  defp notify(execution_id, step, data) do
+    Logger.info("Journey notify: execution_id: #{execution_id}, step: #{step}")
+    Phoenix.PubSub.broadcast(Demo.PubSub, "execution:#{execution_id}", {:refresh, step, data})
+    :ok
+  end
+
   def graph() do
     Journey.new_graph(
       "Horoscope Demo App",
-      "v1.0.0",
+      "v1.0.1",
       [
         # === Input Nodes ===
         input(:name),
@@ -31,7 +40,10 @@ defmodule Demo.HoroscopeGraph do
         compute(
           :name_validation,
           [:name],
-          &validate_name/1
+          &validate_name/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :name_validation, result)
+          end
         ),
 
         # === Zodiac Computation ===
@@ -48,14 +60,20 @@ defmodule Demo.HoroscopeGraph do
                end}
             ]
           }),
-          &compute_zodiac_sign/1
+          &compute_zodiac_sign/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :zodiac_sign, result)
+          end
         ),
 
         # === Horoscope Generation ===
         compute(
           :horoscope,
           [:zodiac_sign, :pet_preference, :name],
-          &generate_horoscope/1
+          &generate_horoscope/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :horoscope, result)
+          end
         ),
 
         # === Data Mutation (Privacy) ===
@@ -64,14 +82,20 @@ defmodule Demo.HoroscopeGraph do
           # Only anonymize after validation passes
           [:name_validation],
           &anonymize_name_value/1,
-          mutates: :name
+          mutates: :name,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :anonymize_name, result)
+          end
         ),
 
         # === Email Horoscope ===
         compute(
           :email_horoscope,
           [:horoscope, :email_address, :name],
-          &send_horoscope_email/1
+          &send_horoscope_email/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :email_horoscope, result)
+          end
         ),
 
         # === Weekly Reminder Scheduling ===
@@ -90,7 +114,15 @@ defmodule Demo.HoroscopeGraph do
         # === Send Weekly Reminder ===
         compute(
           :send_weekly_reminder,
-          [:weekly_reminder_schedule, :email_address, :name],
+          unblocked_when({
+            :and,
+            [
+              {:subscribe_weekly, fn sub -> sub.node_value == true end},
+              {:weekly_reminder_schedule, &provided?/1},
+              {:email_address, &provided?/1}
+            ]
+          }),
+          # [:weekly_reminder_schedule, :email_address, :name],
           &send_weekly_reminder_email/1
         ),
 
@@ -118,12 +150,6 @@ defmodule Demo.HoroscopeGraph do
     case String.downcase(String.trim(name)) do
       "bowser" ->
         {:ok, :bad_bad_bad}
-
-      "" ->
-        {:error, "Please enter a name"}
-
-      _ when byte_size(name) > 50 ->
-        {:error, "Name too long"}
 
       _ ->
         {:ok, :valid}

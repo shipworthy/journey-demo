@@ -1,4 +1,28 @@
 defmodule DemoWeb.Live.Classes do
+  # Home page classes (starting)
+
+  # Home page classes (ending)
+  def read_only_value() do
+    # "p-4 bg-gray-50 rounded-lg border border-gray-300 text-gray-600"
+    "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none bg-gray-50 text-gray-600"
+  end
+
+  def editable_value() do
+    "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+  end
+
+  def label() do
+    "block text-sm font-medium text-gray-700 mb-1"
+  end
+
+  def summary() do
+    "cursor-pointer text-md text-gray-500 hover:text-gray-700"
+  end
+
+  def debug_pre() do
+    "mt-2 p-4 bg-gray-100 rounded text-md overflow-x-auto font-mono"
+  end
+
   # -----------------
 
   def heading_1() do
