@@ -3,8 +3,9 @@ defmodule DemoWeb.Live.Classes do
 
   # Home page classes (ending)
   def read_only_value(has_value?) do
-    base = "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none min-h-[2.75rem]"
-    
+    base =
+      "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none min-h-[2.75rem]"
+
     if has_value? do
       base <> " bg-gray-100 text-gray-600"
     else
@@ -26,6 +27,10 @@ defmodule DemoWeb.Live.Classes do
 
   def debug_pre() do
     "mt-2 p-4 bg-gray-100 rounded text-md overflow-x-auto font-mono"
+  end
+
+  def computation_state() do
+    "mt-2 p-2 bg-gray-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
   end
 
   # -----------------
