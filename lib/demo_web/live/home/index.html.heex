@@ -16,7 +16,7 @@
       </label>
     </form>
   </div>
-  <div :if={Map.get(@values, :show_computation_states, false)} class={Classes.debug_info()}>
+  <div :if={Map.get(@values, :show_computation_states, false)} class={" my-4 " <> Classes.debug_info()}>
     <div>
       Status: {if @connected?, do: "Connected", else: "Not connected"}
     </div>
@@ -219,7 +219,7 @@
     <div :if={@connected? and Map.get(@values, :show_computation_states, false)} class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="space-y-4">
         <!-- Name Validation -->
         <div>
           <label class={Classes.label()}>name_validation</label>
