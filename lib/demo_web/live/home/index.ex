@@ -6,6 +6,7 @@ defmodule DemoWeb.Live.Home.Index do
   require Logger
 
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.FlowAnalytics
 
   # alias DemoWeb.Live.Home.Components.Footer
   # alias DemoWeb.Live.Home.Components.ButtonsPrevNext
