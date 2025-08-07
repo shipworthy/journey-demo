@@ -158,9 +158,45 @@
       </div>
     </div>
     
+    <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        
+        <!-- Zodiac Sign -->
+        <div>
+          <label class={Classes.label()}>zodiac_sign</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
+            {Map.get(@values, :zodiac_sign, "not set")}
+          </div>
+          <ComputationState.render node_name={:zodiac_sign} computation_states={@computation_states} />
+        </div>
+        
+
+        
+        <!-- Weekly Reminder Schedule -->
+
+        
+
+        
+
+
+        
+        <!-- Horoscope -->
+        <div class="md:col-span-2">
+          <label class={Classes.label()}>horoscope</label>
+          <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
+            {Map.get(@values, :horoscope, "not set")}
+          </div>
+          <ComputationState.render node_name={:horoscope} computation_states={@computation_states} />
+        </div>
+      </div>
+    </div>
+
 <!-- Computed Values Section -->
     <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Your Computed Values</h2>
+      <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Name Validation -->
@@ -172,14 +208,6 @@
           <ComputationState.render node_name={:name_validation} computation_states={@computation_states} />
         </div>
         
-        <!-- Zodiac Sign -->
-        <div>
-          <label class={Classes.label()}>zodiac_sign</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
-            {Map.get(@values, :zodiac_sign, "not set")}
-          </div>
-          <ComputationState.render node_name={:zodiac_sign} computation_states={@computation_states} />
-        </div>
         
         <!-- Email Horoscope -->
         <div>
@@ -236,14 +264,7 @@
           <ComputationState.render node_name={:anonymize_name} computation_states={@computation_states} />
         </div>
         
-        <!-- Horoscope -->
-        <div class="md:col-span-2">
-          <label class={Classes.label()}>horoscope</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
-            {Map.get(@values, :horoscope, "not set")}
-          </div>
-          <ComputationState.render node_name={:horoscope} computation_states={@computation_states} />
-        </div>
+
       </div>
     </div>
     
