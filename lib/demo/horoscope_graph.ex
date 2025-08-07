@@ -147,7 +147,8 @@ defmodule Demo.HoroscopeGraph do
           f_on_save: fn execution_id, result ->
             notify(execution_id, :auto_archive, result)
           end
-        )
+        ),
+        input(:show_computation_states)
       ]
     )
   end

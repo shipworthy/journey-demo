@@ -199,6 +199,29 @@ defmodule DemoWeb.Live.Home.Index do
   end
 
   @impl true
+  def handle_event("toggle_show_computation_states", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_computation_states", "off") == "on"
+
+    Logger.info("toggle_show_computation_states value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_computation_states, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+    computation_states = get_computation_states(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+      |> assign(:computation_states, computation_states)
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info({:refresh, step_name, _value}, socket) do
     Logger.info("Received refresh notification for step: #{step_name}")
 

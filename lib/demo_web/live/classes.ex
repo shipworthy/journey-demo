@@ -38,7 +38,7 @@ defmodule DemoWeb.Live.Classes do
   end
 
   def computation_state() do
-    "mt-2 p-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
+    "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
   end
 
   # -----------------

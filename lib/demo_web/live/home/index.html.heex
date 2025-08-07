@@ -1,7 +1,22 @@
 <div class="max-w-4xl mx-auto p-6">
   <h1 class="text-3xl font-bold mb-6">Horoscope Journey</h1>
 
-  <div class={Classes.debug_info()}>
+  <div class="flex items-center">
+    <form phx-change="toggle_show_computation_states">
+      <input
+        type="checkbox"
+        name="show_computation_states"
+        id="show_computation_states"
+        checked={Map.get(@values, :show_computation_states, false) == true}
+        disabled={!@connected?}
+        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+      />
+      <label for="computation_states_toggle" class="ml-2 inline-block text-sm text-gray-700">
+        Show "Behind the Scenes" for Devs
+      </label>
+    </form>
+  </div>
+  <div :if={Map.get(@values, :show_computation_states, false)} class={Classes.debug_info()}>
     <div>
       Status: {if @connected?, do: "Connected", else: "Not connected"}
     </div>
@@ -158,6 +173,8 @@
       </div>
     </div>
     
+
+
     <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
@@ -170,7 +187,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
-          <ComputationState.render node_name={:zodiac_sign} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:zodiac_sign} computation_states={@computation_states} />
         </div>
         
 
@@ -189,13 +206,13 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
             {Map.get(@values, :horoscope, "not set")}
           </div>
-          <ComputationState.render node_name={:horoscope} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:horoscope} computation_states={@computation_states} />
         </div>
       </div>
     </div>
 
 <!-- Computed Values Section -->
-    <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
+    <div :if={@connected? and Map.get(@values, :show_computation_states, false)} class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -205,7 +222,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
             {Map.get(@values, :name_validation, "not set")}
           </div>
-          <ComputationState.render node_name={:name_validation} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:name_validation} computation_states={@computation_states} />
         </div>
         
         
@@ -215,7 +232,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
             {Map.get(@values, :email_horoscope, "not set")}
           </div>
-          <ComputationState.render node_name={:email_horoscope} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:email_horoscope} computation_states={@computation_states} />
         </div>
         
         <!-- Weekly Reminder Schedule -->
@@ -224,7 +241,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
             {format_timestamp(Map.get(@values, :weekly_reminder_schedule))}
           </div>
-          <ComputationState.render node_name={:weekly_reminder_schedule} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:weekly_reminder_schedule} computation_states={@computation_states} />
         </div>
         
         <!-- Schedule Archive -->
@@ -233,7 +250,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :schedule_archive))}>
             {format_timestamp(Map.get(@values, :schedule_archive))}
           </div>
-          <ComputationState.render node_name={:schedule_archive} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:schedule_archive} computation_states={@computation_states} />
         </div>
         
         <!-- Send Weekly Reminder -->
@@ -242,7 +259,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :send_weekly_reminder))}>
             {Map.get(@values, :send_weekly_reminder, "not set")}
           </div>
-          <ComputationState.render node_name={:send_weekly_reminder} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:send_weekly_reminder} computation_states={@computation_states} />
 
         </div>
         
@@ -252,7 +269,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :auto_archive))}>
             {Map.get(@values, :auto_archive, "not set")}
           </div>
-          <ComputationState.render node_name={:auto_archive} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:auto_archive} computation_states={@computation_states} />
         </div>
         
         <!-- Anonymize Name -->
@@ -261,7 +278,7 @@
           <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
             {Map.get(@values, :anonymize_name, "not set")}
           </div>
-          <ComputationState.render node_name={:anonymize_name} computation_states={@computation_states} />
+          <ComputationState.render :if={Map.get(@values, :show_computation_states, false)} execution_id={@execution_id} node_name={:anonymize_name} computation_states={@computation_states} />
         </div>
         
 
