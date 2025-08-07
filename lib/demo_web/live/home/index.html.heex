@@ -210,7 +210,7 @@
             <label class={Classes.label()}>schedule_archive</label>
             <div class={Classes.read_only_value()}>
               {DateTime.from_unix!(Map.get(@values, :schedule_archive))
-              |> Calendar.strftime("%B %d, %Y")}
+              |> Calendar.strftime("%B %d, %Y at %I:%M %p")}
             </div>
           </div>
         <% end %>
