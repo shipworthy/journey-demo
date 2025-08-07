@@ -108,7 +108,10 @@ defmodule Demo.HoroscopeGraph do
               {:horoscope, &provided?/1}
             ]
           }),
-          &schedule_weekly_reminders/1
+          &schedule_weekly_reminders/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :weekly_reminder_schedule, result)
+          end
         ),
 
         # === Send Weekly Reminder ===
@@ -123,19 +126,27 @@ defmodule Demo.HoroscopeGraph do
             ]
           }),
           # [:weekly_reminder_schedule, :email_address, :name],
-          &send_weekly_reminder_email/1
+          &send_weekly_reminder_email/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :send_weekly_reminder, result)
+          end
         ),
 
         # === Auto-archive after 2 weeks of inactivity ===
         schedule_once(
           :schedule_archive,
-          # Archive after horoscope is complete
           [:last_updated_at],
-          &schedule_archive_time/1
+          &schedule_archive_time/1,
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :schedule_archive, result)
+          end
         ),
         archive(
           :auto_archive,
-          [:schedule_archive]
+          [:schedule_archive],
+          f_on_save: fn execution_id, result ->
+            notify(execution_id, :auto_archive, result)
+          end
         )
       ]
     )
