@@ -117,6 +117,111 @@ defmodule DemoWeb.Live.Home.Index do
   # end
 
   @impl true
+  def handle_event("toggle_journey_execution_summary", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_journey_execution_summary", "off") == "on"
+
+    Logger.info("toggle_journey_execution_summary value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_journey_execution_summary, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_flow_analytics_table", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_flow_analytics_table", "off") == "on"
+
+    Logger.info("toggle_flow_analytics_table value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_flow_analytics_table, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_flow_analytics_json", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_flow_analytics_json", "off") == "on"
+
+    Logger.info("toggle_flow_analytics_json value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_flow_analytics_json, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_workflow_graph", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_workflow_graph", "off") == "on"
+
+    Logger.info("toggle_workflow_graph value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_workflow_graph, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_other_computed_values", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_other_computed_values", "off") == "on"
+
+    Logger.info("toggle_other_computed_values value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_other_computed_values, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("update_value", %{"field" => field, "value" => value}, socket) do
     Logger.info("update_value field: #{field} value: #{value}")
 
@@ -170,7 +275,13 @@ defmodule DemoWeb.Live.Home.Index do
     field_atom = String.to_existing_atom(field)
 
     execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, field_atom, value)
+
+    updated_execution =
+      if value == "" do
+        Journey.unset_value(execution, field_atom)
+      else
+        Journey.set_value(execution, field_atom, value)
+      end
 
     summary = Journey.Tools.summarize(updated_execution.id)
     computation_states = get_computation_states(updated_execution.id)
@@ -212,6 +323,54 @@ defmodule DemoWeb.Live.Home.Index do
       |> assign(:execution_summary, summary)
       |> assign(:computation_states, computation_states)
       |> assign(:execution_history, execution_history)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_show_execution_history", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_execution_history", "off") == "on"
+
+    Logger.info("toggle_show_execution_history value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_execution_history, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+    computation_states = get_computation_states(updated_execution.id)
+
+    # Get updated execution history
+    execution_history = Journey.Executions.history(updated_execution.id) |> format_history()
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
+      |> assign(:computation_states, computation_states)
+      |> assign(:execution_history, execution_history)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("toggle_show_all_values", params, socket) do
+    # Form checkbox sends "on" when checked, missing when unchecked
+    bool_value = Map.get(params, "show_all_values", "off") == "on"
+
+    Logger.info("toggle_show_all_values value: #{bool_value}")
+
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, :show_all_values, bool_value)
+
+    summary = Journey.Tools.summarize(updated_execution.id)
+
+    socket =
+      socket
+      |> assign(:values, Journey.values(updated_execution))
+      |> assign(:all_values, Journey.values_all(updated_execution))
+      |> assign(:execution_summary, summary)
 
     {:noreply, socket}
   end
