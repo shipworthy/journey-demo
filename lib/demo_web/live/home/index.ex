@@ -43,10 +43,7 @@ defmodule DemoWeb.Live.Home.Index do
           |> assign(:execution_id, execution_id)
           |> assign(:flow_analytics, flow_analytics)
           |> assign(:graph_mermaid, graph_mermaid)
-          |> refresh_execution_state(loaded_execution,
-            refresh_states: true,
-            refresh_history: true
-          )
+          |> refresh_execution_state(loaded_execution)
         end
       else
         socket
@@ -107,10 +104,6 @@ defmodule DemoWeb.Live.Home.Index do
   #   socket
   # end
 
-
-
-
-
   @impl true
   def handle_event("dev_toggle", params, socket) do
     bool_value = Map.get(params, "dev_toggle", "off") == "on"
@@ -120,14 +113,7 @@ defmodule DemoWeb.Live.Home.Index do
     execution = Journey.load(socket.assigns.execution_id)
     updated_execution = Journey.set_value(execution, field_name, bool_value)
 
-    # Determine which toggles need extra refresh options
-    refresh_opts = case field_name do
-      f when f in [:subscribe_weekly, :show_execution_history, :show_computation_states] ->
-        [refresh_states: true, refresh_history: true]
-      _ -> []
-    end
-
-    socket = refresh_execution_state(socket, updated_execution, refresh_opts)
+    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
@@ -155,11 +141,7 @@ defmodule DemoWeb.Live.Home.Index do
       execution = Journey.load(socket.assigns.execution_id)
       updated_execution = Journey.set_value(execution, field_atom, parsed_value)
 
-      socket =
-        refresh_execution_state(socket, updated_execution,
-          refresh_states: true,
-          refresh_history: true
-        )
+      socket = refresh_execution_state(socket, updated_execution)
 
       {:noreply, socket}
     end
@@ -182,18 +164,10 @@ defmodule DemoWeb.Live.Home.Index do
         Journey.set_value(execution, field_atom, value)
       end
 
-    socket =
-      refresh_execution_state(socket, updated_execution,
-        refresh_states: true,
-        refresh_history: true
-      )
+    socket = refresh_execution_state(socket, updated_execution)
 
     {:noreply, socket}
   end
-
-
-
-
 
   @impl true
   def handle_info({:refresh, step_name, _value}, socket) do
@@ -202,46 +176,22 @@ defmodule DemoWeb.Live.Home.Index do
     # Reload the execution to get the latest values
     execution = Journey.load(socket.assigns.execution_id)
 
-    socket =
-      refresh_execution_state(socket, execution, refresh_states: true, refresh_history: true)
+    socket = refresh_execution_state(socket, execution)
 
     {:noreply, socket}
   end
 
   # Centralized function to refresh execution state in socket
-  # Options:
-  #   - :refresh_summary - refresh execution summary (default: true)
-  #   - :refresh_states - refresh computation states (default: false)
-  #   - :refresh_history - refresh execution history (default: false)
-  defp refresh_execution_state(socket, execution, opts \\ []) do
-    opts =
-      Keyword.merge([refresh_summary: true, refresh_states: false, refresh_history: false], opts)
+  # Always refreshes all execution data for simplicity
+  defp refresh_execution_state(socket, execution) do
+    execution_history = Journey.Executions.history(execution.id) |> format_history()
 
-    base_socket =
-      socket
-      |> assign(:values, Journey.values(execution))
-      |> assign(:all_values, Journey.values_all(execution))
-
-    base_socket =
-      if opts[:refresh_summary] do
-        assign(base_socket, :execution_summary, Journey.Tools.summarize(execution.id))
-      else
-        base_socket
-      end
-
-    base_socket =
-      if opts[:refresh_states] do
-        assign(base_socket, :computation_states, get_computation_states(execution.id))
-      else
-        base_socket
-      end
-
-    if opts[:refresh_history] do
-      execution_history = Journey.Executions.history(execution.id) |> format_history()
-      assign(base_socket, :execution_history, execution_history)
-    else
-      base_socket
-    end
+    socket
+    |> assign(:values, Journey.values(execution))
+    |> assign(:all_values, Journey.values_all(execution))
+    |> assign(:execution_summary, Journey.Tools.summarize(execution.id))
+    |> assign(:computation_states, get_computation_states(execution.id))
+    |> assign(:execution_history, execution_history)
   end
 
   # Helper function to get computation states for all computed nodes
