@@ -107,64 +107,27 @@ defmodule DemoWeb.Live.Home.Index do
   #   socket
   # end
 
-  @impl true
-  def handle_event("toggle_journey_execution_summary", params, socket) do
-    bool_value = Map.get(params, "show_journey_execution_summary", "off") == "on"
-    Logger.info("toggle_journey_execution_summary value: #{bool_value}")
 
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_journey_execution_summary, bool_value)
 
-    socket = refresh_execution_state(socket, updated_execution)
-    {:noreply, socket}
-  end
 
-  @impl true
-  def handle_event("toggle_flow_analytics_table", params, socket) do
-    bool_value = Map.get(params, "show_flow_analytics_table", "off") == "on"
-    Logger.info("toggle_flow_analytics_table value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_flow_analytics_table, bool_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("toggle_flow_analytics_json", params, socket) do
-    bool_value = Map.get(params, "show_flow_analytics_json", "off") == "on"
-    Logger.info("toggle_flow_analytics_json value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_flow_analytics_json, bool_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("toggle_workflow_graph", params, socket) do
-    bool_value = Map.get(params, "show_workflow_graph", "off") == "on"
-    Logger.info("toggle_workflow_graph value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_workflow_graph, bool_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
-    {:noreply, socket}
-  end
 
   @impl true
   def handle_event("dev_toggle", params, socket) do
     bool_value = Map.get(params, "dev_toggle", "off") == "on"
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
-    Logger.info("dev_toggle value: #{bool_value}, params: #{inspect(params)}")
+    Logger.info("dev_toggle value: #{bool_value}, field: #{field_name}")
 
     execution = Journey.load(socket.assigns.execution_id)
     updated_execution = Journey.set_value(execution, field_name, bool_value)
 
-    socket = refresh_execution_state(socket, updated_execution)
+    # Determine which toggles need extra refresh options
+    refresh_opts = case field_name do
+      f when f in [:subscribe_weekly, :show_execution_history, :show_computation_states] ->
+        [refresh_states: true, refresh_history: true]
+      _ -> []
+    end
+
+    socket = refresh_execution_state(socket, updated_execution, refresh_opts)
     {:noreply, socket}
   end
 
@@ -228,68 +191,9 @@ defmodule DemoWeb.Live.Home.Index do
     {:noreply, socket}
   end
 
-  @impl true
-  def handle_event("toggle_subscribe", params, socket) do
-    bool_value = Map.get(params, "subscribe_weekly", "off") == "on"
-    Logger.info("toggle_subscribe value: #{bool_value}")
 
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :subscribe_weekly, bool_value)
 
-    socket =
-      refresh_execution_state(socket, updated_execution,
-        refresh_states: true,
-        refresh_history: true
-      )
 
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("toggle_show_execution_history", params, socket) do
-    bool_value = Map.get(params, "show_execution_history", "off") == "on"
-    Logger.info("toggle_show_execution_history value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_execution_history, bool_value)
-
-    socket =
-      refresh_execution_state(socket, updated_execution,
-        refresh_states: true,
-        refresh_history: true
-      )
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("toggle_show_all_values", params, socket) do
-    bool_value = Map.get(params, "show_all_values", "off") == "on"
-    Logger.info("toggle_show_all_values value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_all_values, bool_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("toggle_show_computation_states", params, socket) do
-    bool_value = Map.get(params, "show_computation_states", "off") == "on"
-    Logger.info("toggle_show_computation_states value: #{bool_value}")
-
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_computation_states, bool_value)
-
-    socket =
-      refresh_execution_state(socket, updated_execution,
-        refresh_states: true,
-        refresh_history: true
-      )
-
-    {:noreply, socket}
-  end
 
   @impl true
   def handle_info({:refresh, step_name, _value}, socket) do

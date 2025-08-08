@@ -2,10 +2,10 @@
   <h1 class="text-3xl font-bold mb-6">Horoscopes with Journey</h1>
 
   <div class="flex items-center bg-blue-50 p-4 rounded-lg">
-    <form phx-change="toggle_show_execution_history">
+    <form phx-value-toggle_field_name="show_execution_history" phx-change="dev_toggle">
       <input
         type="checkbox"
-        name="show_execution_history"
+        name="dev_toggle"
         id="show_execution_history"
         checked={Map.get(@values, :show_execution_history, false) == true}
         disabled={!@connected?}
@@ -181,10 +181,10 @@
           
 <!-- Subscribe Weekly Checkbox -->
           <div class="flex items-center ">
-            <form phx-change="toggle_subscribe">
+            <form phx-value-toggle_field_name="subscribe_weekly" phx-change="dev_toggle">
               <input
                 type="checkbox"
-                name="subscribe_weekly"
+                name="dev_toggle"
                 id="subscribe_weekly"
                 checked={Map.get(@values, :subscribe_weekly, false) == true}
                 disabled={!@connected?}
@@ -242,10 +242,10 @@
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
       <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
-        <form phx-change="toggle_show_computation_states">
+        <form phx-value-toggle_field_name="show_computation_states" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_computation_states"
+            name="dev_toggle"
             id="show_computation_states"
             checked={Map.get(@values, :show_computation_states, false) == true}
             disabled={!@connected?}
@@ -411,10 +411,10 @@
     <div :if={@connected?}>
       <!-- Debug Values (optional - remove in production) -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-6">
-        <form phx-change="toggle_show_all_values">
+        <form phx-value-toggle_field_name="show_all_values" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_all_values"
+            name="dev_toggle"
             id="show_all_values"
             checked={Map.get(@values, :show_all_values, false) == true}
             disabled={!@connected?}
@@ -432,10 +432,10 @@
       
 <!-- Journey Execution Summary -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-change="toggle_journey_execution_summary">
+        <form phx-value-toggle_field_name="show_journey_execution_summary" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_journey_execution_summary"
+            name="dev_toggle"
             id="show_journey_execution_summary"
             checked={Map.get(@values, :show_journey_execution_summary, false) == true}
             disabled={!@connected?}
@@ -456,10 +456,10 @@
       
 <!-- Flow Analytics Table -->
       <div :if={@flow_analytics} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-change="toggle_flow_analytics_table">
+        <form phx-value-toggle_field_name="show_flow_analytics_table" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_flow_analytics_table"
+            name="dev_toggle"
             id="show_flow_analytics_table"
             checked={Map.get(@values, :show_flow_analytics_table, false) == true}
             disabled={!@connected?}
@@ -477,10 +477,10 @@
       
 <!-- Flow Analytics -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-change="toggle_flow_analytics_json">
+        <form phx-value-toggle_field_name="show_flow_analytics_json" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_flow_analytics_json"
+            name="dev_toggle"
             id="show_flow_analytics_json"
             checked={Map.get(@values, :show_flow_analytics_json, false) == true}
             disabled={!@connected?}
@@ -498,10 +498,10 @@
       
 <!-- Workflow Graph -->
       <div :if={@graph_mermaid} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-change="toggle_workflow_graph">
+        <form phx-value-toggle_field_name="show_workflow_graph" phx-change="dev_toggle">
           <input
             type="checkbox"
-            name="show_workflow_graph"
+            name="dev_toggle"
             id="show_workflow_graph"
             checked={Map.get(@values, :show_workflow_graph, false) == true}
             disabled={!@connected?}
