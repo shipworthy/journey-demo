@@ -156,12 +156,13 @@ defmodule DemoWeb.Live.Home.Index do
   end
 
   @impl true
-  def handle_event("toggle_other_computed_values", params, socket) do
-    bool_value = Map.get(params, "show_other_computed_values", "off") == "on"
-    Logger.info("toggle_other_computed_values value: #{bool_value}")
+  def handle_event("dev_toggle", params, socket) do
+    bool_value = Map.get(params, "dev_toggle", "off") == "on"
+    field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
+    Logger.info("dev_toggle value: #{bool_value}, params: #{inspect(params)}")
 
     execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, :show_other_computed_values, bool_value)
+    updated_execution = Journey.set_value(execution, field_name, bool_value)
 
     socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}

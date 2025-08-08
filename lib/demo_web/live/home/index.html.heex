@@ -305,10 +305,10 @@
     
 <!-- Other Computed Values Toggle -->
     <div :if={@connected?} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-      <form phx-change="toggle_other_computed_values">
+      <form phx-value-toggle_field_name="show_other_computed_values" phx-change="dev_toggle">
         <input
           type="checkbox"
-          name="show_other_computed_values"
+          name="dev_toggle"
           id="show_other_computed_values"
           checked={Map.get(@values, :show_other_computed_values, false) == true}
           disabled={!@connected?}
