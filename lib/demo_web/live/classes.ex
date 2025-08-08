@@ -37,6 +37,14 @@ defmodule DemoWeb.Live.Classes do
     "mt-2 p-4 text-gray-600 bg-blue-50 rounded text-sm overflow-x-auto font-mono"
   end
 
+  def dev_paragraph() do
+    "mt-2 py-1 font-mono"
+  end
+
+  def dev_bulletpoint() do
+    ""
+  end
+
   def computation_state() do
     "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre overflow-x-auto text-left"
   end

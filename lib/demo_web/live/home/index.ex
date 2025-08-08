@@ -44,6 +44,7 @@ defmodule DemoWeb.Live.Home.Index do
           |> assign(:flow_analytics, flow_analytics)
           |> assign(:graph_mermaid, graph_mermaid)
           |> refresh_execution_state(loaded_execution)
+          |> assign(:dev_show_more, true)
         end
       else
         socket
@@ -55,6 +56,7 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:graph_mermaid, nil)
         |> assign(:computation_states, %{})
         |> assign(:execution_history, [])
+        |> assign(:dev_show_more, true)
       end
 
     {:ok, socket}
