@@ -197,71 +197,65 @@
           </div>
         </div>
       </div>
-        
-  
-      <!-- Lorem Ipsum Section (Right Column) -->
-      <div 
-      :if={@connected? and Map.get(@values, :show_execution_history, false)}
+      
+<!-- Lorem Ipsum Section (Right Column) -->
+      <div
+        :if={@connected? and Map.get(@values, :show_execution_history, false)}
+        id="lorem-id"
+        class="p-6 rounded-lg shadow bg-blue-50 flex flex-col"
+      >
+        <h2 class="text-xl font-semibold mb-4">Execution History</h2>
+        <div class="text-sm text-gray-500 mb-4 font-mono">
+          Execution ID: {if @execution_id, do: @execution_id, else: "nil"}
+        </div>
 
-      id="lorem-id" 
-      class="p-6 rounded-lg shadow bg-blue-50 flex flex-col"
-
->
-      <h2 class="text-xl font-semibold mb-4">Execution History</h2>
-      <div class="text-sm text-gray-500 mb-4 font-mono">
-        Execution ID: {if @execution_id, do: @execution_id, else: "nil"}
-      </div>
-  
-      <div class="space-y-2 p-4 text-sm bg-gray-50 border-2 border-gray-300 rounded-lg max-h-96 overflow-y-auto font-mono">
-        <%= for {revision, message} <- @execution_history do %>
-          <div class="odd:bg-gray-200 p-1 rounded-lg flex items-start space-x-2 ">
-            <span class="text-gray-500 font-mono">{revision}. {message}</span>
-          </div>
-        <% end %>
-        <%= if @execution_history == [] do %>
-          <div class=" text-gray-500">No execution history yet</div>
-        <% end %>
-      </div>
+        <div class="space-y-2 p-4 text-sm bg-gray-50 border-2 border-gray-300 rounded-lg max-h-96 overflow-y-auto font-mono">
+          <%= for {revision, message} <- @execution_history do %>
+            <div class="odd:bg-gray-200 p-1 rounded-lg flex items-start space-x-2 ">
+              <span class="text-gray-500 font-mono">{revision}. {message}</span>
+            </div>
+          <% end %>
+          <%= if @execution_history == [] do %>
+            <div class=" text-gray-500">No execution history yet</div>
+          <% end %>
+        </div>
       </div>
     </div>
-
-
 
     <div
-    :if={Map.get(@values, :show_execution_history, false)}
-    class={" my-4 " <> Classes.debug_info()}
-  >
-    <div>
-      Implemented with this Journey Graph:
-      <a
-        href="https://github.com/shipworthy/journey-demo/blob/7da3b5121f63d3eb70582db7a9b8a584f78cedd6/lib/demo/horoscope_graph.ex#L26-L154"
-        target="_blank"
-        class="text-blue-600 hover:underline"
-      >
-        https://github.com/shipworthy/journey-demo/blob/main/lib/demo/horoscope_graph.ex
-      </a>
+      :if={Map.get(@values, :show_execution_history, false)}
+      class={" my-4 " <> Classes.debug_info()}
+    >
+      <div>
+        Implemented with this Journey Graph:
+        <a
+          href="https://github.com/shipworthy/journey-demo/blob/7da3b5121f63d3eb70582db7a9b8a584f78cedd6/lib/demo/horoscope_graph.ex#L26-L154"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+        >
+          https://github.com/shipworthy/journey-demo/blob/main/lib/demo/horoscope_graph.ex
+        </a>
+      </div>
     </div>
-  </div>
-
 
     <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
-          <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
-      <form phx-change="toggle_show_computation_states">
-        <input
-          type="checkbox"
-          name="show_computation_states"
-          id="show_computation_states"
-          checked={Map.get(@values, :show_computation_states, false) == true}
-          disabled={!@connected?}
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-        />
-        <label for="computation_states_toggle" class="ml-2 inline-block text-sm text-gray-700">
-          Devs: See Upstream Dependencies for Each Computation
-        </label>
-      </form>
-    </div>
+      <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
+        <form phx-change="toggle_show_computation_states">
+          <input
+            type="checkbox"
+            name="show_computation_states"
+            id="show_computation_states"
+            checked={Map.get(@values, :show_computation_states, false) == true}
+            disabled={!@connected?}
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+          />
+          <label for="computation_states_toggle" class="ml-2 inline-block text-sm text-gray-700">
+            Devs: See Upstream Dependencies for Each Computation
+          </label>
+        </form>
+      </div>
 
       <div class="space-y-4">
         
@@ -431,9 +425,9 @@
           </label>
         </form>
       </div>
-      
+
       <div :if={Map.get(@values, :show_all_values, false)} class="mt-4">
-        <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>    
+        <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>
       </div>
       
 <!-- Journey Execution Summary -->
@@ -447,17 +441,18 @@
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="show_journey_execution_summary" class="ml-2 inline-block text-sm text-gray-700">
+          <label
+            for="show_journey_execution_summary"
+            class="ml-2 inline-block text-sm text-gray-700"
+          >
             Devs: See Journey Execution Summary
           </label>
         </form>
       </div>
-      
+
       <div :if={Map.get(@values, :show_journey_execution_summary, false)} class="mt-4">
         <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
       </div>
-      
-
       
 <!-- Flow Analytics Table -->
       <div :if={@flow_analytics} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
@@ -475,12 +470,12 @@
           </label>
         </form>
       </div>
-      
+
       <div :if={@flow_analytics && Map.get(@values, :show_flow_analytics_table, false)}>
         <FlowAnalytics.render flow_analytics={@flow_analytics} />
       </div>
       
-      <!-- Flow Analytics -->
+<!-- Flow Analytics -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
         <form phx-change="toggle_flow_analytics_json">
           <input
@@ -496,11 +491,11 @@
           </label>
         </form>
       </div>
-      
+
       <div :if={Map.get(@values, :show_flow_analytics_json, false)} class="mt-4">
         <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version)\n#{inspect(@flow_analytics, pretty: true)}" %></pre>
       </div>
-
+      
 <!-- Workflow Graph -->
       <div :if={@graph_mermaid} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
         <form phx-change="toggle_workflow_graph">
@@ -517,7 +512,7 @@
           </label>
         </form>
       </div>
-      
+
       <div :if={@graph_mermaid && Map.get(@values, :show_workflow_graph, false)} class="mt-4">
         <div class="mt-2 p-4 bg-white border rounded">
           <div class="text-md text-gray-600 mb-2">
