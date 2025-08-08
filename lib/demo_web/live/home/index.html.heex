@@ -7,7 +7,7 @@
     </div>
     <div class={Classes.dev_paragraph()}>
       This app is also an interactive technical demo. If you are an engineer, here is a bit more data:
-      <div :if={@dev_show_more}>
+      <div :if={Map.get(@values, :dev_show_more, false)}>
         <div class={Classes.dev_bulletpoint()}>
           * Once you start your session, the URL in your browser includes the session's ID.
         </div>
@@ -45,7 +45,7 @@
           * The page also provides you with a bit of introspection (the history of events as they happen, the dump of all values – computed or provided, visial representation of the flow, some analytics around user flows).
         </div>
       </div>
-      <div :if={@dev_show_more}>
+      <div :if={Map.get(@values, :dev_show_more, false)}>
         <div class={Classes.dev_paragraph()}>
           A few words about the implementation:
           <div class={Classes.dev_bulletpoint()}>
@@ -97,10 +97,10 @@
           </div>
         </div>
       </div>
-      <div :if={!@dev_show_more} class="my-2" phx-click="toggle-dev">
+      <div :if={!Map.get(@values, :dev_show_more, false)} class="my-2" phx-click="on-dev-show-more-click">
         Show more <span>▼</span>
       </div>
-      <div :if={@dev_show_more} class="my-2" phx-click="toggle-dev">
+      <div :if={Map.get(@values, :dev_show_more, false)} class="my-2" phx-click="on-dev-show-more-click">
         Show less <span>▲</span>
       </div>
 
@@ -108,16 +108,16 @@
   </div>
 
   <div class="flex items-center bg-blue-50 p-4 rounded-lg">
-    <form phx-value-toggle_field_name="show_execution_history" phx-change="dev_toggle">
+    <form phx-value-toggle_field_name="dev_show_execution_history" phx-change="dev_toggle">
       <input
         type="checkbox"
         name="dev_toggle"
-        id="show_execution_history"
-        checked={Map.get(@values, :show_execution_history, false) == true}
+        id="dev_show_execution_history"
+        checked={Map.get(@values, :dev_show_execution_history, false) == true}
         disabled={!@connected?}
         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
       />
-      <label for="show_execution_history" class="ml-2 inline-block text-sm text-gray-700">
+      <label for="dev_show_execution_history" class="ml-2 inline-block text-sm text-gray-700">
         Devs: See Execution History
       </label>
     </form>
@@ -125,7 +125,7 @@
 
   <div class="space-y-6">
     <!-- Two Column Layout for Inputs and Lorem -->
-    <div class={"grid gap-6 " <> if(@connected? and Map.get(@values, :show_execution_history, false), do: "grid-cols-2", else: "grid-cols-1")}>
+    <div class={"grid gap-6 " <> if(@connected? and Map.get(@values, :dev_show_execution_history, false), do: "grid-cols-2", else: "grid-cols-1")}>
       <!-- Input Fields Section -->
       <div id="inputs-id" class="bg-white p-6 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
@@ -306,7 +306,7 @@
       
 <!-- Lorem Ipsum Section (Right Column) -->
       <div
-        :if={@connected? and Map.get(@values, :show_execution_history, false)}
+        :if={@connected? and Map.get(@values, :dev_show_execution_history, false)}
         id="lorem-id"
         class="p-6 rounded-lg shadow bg-blue-50 flex flex-col"
       >
@@ -332,16 +332,16 @@
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
       <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
-        <form phx-value-toggle_field_name="show_computation_states" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_computation_states" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_computation_states"
-            checked={Map.get(@values, :show_computation_states, false) == true}
+            id="dev_show_computation_states"
+            checked={Map.get(@values, :dev_show_computation_states, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="computation_states_toggle" class="ml-2 inline-block text-sm text-gray-700">
+          <label for="dev_show_computation_states" class="ml-2 inline-block text-sm text-gray-700">
             Devs: See Upstream Dependencies for Each Computation
           </label>
         </form>
@@ -356,7 +356,7 @@
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :show_computation_states, false)}
+            :if={Map.get(@values, :dev_show_computation_states, false)}
             execution_id={@execution_id}
             node_name={:zodiac_sign}
             computation_states={@computation_states}
@@ -370,7 +370,7 @@
             {Map.get(@values, :horoscope, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :show_computation_states, false)}
+            :if={Map.get(@values, :dev_show_computation_states, false)}
             execution_id={@execution_id}
             node_name={:horoscope}
             computation_states={@computation_states}
@@ -384,7 +384,7 @@
             {Map.get(@values, :email_horoscope, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :show_computation_states, false)}
+            :if={Map.get(@values, :dev_show_computation_states, false)}
             execution_id={@execution_id}
             node_name={:email_horoscope}
             computation_states={@computation_states}
@@ -395,16 +395,16 @@
     
 <!-- Other Computed Values Toggle -->
     <div :if={@connected?} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-      <form phx-value-toggle_field_name="show_other_computed_values" phx-change="dev_toggle">
+      <form phx-value-toggle_field_name="dev_show_other_computed_values" phx-change="dev_toggle">
         <input
           type="checkbox"
           name="dev_toggle"
-          id="show_other_computed_values"
-          checked={Map.get(@values, :show_other_computed_values, false) == true}
+          id="dev_show_other_computed_values"
+          checked={Map.get(@values, :dev_show_other_computed_values, false) == true}
           disabled={!@connected?}
           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
         />
-        <label for="show_other_computed_values" class="ml-2 inline-block text-sm text-gray-700">
+        <label for="dev_show_other_computed_values" class="ml-2 inline-block text-sm text-gray-700">
           Devs: See Other Computed Values
         </label>
       </form>
@@ -412,7 +412,7 @@
     
 <!-- Computed Values Section -->
     <div
-      :if={@connected? and Map.get(@values, :show_other_computed_values, false)}
+      :if={@connected? and Map.get(@values, :dev_show_other_computed_values, false)}
       class="bg-white p-6 rounded-lg shadow mt-4"
     >
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
@@ -501,38 +501,38 @@
     <div :if={@connected?}>
       <!-- Debug Values (optional - remove in production) -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-6">
-        <form phx-value-toggle_field_name="show_all_values" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_all_values" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_all_values"
-            checked={Map.get(@values, :show_all_values, false) == true}
+            id="dev_show_all_values"
+            checked={Map.get(@values, :dev_show_all_values, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="show_all_values" class="ml-2 inline-block text-sm text-gray-700">
+          <label for="dev_show_all_values" class="ml-2 inline-block text-sm text-gray-700">
             Devs: See All Values (raw data)
           </label>
         </form>
       </div>
 
-      <div :if={Map.get(@values, :show_all_values, false)} class="mt-4">
+      <div :if={Map.get(@values, :dev_show_all_values, false)} class="mt-4">
         <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>
       </div>
       
 <!-- Journey Execution Summary -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="show_journey_execution_summary" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_journey_execution_summary" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_journey_execution_summary"
-            checked={Map.get(@values, :show_journey_execution_summary, false) == true}
+            id="dev_show_journey_execution_summary"
+            checked={Map.get(@values, :dev_show_journey_execution_summary, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
           <label
-            for="show_journey_execution_summary"
+            for="dev_show_journey_execution_summary"
             class="ml-2 inline-block text-sm text-gray-700"
           >
             Devs: See Journey Execution Summary
@@ -540,70 +540,70 @@
         </form>
       </div>
 
-      <div :if={Map.get(@values, :show_journey_execution_summary, false)} class="mt-4">
+      <div :if={Map.get(@values, :dev_show_journey_execution_summary, false)} class="mt-4">
         <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
       </div>
       
 <!-- Flow Analytics Table -->
       <div :if={@flow_analytics} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="show_flow_analytics_table" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_flow_analytics_table" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_flow_analytics_table"
-            checked={Map.get(@values, :show_flow_analytics_table, false) == true}
+            id="dev_show_flow_analytics_table"
+            checked={Map.get(@values, :dev_show_flow_analytics_table, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="show_flow_analytics_table" class="ml-2 inline-block text-sm text-gray-700">
+          <label for="dev_show_flow_analytics_table" class="ml-2 inline-block text-sm text-gray-700">
             Devs: See Flow Analytics Table
           </label>
         </form>
       </div>
 
-      <div :if={@flow_analytics && Map.get(@values, :show_flow_analytics_table, false)}>
+      <div :if={@flow_analytics && Map.get(@values, :dev_show_flow_analytics_table, false)}>
         <FlowAnalytics.render flow_analytics={@flow_analytics} />
       </div>
       
 <!-- Flow Analytics -->
       <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="show_flow_analytics_json" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_flow_analytics_json" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_flow_analytics_json"
-            checked={Map.get(@values, :show_flow_analytics_json, false) == true}
+            id="dev_show_flow_analytics_json"
+            checked={Map.get(@values, :dev_show_flow_analytics_json, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="show_flow_analytics_json" class="ml-2 inline-block text-sm text-gray-700">
+          <label for="dev_show_flow_analytics_json" class="ml-2 inline-block text-sm text-gray-700">
             Devs: See Flow Analytics (raw data)
           </label>
         </form>
       </div>
 
-      <div :if={Map.get(@values, :show_flow_analytics_json, false)} class="mt-4">
+      <div :if={Map.get(@values, :dev_show_flow_analytics_json, false)} class="mt-4">
         <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version)\n#{inspect(@flow_analytics, pretty: true)}" %></pre>
       </div>
       
 <!-- Workflow Graph -->
       <div :if={@graph_mermaid} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="show_workflow_graph" phx-change="dev_toggle">
+        <form phx-value-toggle_field_name="dev_show_workflow_graph" phx-change="dev_toggle">
           <input
             type="checkbox"
             name="dev_toggle"
-            id="show_workflow_graph"
-            checked={Map.get(@values, :show_workflow_graph, false) == true}
+            id="dev_show_workflow_graph"
+            checked={Map.get(@values, :dev_show_workflow_graph, false) == true}
             disabled={!@connected?}
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
           />
-          <label for="show_workflow_graph" class="ml-2 inline-block text-sm text-gray-700">
+          <label for="dev_show_workflow_graph" class="ml-2 inline-block text-sm text-gray-700">
             Devs: See Workflow Graph Definition (Mermaid)
           </label>
         </form>
       </div>
 
-      <div :if={@graph_mermaid && Map.get(@values, :show_workflow_graph, false)} class="mt-4">
+      <div :if={@graph_mermaid && Map.get(@values, :dev_show_workflow_graph, false)} class="mt-4">
         <div class="mt-2 p-4 bg-white border rounded">
           <div class="text-md text-gray-600 mb-2">
             Journey Workflow (Mermaid Format) - Paste this into

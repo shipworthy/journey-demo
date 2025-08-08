@@ -44,7 +44,6 @@ defmodule DemoWeb.Live.Home.Index do
           |> assign(:flow_analytics, flow_analytics)
           |> assign(:graph_mermaid, graph_mermaid)
           |> refresh_execution_state(loaded_execution)
-          |> assign(:dev_show_more, true)
         end
       else
         socket
@@ -56,7 +55,6 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:graph_mermaid, nil)
         |> assign(:computation_states, %{})
         |> assign(:execution_history, [])
-        |> assign(:dev_show_more, true)
       end
 
     {:ok, socket}
@@ -105,6 +103,16 @@ defmodule DemoWeb.Live.Home.Index do
   #   IO.inspect(socket.assigns, label: "socket.assigns")
   #   socket
   # end
+
+  @impl true
+  def handle_event("on-dev-show-more-click", _params, socket) do
+    execution = Journey.load(socket.assigns.execution_id)
+    current_value = Map.get(Journey.values(execution), :dev_show_more, false)
+    updated_execution = Journey.set_value(execution, :dev_show_more, !current_value)
+    
+    socket = refresh_execution_state(socket, updated_execution)
+    {:noreply, socket}
+  end
 
   @impl true
   def handle_event("dev_toggle", params, socket) do

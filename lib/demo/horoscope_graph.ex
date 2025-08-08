@@ -148,15 +148,16 @@ defmodule Demo.HoroscopeGraph do
             notify(execution_id, :auto_archive, result)
           end
         ),
-        input(:show_execution_history),
-        input(:show_computation_states),
+        input(:dev_show_execution_history),
+        input(:dev_show_computation_states),
         input(:show_all_computations),
-        input(:show_all_values),
-        input(:show_journey_execution_summary),
-        input(:show_flow_analytics_table),
-        input(:show_flow_analytics_json),
-        input(:show_workflow_graph),
-        input(:show_other_computed_values)
+        input(:dev_show_all_values),
+        input(:dev_show_journey_execution_summary),
+        input(:dev_show_flow_analytics_table),
+        input(:dev_show_flow_analytics_json),
+        input(:dev_show_workflow_graph),
+        input(:dev_show_other_computed_values),
+        input(:dev_show_more)
       ]
     )
   end
