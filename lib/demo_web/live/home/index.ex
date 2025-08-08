@@ -44,6 +44,9 @@ defmodule DemoWeb.Live.Home.Index do
           # Get computation states for all computed nodes
           computation_states = get_computation_states(execution_id)
 
+          # Get execution history
+          execution_history = Journey.Executions.history(execution_id) |> format_history()
+
           socket
           |> assign(:execution_id, execution_id)
           |> assign(:values, Journey.values(loaded_execution))
@@ -52,6 +55,7 @@ defmodule DemoWeb.Live.Home.Index do
           |> assign(:flow_analytics, flow_analytics)
           |> assign(:graph_mermaid, graph_mermaid)
           |> assign(:computation_states, computation_states)
+          |> assign(:execution_history, execution_history)
         end
       else
         socket
@@ -62,6 +66,7 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:flow_analytics, nil)
         |> assign(:graph_mermaid, nil)
         |> assign(:computation_states, %{})
+        |> assign(:execution_history, [])
       end
 
     {:ok, socket}
@@ -88,6 +93,7 @@ defmodule DemoWeb.Live.Home.Index do
       |> assign(:flow_analytics, flow_analytics)
       |> assign(:graph_mermaid, graph_mermaid)
       |> assign(:computation_states, %{})
+      |> assign(:execution_history, [])
 
     {:ok, socket}
   end
@@ -139,6 +145,9 @@ defmodule DemoWeb.Live.Home.Index do
       # Get updated computation states
       computation_states = get_computation_states(updated_execution.id)
 
+      # Get updated execution history
+      execution_history = Journey.Executions.history(updated_execution.id) |> format_history()
+
       socket =
         socket
         # todo: no need to do this here.
@@ -146,6 +155,7 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:all_values, Journey.values_all(updated_execution))
         |> assign(:execution_summary, summary)
         |> assign(:computation_states, computation_states)
+        |> assign(:execution_history, execution_history)
 
       {:noreply, socket}
     end
@@ -165,12 +175,16 @@ defmodule DemoWeb.Live.Home.Index do
     summary = Journey.Tools.summarize(updated_execution.id)
     computation_states = get_computation_states(updated_execution.id)
 
+    # Get updated execution history
+    execution_history = Journey.Executions.history(updated_execution.id) |> format_history()
+
     socket =
       socket
       |> assign(:values, Journey.values(updated_execution))
       |> assign(:all_values, Journey.values_all(updated_execution))
       |> assign(:execution_summary, summary)
       |> assign(:computation_states, computation_states)
+      |> assign(:execution_history, execution_history)
 
     {:noreply, socket}
   end
@@ -188,12 +202,16 @@ defmodule DemoWeb.Live.Home.Index do
     summary = Journey.Tools.summarize(updated_execution.id)
     computation_states = get_computation_states(updated_execution.id)
 
+    # Get updated execution history
+    execution_history = Journey.Executions.history(updated_execution.id) |> format_history()
+
     socket =
       socket
       |> assign(:values, Journey.values(updated_execution))
       |> assign(:all_values, Journey.values_all(updated_execution))
       |> assign(:execution_summary, summary)
       |> assign(:computation_states, computation_states)
+      |> assign(:execution_history, execution_history)
 
     {:noreply, socket}
   end
@@ -211,12 +229,16 @@ defmodule DemoWeb.Live.Home.Index do
     summary = Journey.Tools.summarize(updated_execution.id)
     computation_states = get_computation_states(updated_execution.id)
 
+    # Get updated execution history
+    execution_history = Journey.Executions.history(updated_execution.id) |> format_history()
+
     socket =
       socket
       |> assign(:values, Journey.values(updated_execution))
       |> assign(:all_values, Journey.values_all(updated_execution))
       |> assign(:execution_summary, summary)
       |> assign(:computation_states, computation_states)
+      |> assign(:execution_history, execution_history)
 
     {:noreply, socket}
   end
@@ -230,12 +252,17 @@ defmodule DemoWeb.Live.Home.Index do
     summary = Journey.Tools.summarize(socket.assigns.execution_id)
     computation_states = get_computation_states(socket.assigns.execution_id)
 
+    # Get updated execution history
+    execution_history =
+      Journey.Executions.history(socket.assigns.execution_id) |> format_history()
+
     socket =
       socket
       |> assign(:values, Journey.values(execution))
       |> assign(:all_values, Journey.values_all(execution))
       |> assign(:execution_summary, summary)
       |> assign(:computation_states, computation_states)
+      |> assign(:execution_history, execution_history)
 
     {:noreply, socket}
   end
@@ -267,8 +294,11 @@ defmodule DemoWeb.Live.Home.Index do
   def format_timestamp(_), do: "not set"
 
   # Helper function to format Journey.Executions.history output into human-friendly strings
+  def format_history(nil), do: []
+
   def format_history(history_entries) when is_list(history_entries) do
     history_entries
+    |> Enum.reverse()
     |> Enum.reduce([], fn entry, acc ->
       case entry do
         %{
@@ -295,7 +325,7 @@ defmodule DemoWeb.Live.Home.Index do
   end
 
   defp format_history_value(value) when is_binary(value), do: inspect(value)
-  defp format_history_value(value) when is_integer(value), do: Integer.to_string(value)
+  defp format_history_value(value) when is_integer(value), do: value
   defp format_history_value(value) when is_atom(value), do: inspect(value)
   defp format_history_value(value), do: inspect(value)
 end

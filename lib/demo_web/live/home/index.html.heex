@@ -39,177 +39,207 @@
   </div>
 
   <div class="space-y-6">
-    <!-- Input Fields Section -->
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Name Input -->
-        <div>
-          <label class={Classes.label()}>name</label>
-          <input
-            type="text"
-            value={Map.get(@values, :name, "")}
-            phx-blur="update_value"
-            phx-value-field="name"
-            disabled={!@connected?}
-            class={Classes.editable_value()}
-          />
-        </div>
-        
-<!-- Birth Month Input -->
-        <div>
-          <label class={Classes.label()}>birth_month</label>
-          <form phx-change="update_select">
-            <input type="hidden" name="field" value="birth_month" />
-            <select name="birth_month" disabled={!@connected?} class={Classes.editable_value()}>
-              <option value="" selected={Map.get(@values, :birth_month, "") == ""}>
-                Select month...
-              </option>
-              <option
-                value="January"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "january"}
-              >
-                January
-              </option>
-              <option
-                value="February"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "february"}
-              >
-                February
-              </option>
-              <option
-                value="March"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "march"}
-              >
-                March
-              </option>
-              <option
-                value="April"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "april"}
-              >
-                April
-              </option>
-              <option
-                value="May"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "may"}
-              >
-                May
-              </option>
-              <option
-                value="June"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "june"}
-              >
-                June
-              </option>
-              <option
-                value="July"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "july"}
-              >
-                July
-              </option>
-              <option
-                value="August"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "august"}
-              >
-                August
-              </option>
-              <option
-                value="September"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "september"}
-              >
-                September
-              </option>
-              <option
-                value="October"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "october"}
-              >
-                October
-              </option>
-              <option
-                value="November"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "november"}
-              >
-                November
-              </option>
-              <option
-                value="December"
-                selected={String.downcase(Map.get(@values, :birth_month, "")) == "december"}
-              >
-                December
-              </option>
-            </select>
-          </form>
-        </div>
-        
-<!-- Birth Day Input -->
-        <div>
-          <label class={Classes.label()}>birth_day</label>
-          <input
-            type="number"
-            value={Map.get(@values, :birth_day, "")}
-            phx-blur="update_value"
-            phx-value-field="birth_day"
-            disabled={!@connected?}
-            min="1"
-            max="31"
-            class={Classes.editable_value()}
-          />
-        </div>
-        
-<!-- Pet Preference Select -->
-        <div>
-          <label class={Classes.label()}>pet_preference</label>
-          <form phx-change="update_select">
-            <input type="hidden" name="field" value="pet_preference" />
-            <select name="pet_preference" disabled={!@connected?} class={Classes.editable_value()}>
-              <option value="" selected={Map.get(@values, :pet_preference, "") == ""}>
-                Select...
-              </option>
-              <option value="cats" selected={Map.get(@values, :pet_preference) == "cats"}>
-                Cats
-              </option>
-              <option value="dogs" selected={Map.get(@values, :pet_preference) == "dogs"}>
-                Dogs
-              </option>
-              <option value="both" selected={Map.get(@values, :pet_preference) == "both"}>
-                Both
-              </option>
-              <option value="neither" selected={Map.get(@values, :pet_preference) == "neither"}>
-                Neither
-              </option>
-            </select>
-          </form>
-        </div>
-        
-<!-- Email Input -->
-        <div>
-          <label class={Classes.label()}>email_address</label>
-          <input
-            type="email"
-            value={Map.get(@values, :email_address, "")}
-            phx-blur="update_value"
-            phx-value-field="email_address"
-            disabled={!@connected?}
-            class={Classes.editable_value()}
-          />
-        </div>
-        
-<!-- Subscribe Weekly Checkbox -->
-        <div class="flex items-center">
-          <form phx-change="toggle_subscribe">
+    <!-- Two Column Layout for Inputs and History -->
+    <div class={
+      if Map.get(@values, :show_computation_states, false) and @connected?,
+        do: "grid grid-cols-1 lg:grid-cols-2 gap-6",
+        else: ""
+    }>
+      <!-- Input Fields Section -->
+      <div id="inputs-id" class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
+        <div class="space-y-4">
+          <!-- Name Input -->
+          <div>
+            <label class={Classes.label()}>name</label>
             <input
-              type="checkbox"
-              name="subscribe_weekly"
-              id="subscribe_weekly"
-              checked={Map.get(@values, :subscribe_weekly, false) == true}
+              type="text"
+              value={Map.get(@values, :name, "")}
+              phx-blur="update_value"
+              phx-value-field="name"
               disabled={!@connected?}
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+              class={Classes.editable_value()}
             />
-            <label for="subscribe_weekly" class="ml-2 inline-block text-sm text-gray-700">
-              subscribe_weekly
-            </label>
-          </form>
+          </div>
+          
+<!-- Birth Month Input -->
+          <div>
+            <label class={Classes.label()}>birth_month</label>
+            <form phx-change="update_select">
+              <input type="hidden" name="field" value="birth_month" />
+              <select name="birth_month" disabled={!@connected?} class={Classes.editable_value()}>
+                <option value="" selected={Map.get(@values, :birth_month, "") == ""}>
+                  Select month...
+                </option>
+                <option
+                  value="January"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "january"}
+                >
+                  January
+                </option>
+                <option
+                  value="February"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "february"}
+                >
+                  February
+                </option>
+                <option
+                  value="March"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "march"}
+                >
+                  March
+                </option>
+                <option
+                  value="April"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "april"}
+                >
+                  April
+                </option>
+                <option
+                  value="May"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "may"}
+                >
+                  May
+                </option>
+                <option
+                  value="June"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "june"}
+                >
+                  June
+                </option>
+                <option
+                  value="July"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "july"}
+                >
+                  July
+                </option>
+                <option
+                  value="August"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "august"}
+                >
+                  August
+                </option>
+                <option
+                  value="September"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "september"}
+                >
+                  September
+                </option>
+                <option
+                  value="October"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "october"}
+                >
+                  October
+                </option>
+                <option
+                  value="November"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "november"}
+                >
+                  November
+                </option>
+                <option
+                  value="December"
+                  selected={String.downcase(Map.get(@values, :birth_month, "")) == "december"}
+                >
+                  December
+                </option>
+              </select>
+            </form>
+          </div>
+          
+<!-- Birth Day Input -->
+          <div>
+            <label class={Classes.label()}>birth_day</label>
+            <input
+              type="number"
+              value={Map.get(@values, :birth_day, "")}
+              phx-blur="update_value"
+              phx-value-field="birth_day"
+              disabled={!@connected?}
+              min="1"
+              max="31"
+              class={Classes.editable_value()}
+            />
+          </div>
+          
+<!-- Pet Preference Select -->
+          <div>
+            <label class={Classes.label()}>pet_preference</label>
+            <form phx-change="update_select">
+              <input type="hidden" name="field" value="pet_preference" />
+              <select
+                name="pet_preference"
+                disabled={!@connected?}
+                class={Classes.editable_value()}
+              >
+                <option value="" selected={Map.get(@values, :pet_preference, "") == ""}>
+                  Select...
+                </option>
+                <option value="cats" selected={Map.get(@values, :pet_preference) == "cats"}>
+                  Cats
+                </option>
+                <option value="dogs" selected={Map.get(@values, :pet_preference) == "dogs"}>
+                  Dogs
+                </option>
+                <option value="both" selected={Map.get(@values, :pet_preference) == "both"}>
+                  Both
+                </option>
+                <option value="neither" selected={Map.get(@values, :pet_preference) == "neither"}>
+                  Neither
+                </option>
+              </select>
+            </form>
+          </div>
+          
+<!-- Email Input -->
+          <div>
+            <label class={Classes.label()}>email_address</label>
+            <input
+              type="email"
+              value={Map.get(@values, :email_address, "")}
+              phx-blur="update_value"
+              phx-value-field="email_address"
+              disabled={!@connected?}
+              class={Classes.editable_value()}
+            />
+          </div>
+          
+<!-- Subscribe Weekly Checkbox -->
+          <div class="flex items-center">
+            <form phx-change="toggle_subscribe">
+              <input
+                type="checkbox"
+                name="subscribe_weekly"
+                id="subscribe_weekly"
+                checked={Map.get(@values, :subscribe_weekly, false) == true}
+                disabled={!@connected?}
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+              />
+              <label for="subscribe_weekly" class="ml-2 inline-block text-sm text-gray-700">
+                subscribe_weekly
+              </label>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+<!-- Execution History Section (Right Column) -->
+      <div
+        :if={@connected? and Map.get(@values, :show_computation_states, false)}
+        id="execution-history-id"
+        class="bg-white p-6 rounded-lg shadow"
+      >
+        <h2 class="text-xl font-semibold mb-4">Execution History</h2>
+        <div class="space-y-2 p-2 bg-blue-50 rounded-lg max-h-96 overflow-y-auto">
+          <%= for {revision, message} <- @execution_history do %>
+            <div class="flex items-start space-x-2 text-sm font-mono">
+              <span class="text-gray-500 font-mono text-xs mt-0.5">{revision}.</span>
+              <span class="text-gray-700">{message}</span>
+            </div>
+          <% end %>
+          <%= if @execution_history == [] do %>
+            <div class=" text-gray-500 text-sm">No execution history yet</div>
+          <% end %>
         </div>
       </div>
     </div>
