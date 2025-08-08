@@ -6,6 +6,7 @@ defmodule DemoWeb.Live.Home.Index do
   require Logger
 
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.AboutSection
   alias DemoWeb.Live.Home.Components.ComputationState
   alias DemoWeb.Live.Home.Components.FlowAnalytics
 
