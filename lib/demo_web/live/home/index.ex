@@ -111,7 +111,15 @@ defmodule DemoWeb.Live.Home.Index do
   # end
 
   @impl true
+  def handle_params(_params, _uri, socket) do
+    # Called after push_patch, no action needed as state is already updated
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("on-dev-show-more-click", _params, socket) do
+    socket = create_execution_if_needed(socket)
+
     execution = Journey.load(socket.assigns.execution_id)
     current_value = Map.get(Journey.values(execution), :dev_show_more, false)
     updated_execution = Journey.set_value(execution, :dev_show_more, !current_value)
@@ -122,6 +130,8 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def handle_event("dev_toggle", params, socket) do
+    socket = create_execution_if_needed(socket)
+
     bool_value = Map.get(params, "dev_toggle", "off") == "on"
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
     Logger.info("dev_toggle value: #{bool_value}, field: #{field_name}")
@@ -135,6 +145,8 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def handle_event("update_value", %{"field" => field, "value" => value}, socket) do
+    socket = create_execution_if_needed(socket)
+
     Logger.info("update_value field: #{field} value: #{value}")
 
     field_atom = String.to_existing_atom(field)
@@ -165,6 +177,8 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def handle_event("update_select", %{"field" => field} = params, socket) do
+    socket = create_execution_if_needed(socket)
+
     # For select elements, the value comes as params[field]
     value = Map.get(params, field, "")
     Logger.info("update_select field: #{field} value: #{value}")
@@ -195,6 +209,39 @@ defmodule DemoWeb.Live.Home.Index do
     socket = refresh_execution_state(socket, execution)
 
     {:noreply, socket}
+  end
+
+  # Helper function to create execution if it doesn't exist
+  defp create_execution_if_needed(socket) do
+    if is_nil(socket.assigns.execution_id) do
+      # Create new execution
+      graph = Demo.HoroscopeGraph.graph()
+      new_execution = Journey.start_execution(graph)
+
+      # Subscribe to PubSub for updates
+      :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{new_execution.id}")
+
+      # Get flow analytics if not already loaded
+      flow_analytics =
+        socket.assigns[:flow_analytics] ||
+          Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
+
+      # Get graph mermaid if not already loaded  
+      graph_mermaid =
+        socket.assigns[:graph_mermaid] ||
+          Journey.Tools.generate_mermaid_graph(graph)
+
+      # Update socket with execution state and push URL update
+      socket
+      |> assign(:execution_id, new_execution.id)
+      |> assign(:flow_analytics, flow_analytics)
+      |> assign(:graph_mermaid, graph_mermaid)
+      |> refresh_execution_state(new_execution)
+      |> push_patch(to: "/s/#{new_execution.id}")
+    else
+      # Execution already exists, do nothing
+      socket
+    end
   end
 
   # Centralized function to refresh execution state in socket
