@@ -8,7 +8,11 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.AboutSection
   alias DemoWeb.Live.Home.Components.ComputationState
-  alias DemoWeb.Live.Home.Components.FlowAnalytics
+  alias DemoWeb.Live.Home.Components.DevShowAllValues
+  alias DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable
+  alias DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary
+  alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
+  alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
 
   # alias DemoWeb.Live.Home.Components.Footer
   # alias DemoWeb.Live.Home.Components.ButtonsPrevNext
@@ -110,7 +114,7 @@ defmodule DemoWeb.Live.Home.Index do
     execution = Journey.load(socket.assigns.execution_id)
     current_value = Map.get(Journey.values(execution), :dev_show_more, false)
     updated_execution = Journey.set_value(execution, :dev_show_more, !current_value)
-    
+
     socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end

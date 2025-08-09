@@ -3,7 +3,6 @@
 
   <AboutSection.render values={@values} />
 
-
   <div class="flex items-center bg-blue-50 p-4 rounded-lg">
     <form phx-value-toggle_field_name="dev_show_execution_history" phx-change="dev_toggle">
       <input
@@ -21,13 +20,10 @@
   </div>
 
   <div class="space-y-6">
-    <!-- Two Column Layout for Inputs and Lorem -->
     <div class={"grid gap-6 " <> if(@connected? and Map.get(@values, :dev_show_execution_history, false), do: "grid-cols-2", else: "grid-cols-1")}>
-      <!-- Input Fields Section -->
       <div id="inputs-id" class="bg-white p-6 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
         <div class="space-y-4">
-          <!-- Name Input -->
           <div>
             <label class={Classes.label()}>name</label>
             <input
@@ -39,8 +35,7 @@
               class={Classes.editable_value()}
             />
           </div>
-          
-<!-- Birth Month Input -->
+
           <div>
             <label class={Classes.label()}>birth_month</label>
             <form phx-change="update_select">
@@ -124,8 +119,7 @@
               </select>
             </form>
           </div>
-          
-<!-- Birth Day Input -->
+
           <div>
             <label class={Classes.label()}>birth_day</label>
             <input
@@ -139,8 +133,7 @@
               class={Classes.editable_value()}
             />
           </div>
-          
-<!-- Pet Preference Select -->
+
           <div>
             <label class={Classes.label()}>pet_preference</label>
             <form phx-change="update_select">
@@ -168,8 +161,7 @@
               </select>
             </form>
           </div>
-          
-<!-- Email Input -->
+
           <div>
             <label class={Classes.label()}>email_address</label>
             <input
@@ -181,8 +173,7 @@
               class={Classes.editable_value()}
             />
           </div>
-          
-<!-- Subscribe Weekly Checkbox -->
+
           <div class="flex items-center ">
             <form phx-value-toggle_field_name="subscribe_weekly" phx-change="dev_toggle">
               <input
@@ -200,8 +191,7 @@
           </div>
         </div>
       </div>
-      
-<!-- Lorem Ipsum Section (Right Column) -->
+
       <div
         :if={@connected? and Map.get(@values, :dev_show_execution_history, false)}
         id="lorem-id"
@@ -245,8 +235,6 @@
       </div>
 
       <div class="space-y-4">
-        
-<!-- Zodiac Sign -->
         <div>
           <label class={Classes.label()}>zodiac_sign</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
@@ -259,8 +247,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Horoscope -->
+
         <div>
           <label class={Classes.label()}>horoscope</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
@@ -273,8 +260,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Email Horoscope -->
+
         <div>
           <label class={Classes.label()}>email_horoscope</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
@@ -289,8 +275,7 @@
         </div>
       </div>
     </div>
-    
-<!-- Other Computed Values Toggle -->
+
     <div :if={@connected?} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
       <form phx-value-toggle_field_name="dev_show_other_computed_values" phx-change="dev_toggle">
         <input
@@ -301,13 +286,15 @@
           disabled={!@connected?}
           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
         />
-        <label for="dev_show_other_computed_values" class="ml-2 inline-block text-sm text-gray-700">
-          Devs: See Other Computed Values
+        <label
+          for="dev_show_other_computed_values"
+          class="ml-2 inline-block text-sm text-gray-700"
+        >
+          Devs: See All Other Computed Values
         </label>
       </form>
     </div>
-    
-<!-- Computed Values Section -->
+
     <div
       :if={@connected? and Map.get(@values, :dev_show_other_computed_values, false)}
       class="bg-white p-6 rounded-lg shadow mt-4"
@@ -315,7 +302,6 @@
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 
       <div class="space-y-4">
-        <!-- Name Validation -->
         <div>
           <label class={Classes.label()}>name_validation</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
@@ -327,8 +313,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Weekly Reminder Schedule -->
+
         <div>
           <label class={Classes.label()}>weekly_reminder_schedule</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
@@ -340,8 +325,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Schedule Archive -->
+
         <div>
           <label class={Classes.label()}>schedule_archive</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :schedule_archive))}>
@@ -353,8 +337,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Send Weekly Reminder -->
+
         <div>
           <label class={Classes.label()}>send_weekly_reminder</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :send_weekly_reminder))}>
@@ -366,8 +349,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Auto Archive -->
+
         <div>
           <label class={Classes.label()}>auto_archive</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :auto_archive))}>
@@ -379,8 +361,7 @@
             computation_states={@computation_states}
           />
         </div>
-        
-<!-- Anonymize Name -->
+
         <div>
           <label class={Classes.label()}>anonymize_name</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
@@ -396,123 +377,37 @@
     </div>
 
     <div :if={@connected?}>
-      <!-- Debug Values (optional - remove in production) -->
-      <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-6">
-        <form phx-value-toggle_field_name="dev_show_all_values" phx-change="dev_toggle">
-          <input
-            type="checkbox"
-            name="dev_toggle"
-            id="dev_show_all_values"
-            checked={Map.get(@values, :dev_show_all_values, false) == true}
-            disabled={!@connected?}
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-          />
-          <label for="dev_show_all_values" class="ml-2 inline-block text-sm text-gray-700">
-            Devs: See All Values (raw data)
-          </label>
-        </form>
-      </div>
+      <DevShowAllValues.render
+        values={@values}
+        connected?={@connected?}
+        execution_id={@execution_id}
+        all_values={@all_values}
+      />
 
-      <div :if={Map.get(@values, :dev_show_all_values, false)} class="mt-4">
-        <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>
-      </div>
-      
-<!-- Journey Execution Summary -->
-      <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="dev_show_journey_execution_summary" phx-change="dev_toggle">
-          <input
-            type="checkbox"
-            name="dev_toggle"
-            id="dev_show_journey_execution_summary"
-            checked={Map.get(@values, :dev_show_journey_execution_summary, false) == true}
-            disabled={!@connected?}
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-          />
-          <label
-            for="dev_show_journey_execution_summary"
-            class="ml-2 inline-block text-sm text-gray-700"
-          >
-            Devs: See Journey Execution Summary
-          </label>
-        </form>
-      </div>
+      <DevShowJourneyExecutionSummary.render
+        values={@values}
+        connected?={@connected?}
+        execution_id={@execution_id}
+        execution_summary={@execution_summary}
+      />
 
-      <div :if={Map.get(@values, :dev_show_journey_execution_summary, false)} class="mt-4">
-        <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
-      </div>
-      
-<!-- Flow Analytics Table -->
-      <div :if={@flow_analytics} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="dev_show_flow_analytics_table" phx-change="dev_toggle">
-          <input
-            type="checkbox"
-            name="dev_toggle"
-            id="dev_show_flow_analytics_table"
-            checked={Map.get(@values, :dev_show_flow_analytics_table, false) == true}
-            disabled={!@connected?}
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-          />
-          <label for="dev_show_flow_analytics_table" class="ml-2 inline-block text-sm text-gray-700">
-            Devs: See Flow Analytics Table
-          </label>
-        </form>
-      </div>
+      <DevShowFlowAnalyticsTable.render
+        values={@values}
+        connected?={@connected?}
+        flow_analytics={@flow_analytics}
+      />
 
-      <div :if={@flow_analytics && Map.get(@values, :dev_show_flow_analytics_table, false)}>
-        <FlowAnalytics.render flow_analytics={@flow_analytics} />
-      </div>
-      
-<!-- Flow Analytics -->
-      <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="dev_show_flow_analytics_json" phx-change="dev_toggle">
-          <input
-            type="checkbox"
-            name="dev_toggle"
-            id="dev_show_flow_analytics_json"
-            checked={Map.get(@values, :dev_show_flow_analytics_json, false) == true}
-            disabled={!@connected?}
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-          />
-          <label for="dev_show_flow_analytics_json" class="ml-2 inline-block text-sm text-gray-700">
-            Devs: See Flow Analytics (raw data)
-          </label>
-        </form>
-      </div>
+      <FlowAnalyticsJson.render
+        values={@values}
+        connected?={@connected?}
+        flow_analytics={@flow_analytics}
+      />
 
-      <div :if={Map.get(@values, :dev_show_flow_analytics_json, false)} class="mt-4">
-        <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version)\n#{inspect(@flow_analytics, pretty: true)}" %></pre>
-      </div>
-      
-<!-- Workflow Graph -->
-      <div :if={@graph_mermaid} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-        <form phx-value-toggle_field_name="dev_show_workflow_graph" phx-change="dev_toggle">
-          <input
-            type="checkbox"
-            name="dev_toggle"
-            id="dev_show_workflow_graph"
-            checked={Map.get(@values, :dev_show_workflow_graph, false) == true}
-            disabled={!@connected?}
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-          />
-          <label for="dev_show_workflow_graph" class="ml-2 inline-block text-sm text-gray-700">
-            Devs: See Workflow Graph Definition (Mermaid)
-          </label>
-        </form>
-      </div>
-
-      <div :if={@graph_mermaid && Map.get(@values, :dev_show_workflow_graph, false)} class="mt-4">
-        <div class="mt-2 p-4 bg-white border rounded">
-          <div class="text-md text-gray-600 mb-2">
-            Journey Workflow (Mermaid Format) - Paste this into
-            <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">
-              https://mermaid.live/
-            </a>
-            to view the visual representation.
-          </div>
-          <pre class={Classes.debug_pre()}>
-            <%= "iex> Demo.HoroscopeGraph.graph() |> Journey.Tools.generate_mermaid_graph() |> IO.puts()\n#{@graph_mermaid}\n\n" %></pre>
-        </div>
-      </div>
+      <DevShowWorkflowGraph.render
+        values={@values}
+        connected?={@connected?}
+        graph_mermaid={@graph_mermaid}
+      />
     </div>
   </div>
 </div>

@@ -55,11 +55,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             A few words about the implementation:
             <div class={Classes.dev_bulletpoint()}>
               * This is an
-              <a
-                href="https://elixir-lang.org/"
-                target="_blank"
-                class="text-blue-600 hover:underline"
-              >
+              <a href="https://elixir-lang.org/" target="_blank" class="text-blue-600 hover:underline">
                 Elixir
               </a>
               /
@@ -102,13 +98,20 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             </div>
           </div>
         </div>
-        <div :if={!Map.get(@values, :dev_show_more, false)} class="my-2" phx-click="on-dev-show-more-click">
+        <div
+          :if={!Map.get(@values, :dev_show_more, false)}
+          class="my-2"
+          phx-click="on-dev-show-more-click"
+        >
           Show more <span>▼</span>
         </div>
-        <div :if={Map.get(@values, :dev_show_more, false)} class="my-2" phx-click="on-dev-show-more-click">
+        <div
+          :if={Map.get(@values, :dev_show_more, false)}
+          class="my-2"
+          phx-click="on-dev-show-more-click"
+        >
           Show less <span>▲</span>
         </div>
-
       </div>
     </div>
     """
