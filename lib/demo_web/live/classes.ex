@@ -41,6 +41,10 @@ defmodule DemoWeb.Live.Classes do
     "mt-2 py-1 font-mono"
   end
 
+  def dev_header() do
+    "my-1 py-1 font-bold"
+  end
+
   def dev_bulletpoint() do
     ""
   end

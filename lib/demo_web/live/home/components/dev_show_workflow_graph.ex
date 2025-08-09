@@ -22,19 +22,16 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
       </form>
     </div>
 
-    <div :if={@graph_mermaid && Map.get(@values, :dev_show_workflow_graph, false)} class="mt-4">
-      <div class="mt-2 p-4 bg-white border rounded">
-        <div class="text-md text-gray-600 mb-2">
-          Journey Workflow (Mermaid Format) - Paste this into
-          <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">
-            https://mermaid.live/
-          </a>
-          to view the visual representation.
-        </div>
-        <pre class={Classes.debug_pre()}>
-          <%= "iex> Demo.HoroscopeGraph.graph() |> Journey.Tools.generate_mermaid_graph() |> IO.puts()\n#{@graph_mermaid}\n\n" %>
-        </pre>
-      </div>
+    <div :if={Map.get(@values, :dev_show_workflow_graph, false)} class="text-md text-gray-600 my-2">
+      Journey Workflow (Mermaid Format) - Paste mermaid code into
+      <a href="https://mermaid.live/" target="_blank" class="text-blue-600 hover:underline">
+        https://mermaid.live/
+      </a>
+      to view the visual representation.
+    </div>
+
+    <div :if={Map.get(@values, :dev_show_workflow_graph, false)} class="mt-4">
+      <pre class={Classes.debug_pre()}><%= "iex> Demo.HoroscopeGraph.graph() |> Journey.Tools.generate_mermaid_graph() |> IO.puts()\n#{@graph_mermaid}\n\n" %></pre>
     </div>
     """
   end

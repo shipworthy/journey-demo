@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto p-6">
   <h1 class="text-3xl font-bold mb-6">Horoscopes with Journey</h1>
 
-  <AboutSection.render values={@values} />
+  <AboutSection.render values={@values} execution_id={@execution_id} />
 
   <div class="flex items-center bg-blue-50 p-4 rounded-lg">
     <form phx-value-toggle_field_name="dev_show_execution_history" phx-change="dev_toggle">
