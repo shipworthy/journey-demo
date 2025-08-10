@@ -24,7 +24,12 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-execution-history-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-execution-history-id", "#dev_show_execution_history-id")
+      toggle_checkbox(
+        lv2,
+        "#form-dev-show-execution-history-id",
+        "#dev_show_execution_history-id"
+      )
+
       assert wait_for_element_disappearance(lv2, "#section-execution-history-id")
     end
 
@@ -43,7 +48,12 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#computation-state-zodiac_sign-id")
 
       # Toggle ON - should show computation states
-      toggle_checkbox(lv, "#form-dev-show-computation-states-id", "#dev_show_computation_states-id")
+      toggle_checkbox(
+        lv,
+        "#form-dev-show-computation-states-id",
+        "#dev_show_computation_states-id"
+      )
+
       assert wait_for_element_appearance(lv, "#computation-state-zodiac_sign-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -56,7 +66,12 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#computation-state-zodiac_sign-id")
 
       # Toggle OFF - should hide computation states
-      toggle_checkbox(lv2, "#form-dev-show-computation-states-id", "#dev_show_computation_states-id")
+      toggle_checkbox(
+        lv2,
+        "#form-dev-show-computation-states-id",
+        "#dev_show_computation_states-id"
+      )
+
       assert wait_for_element_disappearance(lv2, "#computation-state-zodiac_sign-id")
     end
 

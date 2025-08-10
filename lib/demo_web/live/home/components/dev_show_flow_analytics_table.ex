@@ -7,8 +7,8 @@ defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
 
   def render(assigns) do
     ~H"""
-    <div 
-      :if={@flow_analytics} 
+    <div
+      :if={@flow_analytics}
       class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_flow_analytics_table"

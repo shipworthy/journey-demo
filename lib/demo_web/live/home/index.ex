@@ -134,7 +134,7 @@ defmodule DemoWeb.Live.Home.Index do
     socket = create_execution_if_needed(socket)
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
     bool_value = Map.get(params, "dev_toggle", "off") == "on"
-    
+
     socket = apply_toggle_value(socket, field_name, bool_value)
     {:noreply, socket}
   end
@@ -145,7 +145,7 @@ defmodule DemoWeb.Live.Home.Index do
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
     current_value = Map.get(socket.assigns.values, field_name, false)
     bool_value = !current_value
-    
+
     socket = apply_toggle_value(socket, field_name, bool_value)
     {:noreply, socket}
   end
