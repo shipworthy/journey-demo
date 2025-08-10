@@ -62,6 +62,10 @@ defmodule Demo.HoroscopeGraph do
           }),
           &compute_zodiac_sign/1,
           f_on_save: fn execution_id, result ->
+            Logger.info(
+              "Journey f_on_save called for zodiac_sign: execution_id=#{execution_id}, result=#{inspect(result)}"
+            )
+
             notify(execution_id, :zodiac_sign, result)
           end
         ),
@@ -178,6 +182,7 @@ defmodule Demo.HoroscopeGraph do
   end
 
   def compute_zodiac_sign(%{birth_month: month, birth_day: day}) do
+    Logger.info("Journey compute_zodiac_sign called: month=#{month}, day=#{day}")
     # In production, this would use a proper astrological calculation
     # or API service for accurate zodiac determination
     sign =

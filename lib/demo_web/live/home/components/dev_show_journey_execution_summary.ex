@@ -7,7 +7,11 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
   def render(assigns) do
     ~H"""
     <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-      <form phx-value-toggle_field_name="dev_show_journey_execution_summary" phx-change="dev_toggle">
+      <form
+        id="form-dev-show-journey-execution-summary-id"
+        phx-value-toggle_field_name="dev_show_journey_execution_summary"
+        phx-change="dev_toggle"
+      >
         <input
           type="checkbox"
           name="dev_toggle"
@@ -25,7 +29,11 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
       </form>
     </div>
 
-    <div :if={Map.get(@values, :dev_show_journey_execution_summary, false)} class="mt-4">
+    <div
+      :if={Map.get(@values, :dev_show_journey_execution_summary, false)}
+      id="section-execution-summary"
+      class="mt-4"
+    >
       <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
     </div>
     """

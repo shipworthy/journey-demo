@@ -7,7 +7,11 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
   def render(assigns) do
     ~H"""
     <div class="flex items-center bg-blue-50 p-4 rounded-lg mt-6">
-      <form phx-value-toggle_field_name="dev_show_all_values" phx-change="dev_toggle">
+      <form
+        id="form-dev-show-all-values-id"
+        phx-value-toggle_field_name="dev_show_all_values"
+        phx-change="dev_toggle"
+      >
         <input
           type="checkbox"
           name="dev_toggle"
@@ -22,7 +26,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
       </form>
     </div>
 
-    <div :if={Map.get(@values, :dev_show_all_values, false)} class="mt-4">
+    <div :if={Map.get(@values, :dev_show_all_values, false)} id="section-all-values" class="mt-4">
       <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>
     </div>
     """

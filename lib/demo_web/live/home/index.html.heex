@@ -4,7 +4,11 @@
   <AboutSection.render values={@values} execution_id={@execution_id} />
 
   <div class="flex items-center bg-blue-50 p-4 rounded-lg">
-    <form phx-value-toggle_field_name="dev_show_execution_history" phx-change="dev_toggle">
+    <form
+      id="form-dev-show-execution-history-id"
+      phx-value-toggle_field_name="dev_show_execution_history"
+      phx-change="dev_toggle"
+    >
       <input
         type="checkbox"
         name="dev_toggle"
@@ -21,12 +25,13 @@
 
   <div class="space-y-6">
     <div class={"grid gap-6 " <> if(@connected? and Map.get(@values, :dev_show_execution_history, false), do: "grid-cols-2", else: "grid-cols-1")}>
-      <div id="inputs-id" class="bg-white p-6 rounded-lg shadow">
+      <div id="section-your-inputs" class="bg-white p-6 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-4">Your Inputs</h2>
         <div class="space-y-4">
           <div>
             <label class={Classes.label()}>name</label>
             <input
+              id="input-name"
               type="text"
               value={Map.get(@values, :name, "")}
               phx-blur="update_value"
@@ -38,9 +43,14 @@
 
           <div>
             <label class={Classes.label()}>birth_month</label>
-            <form phx-change="update_select">
+            <form id="form-birth-month-id" phx-change="update_select">
               <input type="hidden" name="field" value="birth_month" />
-              <select name="birth_month" disabled={!@connected?} class={Classes.editable_value()}>
+              <select
+                id="input-birth-month"
+                name="birth_month"
+                disabled={!@connected?}
+                class={Classes.editable_value()}
+              >
                 <option value="" selected={Map.get(@values, :birth_month, "") == ""}>
                   Select month...
                 </option>
@@ -123,6 +133,7 @@
           <div>
             <label class={Classes.label()}>birth_day</label>
             <input
+              id="input-birth-day"
               type="number"
               value={Map.get(@values, :birth_day, "")}
               phx-blur="update_value"
@@ -136,9 +147,10 @@
 
           <div>
             <label class={Classes.label()}>pet_preference</label>
-            <form phx-change="update_select">
+            <form id="form-pet-preference-id" phx-change="update_select">
               <input type="hidden" name="field" value="pet_preference" />
               <select
+                id="input-pet-preference"
                 name="pet_preference"
                 disabled={!@connected?}
                 class={Classes.editable_value()}
@@ -165,6 +177,7 @@
           <div>
             <label class={Classes.label()}>email_address</label>
             <input
+              id="input-email-address"
               type="email"
               value={Map.get(@values, :email_address, "")}
               phx-blur="update_value"
@@ -175,7 +188,11 @@
           </div>
 
           <div class="flex items-center ">
-            <form phx-value-toggle_field_name="subscribe_weekly" phx-change="dev_toggle">
+            <form
+              id="form-subscribe-weekly-id"
+              phx-value-toggle_field_name="subscribe_weekly"
+              phx-change="dev_toggle"
+            >
               <input
                 type="checkbox"
                 name="dev_toggle"
@@ -194,7 +211,7 @@
 
       <div
         :if={@connected? and Map.get(@values, :dev_show_execution_history, false)}
-        id="lorem-id"
+        id="section-execution-history"
         class="p-6 rounded-lg shadow bg-blue-50 flex flex-col"
       >
         <h2 class="text-xl font-semibold mb-4">Execution History</h2>
@@ -215,11 +232,15 @@
       </div>
     </div>
 
-    <div :if={@connected?} class="bg-white p-6 rounded-lg shadow">
+    <div :if={@connected?} id="section-computed-results" class="bg-white p-6 rounded-lg shadow">
       <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
 
       <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
-        <form phx-value-toggle_field_name="dev_show_computation_states" phx-change="dev_toggle">
+        <form
+          id="form-dev-show-computation-states-id"
+          phx-value-toggle_field_name="dev_show_computation_states"
+          phx-change="dev_toggle"
+        >
           <input
             type="checkbox"
             name="dev_toggle"
@@ -237,7 +258,10 @@
       <div class="space-y-4">
         <div>
           <label class={Classes.label()}>zodiac_sign</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}>
+          <div
+            id="output-zodiac-sign"
+            class={Classes.read_only_value(Map.has_key?(@values, :zodiac_sign))}
+          >
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
           <ComputationState.render
@@ -250,7 +274,10 @@
 
         <div>
           <label class={Classes.label()}>horoscope</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}>
+          <div
+            id="output-horoscope"
+            class={Classes.read_only_value(Map.has_key?(@values, :horoscope))}
+          >
             {Map.get(@values, :horoscope, "not set")}
           </div>
           <ComputationState.render
@@ -263,7 +290,10 @@
 
         <div>
           <label class={Classes.label()}>email_horoscope</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}>
+          <div
+            id="output-email-horoscope"
+            class={Classes.read_only_value(Map.has_key?(@values, :email_horoscope))}
+          >
             {Map.get(@values, :email_horoscope, "not set")}
           </div>
           <ComputationState.render

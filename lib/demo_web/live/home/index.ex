@@ -111,8 +111,9 @@ defmodule DemoWeb.Live.Home.Index do
   # end
 
   @impl true
-  def handle_params(_params, _uri, socket) do
+  def handle_params(params, uri, socket) do
     # Called after push_patch, no action needed as state is already updated
+    Logger.info("handle_params: params: #{inspect(params)}, uri: #{inspect(uri)}")
     {:noreply, socket}
   end
 
@@ -226,7 +227,7 @@ defmodule DemoWeb.Live.Home.Index do
         socket.assigns[:flow_analytics] ||
           Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
 
-      # Get graph mermaid if not already loaded  
+      # Get graph mermaid if not already loaded
       graph_mermaid =
         socket.assigns[:graph_mermaid] ||
           Journey.Tools.generate_mermaid_graph(graph)

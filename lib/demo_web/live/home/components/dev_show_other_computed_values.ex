@@ -18,7 +18,11 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
   def render(assigns) do
     ~H"""
     <div :if={@connected?} class="flex items-center bg-blue-50 p-4 rounded-lg mt-4">
-      <form phx-value-toggle_field_name="dev_show_other_computed_values" phx-change="dev_toggle">
+      <form
+        id="form-dev-show-other-computed-values-id"
+        phx-value-toggle_field_name="dev_show_other_computed_values"
+        phx-change="dev_toggle"
+      >
         <input
           type="checkbox"
           name="dev_toggle"
@@ -35,6 +39,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
 
     <div
       :if={@connected? and Map.get(@values, :dev_show_other_computed_values, false)}
+      id="section-other-computed-values"
       class="bg-white p-6 rounded-lg shadow mt-4"
     >
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
@@ -42,7 +47,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
       <div class="space-y-4">
         <div>
           <label class={Classes.label()}>name_validation</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}>
+          <div
+            id="output-name-validation"
+            class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}
+          >
             {Map.get(@values, :name_validation, "not set")}
           </div>
           <ComputationState.render
@@ -102,7 +110,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
 
         <div>
           <label class={Classes.label()}>anonymize_name</label>
-          <div class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}>
+          <div
+            id="output-anonymized-name"
+            class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}
+          >
             {Map.get(@values, :anonymize_name, "not set")}
           </div>
           <ComputationState.render
