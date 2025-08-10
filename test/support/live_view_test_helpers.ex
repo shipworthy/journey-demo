@@ -18,6 +18,12 @@ defmodule DemoWeb.LiveViewTestHelpers do
     |> render_change(%{"dev_toggle" => new_value})
   end
 
+  def click_chevron_toggle(lv, toggle_field_name) do
+    # Click the chevron toggle div
+    element(lv, "[phx-value-toggle_field_name='#{toggle_field_name}']")
+    |> render_click(%{})
+  end
+
   def element_checked?(html, selector) do
     parsed_html = Floki.parse_document!(html)
 

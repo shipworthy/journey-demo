@@ -45,11 +45,7 @@ defmodule DemoWeb.Live.HomeLiveTest do
       html = render(lv)
       assert html =~ "Upstream Dependencies"
 
-      toggle_checkbox(
-        lv,
-        "#form-dev-show-other-computed-values-id",
-        "#dev_show_other_computed_values-id"
-      )
+      click_chevron_toggle(lv, "dev_show_other_computed_values")
 
       assert wait_for_element_appearance(lv, "#section-other-computed-values-id")
 

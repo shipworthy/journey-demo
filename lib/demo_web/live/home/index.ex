@@ -132,15 +132,21 @@ defmodule DemoWeb.Live.Home.Index do
   @impl true
   def handle_event("dev_toggle", params, socket) do
     socket = create_execution_if_needed(socket)
-
-    bool_value = Map.get(params, "dev_toggle", "off") == "on"
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
-    Logger.info("dev_toggle value: #{bool_value}, field: #{field_name}")
+    bool_value = Map.get(params, "dev_toggle", "off") == "on"
+    
+    socket = apply_toggle_value(socket, field_name, bool_value)
+    {:noreply, socket}
+  end
 
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, field_name, bool_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
+  @impl true
+  def handle_event("chevron_toggle", params, socket) do
+    socket = create_execution_if_needed(socket)
+    field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
+    current_value = Map.get(socket.assigns.values, field_name, false)
+    bool_value = !current_value
+    
+    socket = apply_toggle_value(socket, field_name, bool_value)
     {:noreply, socket}
   end
 
@@ -198,6 +204,14 @@ defmodule DemoWeb.Live.Home.Index do
     socket = refresh_execution_state(socket, updated_execution)
 
     {:noreply, socket}
+  end
+
+  # Shared helper for applying toggle values
+  defp apply_toggle_value(socket, field_name, bool_value) do
+    Logger.info("toggle value: #{bool_value}, field: #{field_name}")
+    execution = Journey.load(socket.assigns.execution_id)
+    updated_execution = Journey.set_value(execution, field_name, bool_value)
+    refresh_execution_state(socket, updated_execution)
   end
 
   @impl true

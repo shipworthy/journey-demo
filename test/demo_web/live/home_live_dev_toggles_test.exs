@@ -67,7 +67,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-other-computed-values-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-other-computed-values-id", "#dev_show_other_computed_values-id")
+      click_chevron_toggle(lv, "dev_show_other_computed_values")
       assert wait_for_element_appearance(lv, "#section-other-computed-values-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -80,7 +80,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-other-computed-values-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-other-computed-values-id", "#dev_show_other_computed_values-id")
+      click_chevron_toggle(lv2, "dev_show_other_computed_values")
       assert wait_for_element_disappearance(lv2, "#section-other-computed-values-id")
     end
 
@@ -91,7 +91,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-all-values-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-all-values-id", "#dev_show_all_values-id")
+      click_chevron_toggle(lv, "dev_show_all_values")
       assert wait_for_element_appearance(lv, "#section-all-values-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -104,7 +104,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-all-values-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-all-values-id", "#dev_show_all_values-id")
+      click_chevron_toggle(lv2, "dev_show_all_values")
       assert wait_for_element_disappearance(lv2, "#section-all-values-id")
     end
 
@@ -115,7 +115,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-execution-summary-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-journey-execution-summary-id", "#dev_show_journey_execution_summary-id")
+      click_chevron_toggle(lv, "dev_show_journey_execution_summary")
       assert wait_for_element_appearance(lv, "#section-execution-summary-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -128,7 +128,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-execution-summary-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-journey-execution-summary-id", "#dev_show_journey_execution_summary-id")
+      click_chevron_toggle(lv2, "dev_show_journey_execution_summary")
       assert wait_for_element_disappearance(lv2, "#section-execution-summary-id")
     end
 
@@ -139,7 +139,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-flow-analytics-table-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-flow-analytics-table-id", "#dev_show_flow_analytics_table-id")
+      click_chevron_toggle(lv, "dev_show_flow_analytics_table")
       assert wait_for_element_appearance(lv, "#section-flow-analytics-table-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -152,7 +152,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-flow-analytics-table-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-flow-analytics-table-id", "#dev_show_flow_analytics_table-id")
+      click_chevron_toggle(lv2, "dev_show_flow_analytics_table")
       assert wait_for_element_disappearance(lv2, "#section-flow-analytics-table-id")
     end
 
@@ -163,7 +163,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-flow-analytics-json-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-flow-analytics-json-id", "#dev_show_flow_analytics_json-id")
+      click_chevron_toggle(lv, "dev_show_flow_analytics_json")
       assert wait_for_element_appearance(lv, "#section-flow-analytics-json-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -176,7 +176,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-flow-analytics-json-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-flow-analytics-json-id", "#dev_show_flow_analytics_json-id")
+      click_chevron_toggle(lv2, "dev_show_flow_analytics_json")
       assert wait_for_element_disappearance(lv2, "#section-flow-analytics-json-id")
     end
 
@@ -187,7 +187,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       refute element_exists?(lv, "#section-workflow-graph-id")
 
       # Toggle ON - should become visible
-      toggle_checkbox(lv, "#form-dev-show-workflow-graph-id", "#dev_show_workflow_graph-id")
+      click_chevron_toggle(lv, "dev_show_workflow_graph")
       assert wait_for_element_appearance(lv, "#section-workflow-graph-id")
 
       # Use assert_patch to capture the URL change and get the new path
@@ -200,7 +200,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       assert element_exists?(lv2, "#section-workflow-graph-id")
 
       # Toggle OFF - should disappear
-      toggle_checkbox(lv2, "#form-dev-show-workflow-graph-id", "#dev_show_workflow_graph-id")
+      click_chevron_toggle(lv2, "dev_show_workflow_graph")
       assert wait_for_element_disappearance(lv2, "#section-workflow-graph-id")
     end
   end
