@@ -1,0 +1,86 @@
+name: "PR-validate"
+
+on:
+  pull_request:
+    branches: []
+
+permissions:
+  contents: read
+
+jobs:
+  build_docker_image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest-m
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_JOURNEY_REPO }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          ssh: default
+          push: false
+          tags: ""
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+
+  validate_changes:
+    name: Run Linters and Tests
+    runs-on: ubuntu-latest-m
+    services:
+      pg:
+        image: postgres:16.4-alpine
+        ports:
+          - 5441:5432
+        env:
+          POSTGRES_DB: "license_key_test"
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_JOURNEY_REPO }}
+      - name: Install OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.18.3"
+          otp-version: "27.2"
+      - name: Manage dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        env:
+          MIX_ENV: test
+          COMMIT_SHA: ${{ github.sha }}
+        run: mix deps.get
+      - name: Lint
+        env:
+          MIX_ENV: test
+        run: make format-check
+      - name: Test
+        env:
+          MIX_ENV: test
+        run: (make build-test test)
