@@ -6,8 +6,8 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
 
   def render(assigns) do
     ~H"""
-    <div 
-      class="cursor-pointer hover:bg-gray-50 p-4 border border-gray-200 rounded-lg mt-6 transition-colors"
+    <div
+      class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_all_values"
     >
@@ -19,7 +19,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
       </div>
     </div>
 
-    <div :if={Map.get(@values, :dev_show_all_values, false)} id="section-all-values-id" class="mt-4">
+    <div :if={Map.get(@values, :dev_show_all_values, false)} id="section-all-values-id">
       <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.load() |> Journey.values_all()\n#{inspect(@all_values, pretty: true)}" %></pre>
     </div>
     """

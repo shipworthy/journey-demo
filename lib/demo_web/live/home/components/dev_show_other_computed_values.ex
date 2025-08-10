@@ -17,9 +17,9 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
 
   def render(assigns) do
     ~H"""
-    <div 
-      :if={@connected?} 
-      class="cursor-pointer hover:bg-gray-50 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
+    <div
+      :if={@connected?}
+      class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_other_computed_values"
     >
@@ -34,7 +34,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
     <div
       :if={@connected? and Map.get(@values, :dev_show_other_computed_values, false)}
       id="section-other-computed-values-id"
-      class="bg-white p-6 rounded-lg shadow mt-4"
+      class="bg-white p-6 rounded-lg shadow"
     >
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
 

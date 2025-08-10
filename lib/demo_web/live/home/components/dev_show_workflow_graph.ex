@@ -6,9 +6,9 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
 
   def render(assigns) do
     ~H"""
-    <div 
-      :if={@graph_mermaid} 
-      class="cursor-pointer hover:bg-gray-50 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
+    <div
+      :if={@graph_mermaid}
+      class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_workflow_graph"
     >

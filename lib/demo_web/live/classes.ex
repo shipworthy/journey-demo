@@ -260,4 +260,8 @@ defmodule DemoWeb.Live.Classes do
       " w-full placeholder:text-slate-400 mt-4 text-base italic rounded-md text-left text-blue-old-glory font-semibold focus:ring-grey-500 focus:border-grey-500 focus:text-xl " <>
       if enabled?, do: " bg-gray-100 border-green-500 ", else: " bg-gray-200 border-gray-300 "
   end
+
+  def devs_chevron() do
+    "cursor-pointer bg-blue-50 hover:bg-blue-100 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
+  end
 end

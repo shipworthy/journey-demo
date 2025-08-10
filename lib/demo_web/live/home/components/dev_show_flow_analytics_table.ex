@@ -2,13 +2,14 @@ defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
   use Phoenix.Component
 
   @moduledoc false
+  alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.FlowAnalytics
 
   def render(assigns) do
     ~H"""
     <div 
       :if={@flow_analytics} 
-      class="cursor-pointer hover:bg-gray-50 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
+      class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_flow_analytics_table"
     >

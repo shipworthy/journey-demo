@@ -6,8 +6,8 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalyticsJson do
 
   def render(assigns) do
     ~H"""
-    <div 
-      class="cursor-pointer hover:bg-gray-50 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
+    <div
+      class={Classes.devs_chevron()}
       phx-click="chevron_toggle"
       phx-value-toggle_field_name="dev_show_flow_analytics_json"
     >
@@ -22,7 +22,7 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalyticsJson do
     <div
       :if={Map.get(@values, :dev_show_flow_analytics_json, false)}
       id="section-flow-analytics-json-id"
-      class="mt-4"
+      class=""
     >
       <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version)\n#{inspect(@flow_analytics, pretty: true)}" %></pre>
     </div>
