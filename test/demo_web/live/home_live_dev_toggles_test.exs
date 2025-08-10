@@ -4,7 +4,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
   import DemoWeb.LiveViewTestHelpers
 
   describe "dev toggles" do
-    test "dev_show_execution_history toggle visibility", %{conn: conn} do
+    test "dev_show_execution_history toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -14,12 +14,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-execution-history-id", "#dev_show_execution_history-id")
       assert wait_for_element_appearance(lv, "#section-execution-history-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-execution-history-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-execution-history-id", "#dev_show_execution_history-id")
-      assert wait_for_element_disappearance(lv, "#section-execution-history-id")
+      toggle_checkbox(lv2, "#form-dev-show-execution-history-id", "#dev_show_execution_history-id")
+      assert wait_for_element_disappearance(lv2, "#section-execution-history-id")
     end
 
-    test "dev_show_computation_states toggle visibility", %{conn: conn} do
+    test "dev_show_computation_states toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Add some data to trigger computation
@@ -37,12 +46,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-computation-states-id", "#dev_show_computation_states-id")
       assert wait_for_element_appearance(lv, "#computation-state-zodiac_sign-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#computation-state-zodiac_sign-id")
+
       # Toggle OFF - should hide computation states
-      toggle_checkbox(lv, "#form-dev-show-computation-states-id", "#dev_show_computation_states-id")
-      assert wait_for_element_disappearance(lv, "#computation-state-zodiac_sign-id")
+      toggle_checkbox(lv2, "#form-dev-show-computation-states-id", "#dev_show_computation_states-id")
+      assert wait_for_element_disappearance(lv2, "#computation-state-zodiac_sign-id")
     end
 
-    test "dev_show_other_computed_values toggle visibility", %{conn: conn} do
+    test "dev_show_other_computed_values toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -52,12 +70,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-other-computed-values-id", "#dev_show_other_computed_values-id")
       assert wait_for_element_appearance(lv, "#section-other-computed-values-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-other-computed-values-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-other-computed-values-id", "#dev_show_other_computed_values-id")
-      assert wait_for_element_disappearance(lv, "#section-other-computed-values-id")
+      toggle_checkbox(lv2, "#form-dev-show-other-computed-values-id", "#dev_show_other_computed_values-id")
+      assert wait_for_element_disappearance(lv2, "#section-other-computed-values-id")
     end
 
-    test "dev_show_all_values toggle visibility", %{conn: conn} do
+    test "dev_show_all_values toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -67,12 +94,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-all-values-id", "#dev_show_all_values-id")
       assert wait_for_element_appearance(lv, "#section-all-values-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-all-values-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-all-values-id", "#dev_show_all_values-id")
-      assert wait_for_element_disappearance(lv, "#section-all-values-id")
+      toggle_checkbox(lv2, "#form-dev-show-all-values-id", "#dev_show_all_values-id")
+      assert wait_for_element_disappearance(lv2, "#section-all-values-id")
     end
 
-    test "dev_show_journey_execution_summary toggle visibility", %{conn: conn} do
+    test "dev_show_journey_execution_summary toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -82,12 +118,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-journey-execution-summary-id", "#dev_show_journey_execution_summary-id")
       assert wait_for_element_appearance(lv, "#section-execution-summary-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-execution-summary-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-journey-execution-summary-id", "#dev_show_journey_execution_summary-id")
-      assert wait_for_element_disappearance(lv, "#section-execution-summary-id")
+      toggle_checkbox(lv2, "#form-dev-show-journey-execution-summary-id", "#dev_show_journey_execution_summary-id")
+      assert wait_for_element_disappearance(lv2, "#section-execution-summary-id")
     end
 
-    test "dev_show_flow_analytics_table toggle visibility", %{conn: conn} do
+    test "dev_show_flow_analytics_table toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -97,12 +142,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-flow-analytics-table-id", "#dev_show_flow_analytics_table-id")
       assert wait_for_element_appearance(lv, "#section-flow-analytics-table-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-flow-analytics-table-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-flow-analytics-table-id", "#dev_show_flow_analytics_table-id")
-      assert wait_for_element_disappearance(lv, "#section-flow-analytics-table-id")
+      toggle_checkbox(lv2, "#form-dev-show-flow-analytics-table-id", "#dev_show_flow_analytics_table-id")
+      assert wait_for_element_disappearance(lv2, "#section-flow-analytics-table-id")
     end
 
-    test "dev_show_flow_analytics_json toggle visibility", %{conn: conn} do
+    test "dev_show_flow_analytics_json toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -112,12 +166,21 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-flow-analytics-json-id", "#dev_show_flow_analytics_json-id")
       assert wait_for_element_appearance(lv, "#section-flow-analytics-json-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-flow-analytics-json-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-flow-analytics-json-id", "#dev_show_flow_analytics_json-id")
-      assert wait_for_element_disappearance(lv, "#section-flow-analytics-json-id")
+      toggle_checkbox(lv2, "#form-dev-show-flow-analytics-json-id", "#dev_show_flow_analytics_json-id")
+      assert wait_for_element_disappearance(lv2, "#section-flow-analytics-json-id")
     end
 
-    test "dev_show_workflow_graph toggle visibility", %{conn: conn} do
+    test "dev_show_workflow_graph toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
       # Initially should not be visible
@@ -127,9 +190,18 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       toggle_checkbox(lv, "#form-dev-show-workflow-graph-id", "#dev_show_workflow_graph-id")
       assert wait_for_element_appearance(lv, "#section-workflow-graph-id")
 
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      assert element_exists?(lv2, "#section-workflow-graph-id")
+
       # Toggle OFF - should disappear
-      toggle_checkbox(lv, "#form-dev-show-workflow-graph-id", "#dev_show_workflow_graph-id")
-      assert wait_for_element_disappearance(lv, "#section-workflow-graph-id")
+      toggle_checkbox(lv2, "#form-dev-show-workflow-graph-id", "#dev_show_workflow_graph-id")
+      assert wait_for_element_disappearance(lv2, "#section-workflow-graph-id")
     end
   end
 end
