@@ -15,12 +15,12 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
         <input
           type="checkbox"
           name="dev_toggle"
-          id="dev_show_workflow_graph"
+          id="dev_show_workflow_graph-id"
           checked={Map.get(@values, :dev_show_workflow_graph, false) == true}
           disabled={!@connected?}
           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
         />
-        <label for="dev_show_workflow_graph" class="ml-2 inline-block text-sm text-gray-700">
+        <label for="dev_show_workflow_graph-id" class="ml-2 inline-block text-sm text-gray-700">
           Devs: See Workflow Graph Definition (Mermaid)
         </label>
       </form>
@@ -28,7 +28,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
 
     <div
       :if={Map.get(@values, :dev_show_workflow_graph, false)}
-      id="section-workflow-graph"
+      id="section-workflow-graph-id"
       class="text-md text-gray-600 my-2"
     >
       Journey Workflow (Mermaid Format) - Paste mermaid code into
@@ -40,7 +40,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
 
     <div
       :if={Map.get(@values, :dev_show_workflow_graph, false)}
-      id="section-workflow-graph-code"
+      id="section-workflow-graph-code-id"
       class="mt-4"
     >
       <pre class={Classes.debug_pre()}><%= "iex> Demo.HoroscopeGraph.graph() |> Journey.Tools.generate_mermaid_graph() |> IO.puts()\n#{@graph_mermaid}\n\n" %></pre>

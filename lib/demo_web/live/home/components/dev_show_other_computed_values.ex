@@ -26,12 +26,12 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
         <input
           type="checkbox"
           name="dev_toggle"
-          id="dev_show_other_computed_values"
+          id="dev_show_other_computed_values-id"
           checked={Map.get(@values, :dev_show_other_computed_values, false) == true}
           disabled={!@connected?}
           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
         />
-        <label for="dev_show_other_computed_values" class="ml-2 inline-block text-sm text-gray-700">
+        <label for="dev_show_other_computed_values-id" class="ml-2 inline-block text-sm text-gray-700">
           Devs: See All Other Computed Values
         </label>
       </form>
@@ -39,7 +39,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
 
     <div
       :if={@connected? and Map.get(@values, :dev_show_other_computed_values, false)}
-      id="section-other-computed-values"
+      id="section-other-computed-values-id"
       class="bg-white p-6 rounded-lg shadow mt-4"
     >
       <h2 class="text-xl font-semibold mb-4">Other Computed Values</h2>
@@ -48,7 +48,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
         <div>
           <label class={Classes.label()}>name_validation</label>
           <div
-            id="output-name-validation"
+            id="output-name-validation-id"
             class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}
           >
             {Map.get(@values, :name_validation, "not set")}
@@ -111,7 +111,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
         <div>
           <label class={Classes.label()}>anonymize_name</label>
           <div
-            id="output-anonymized-name"
+            id="output-anonymized-name-id"
             class={Classes.read_only_value(Map.has_key?(@values, :anonymize_name))}
           >
             {Map.get(@values, :anonymize_name, "not set")}

@@ -15,12 +15,12 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalyticsJson do
         <input
           type="checkbox"
           name="dev_toggle"
-          id="dev_show_flow_analytics_json"
+          id="dev_show_flow_analytics_json-id"
           checked={Map.get(@values, :dev_show_flow_analytics_json, false) == true}
           disabled={!@connected?}
           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
         />
-        <label for="dev_show_flow_analytics_json" class="ml-2 inline-block text-sm text-gray-700">
+        <label for="dev_show_flow_analytics_json-id" class="ml-2 inline-block text-sm text-gray-700">
           Devs: See Flow Analytics (raw data)
         </label>
       </form>
@@ -28,7 +28,7 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalyticsJson do
 
     <div
       :if={Map.get(@values, :dev_show_flow_analytics_json, false)}
-      id="section-flow-analytics-json"
+      id="section-flow-analytics-json-id"
       class="mt-4"
     >
       <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version)\n#{inspect(@flow_analytics, pretty: true)}" %></pre>
