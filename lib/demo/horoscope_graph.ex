@@ -40,7 +40,7 @@ defmodule Demo.HoroscopeGraph do
         compute(
           :name_validation,
           [:name],
-          &validate_name/1,
+          &keep_bowser_out/1,
           f_on_save: fn execution_id, result ->
             notify(execution_id, :name_validation, result)
           end
@@ -170,7 +170,7 @@ defmodule Demo.HoroscopeGraph do
   # === Business Logic Functions ===
   # These are placeholders demonstrating where real business logic would go
 
-  def validate_name(%{name: name}) do
+  def keep_bowser_out(%{name: name}) do
     # In production, this might check against a database of blocked names,
     # validate name format, check for profanity, etc.
     case String.downcase(String.trim(name)) do
