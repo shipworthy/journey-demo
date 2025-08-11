@@ -37,8 +37,9 @@ defmodule Demo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:journey, "~> 0.10.13", organization: "shipworthy"},
+      # {:journey, "~> 0.10.13", organization: "shipworthy"},
       # {:journey, path: "/Users/markmark/src/j/j2"},
+      {:journey, git: "git@github.com:markmark206/journey.git", tag: "0.10.13"},
       {:phoenix, "~> 1.7.21"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
