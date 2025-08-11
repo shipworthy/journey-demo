@@ -54,10 +54,7 @@ defmodule Demo.HoroscopeGraph do
             [
               {:birth_month, &provided?/1},
               {:birth_day, &provided?/1},
-              {:name_validation,
-               fn validation ->
-                 validation.node_value == "valid"
-               end}
+              {:name_validation, &name_is_valid?/1}
             ]
           }),
           &compute_zodiac_sign/1,
@@ -108,7 +105,7 @@ defmodule Demo.HoroscopeGraph do
           unblocked_when({
             :and,
             [
-              {:subscribe_weekly, fn sub -> sub.node_value == true end},
+              {:subscribe_weekly, &true?/1},
               {:horoscope, &provided?/1}
             ]
           }),
@@ -124,7 +121,7 @@ defmodule Demo.HoroscopeGraph do
           unblocked_when({
             :and,
             [
-              {:subscribe_weekly, fn sub -> sub.node_value == true end},
+              {:subscribe_weekly, &true?/1},
               {:weekly_reminder_schedule, &provided?/1},
               {:email_address, &provided?/1}
             ]
@@ -164,6 +161,10 @@ defmodule Demo.HoroscopeGraph do
         input(:dev_show_more)
       ]
     )
+  end
+
+  defp name_is_valid?(validation_node) do
+    validation_node.node_value == "valid"
   end
 
   # === Business Logic Functions ===

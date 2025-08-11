@@ -277,16 +277,16 @@ defmodule DemoWeb.Live.Home.Index do
   # Helper function to get computation states for all computed nodes
   defp get_computation_states(execution_id) do
     %{
-      name_validation: Journey.Tools.computation_state(execution_id, :name_validation),
-      zodiac_sign: Journey.Tools.computation_state(execution_id, :zodiac_sign),
-      horoscope: Journey.Tools.computation_state(execution_id, :horoscope),
-      anonymize_name: Journey.Tools.computation_state(execution_id, :anonymize_name),
-      email_horoscope: Journey.Tools.computation_state(execution_id, :email_horoscope),
+      name_validation: Journey.Tools.what_am_i_waiting_for(execution_id, :name_validation),
+      zodiac_sign: Journey.Tools.what_am_i_waiting_for(execution_id, :zodiac_sign),
+      horoscope: Journey.Tools.what_am_i_waiting_for(execution_id, :horoscope),
+      anonymize_name: Journey.Tools.what_am_i_waiting_for(execution_id, :anonymize_name),
+      email_horoscope: Journey.Tools.what_am_i_waiting_for(execution_id, :email_horoscope),
       weekly_reminder_schedule:
-        Journey.Tools.computation_state(execution_id, :weekly_reminder_schedule),
-      send_weekly_reminder: Journey.Tools.computation_state(execution_id, :send_weekly_reminder),
-      schedule_archive: Journey.Tools.computation_state(execution_id, :schedule_archive),
-      auto_archive: Journey.Tools.computation_state(execution_id, :auto_archive)
+        Journey.Tools.what_am_i_waiting_for(execution_id, :weekly_reminder_schedule),
+      send_weekly_reminder: Journey.Tools.what_am_i_waiting_for(execution_id, :send_weekly_reminder),
+      schedule_archive: Journey.Tools.what_am_i_waiting_for(execution_id, :schedule_archive),
+      auto_archive: Journey.Tools.what_am_i_waiting_for(execution_id, :auto_archive)
     }
   end
 
