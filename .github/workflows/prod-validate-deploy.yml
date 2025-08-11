@@ -61,9 +61,9 @@ jobs:
       pg:
         image: postgres:16.4-alpine
         ports:
-          - 5441:5432
+          - 5442:5432
         env:
-          POSTGRES_DB: "license_key_test"
+          POSTGRES_DB: "demo_test"
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
         options: >-
@@ -98,8 +98,7 @@ jobs:
         env:
           MIX_ENV: test
           COMMIT_SHA: ${{ github.sha }}
-          SERVICE_URL: "http://localhost:4000"
-        run: make lint
+        run: make format-check
       - name: Test
         env:
           MIX_ENV: test
