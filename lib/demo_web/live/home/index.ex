@@ -196,7 +196,9 @@ defmodule DemoWeb.Live.Home.Index do
 
     updated_execution =
       if value == "" do
-        Journey.unset_value(execution, field_atom)
+        # TODO: update this after publishing the change in journey.
+        # Journey.unset_value(execution, field_atom)
+        Journey.set_value(execution, field_atom, value)
       else
         Journey.set_value(execution, field_atom, value)
       end
