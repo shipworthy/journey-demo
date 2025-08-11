@@ -13,7 +13,8 @@ env:
   GOOGLE_ARTIFACT_REGISTRY_LOCATION: ${{ secrets.GCP_REGION }}
   GOOGLE_ARTIFACT_REGISTRY_NAME: docker-images
   SERVICE: journey-demo-prod
-  REGION: ${{ secrets.GCP_REGION }}
+  REGION: us-west3
+  # ${{ secrets.GCP_REGION }}
   LATEST_TAG: prod_latest
 
 jobs:
