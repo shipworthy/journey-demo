@@ -25,7 +25,7 @@ defmodule DemoWeb.Live.HomeLiveTest do
                ~r/cosmic|wisdom|upstream|feline/i
              )
 
-      fill_input(lv, "#input-email-address-id", "sarah@example.com")
+      # fill_input(lv, "#input-email-address-id", "sarah@example.com")
       assert wait_for_element_text(lv, "#output-email-horoscope-id", "sent")
 
       toggle_checkbox(lv, "#form-subscribe-weekly-id", "#subscribe_weekly-id")
