@@ -15,9 +15,9 @@ jobs:
       pg:
         image: postgres:16.4-alpine
         ports:
-          - 5441:5432
+          - 5432:5432
         env:
-          POSTGRES_DB: "license_key_test"
+          POSTGRES_DB: "demo_test"
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
         options: >-
