@@ -122,51 +122,6 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalytics do
             <% end %>
           </tbody>
         </table>
-        
-    <!-- Key Insights -->
-        <div class="bg-blue-50 p-3 rounded">
-          <h4 class="font-semibold text-md mb-2">Key Insights</h4>
-          <ul class="text-md space-y-1">
-            <% total = @flow_analytics.executions.count
-
-            completed_nodes =
-              (@flow_analytics.node_stats.nodes || [])
-              |> Enum.filter(&(&1.reached_percentage == 100.0))
-              |> length()
-
-            partial_nodes =
-              (@flow_analytics.node_stats.nodes || [])
-              |> Enum.filter(&(&1.reached_percentage < 100.0 && &1.reached_percentage > 0))
-
-            first_partial = if length(partial_nodes) > 0, do: hd(partial_nodes), else: nil %>
-            <li>• {completed_nodes} nodes reached by all {total} executions</li>
-            <%= if first_partial do %>
-              <li>
-                • {first_partial.node_name} has {Float.round(
-                  first_partial.reached_percentage,
-                  1
-                )}% conversion rate
-              </li>
-            <% end %>
-            <% email_node =
-              Enum.find(
-                @flow_analytics.node_stats.nodes || [],
-                &(&1.node_name == :email_address)
-              ) %>
-            <%= if email_node && email_node.average_time_to_reach > 120 do %>
-              <li>
-                • Users take ~{div(round(email_node.average_time_to_reach), 60)} minutes before entering email
-              </li>
-            <% end %>
-            <% name_node =
-              Enum.find(@flow_analytics.node_stats.nodes || [], &(&1.node_name == :name)) %>
-            <%= if name_node && name_node.average_time_to_reach < 10 do %>
-              <li>
-                • Quick start: names entered within {round(name_node.average_time_to_reach)} seconds
-              </li>
-            <% end %>
-          </ul>
-        </div>
       </div>
     </div>
     """
