@@ -60,7 +60,6 @@ run-dev:
 	(mix phx.server || true) && mix phx.digest.clean --all
 
 
-
 test:
-	MIX_ENV=test mix ecto.create 
+	MIX_ENV=test mix ecto.setup
 	mix test --trace --warnings-as-errors --cover
