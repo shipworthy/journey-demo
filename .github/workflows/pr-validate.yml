@@ -1,0 +1,59 @@
+name: "PR-validate"
+
+on:
+  pull_request:
+    branches: []
+
+permissions:
+  contents: read
+
+jobs:
+  validate_changes:
+    name: Run Linters and Tests
+    runs-on: ubuntu-latest-m
+    services:
+      pg:
+        image: postgres:16.4-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: "demo_test"
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_JOURNEY_REPO }}
+      - name: Install OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.18.3"
+          otp-version: "27.2"
+      - name: Manage dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        env:
+          MIX_ENV: test
+          COMMIT_SHA: ${{ github.sha }}
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: mix deps.get
+      - name: Lint
+        env:
+          MIX_ENV: test
+        run: make format-check
+      - name: Test
+        env:
+          MIX_ENV: test
+        run: (make build-test test)

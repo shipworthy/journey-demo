@@ -33,7 +33,11 @@ config :demo, Demo.Mailer, adapter: Swoosh.Adapters.Test
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
 
+# config :journey, log_level: :info
+config :journey, log_level: :warning
+
 # Print only warnings and errors during test
+# config :logger, level: :info
 config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation

@@ -34,11 +34,23 @@ defmodule DemoWeb.Live.Classes do
   end
 
   def debug_pre() do
-    "mt-2 p-4 bg-gray-100 rounded text-md overflow-x-auto font-mono"
+    "mt-2 p-4 text-gray-600 bg-blue-50 rounded text-sm overflow-x-auto font-mono"
+  end
+
+  def dev_paragraph() do
+    "mt-2 py-1 font-mono"
+  end
+
+  def dev_header() do
+    "my-1 py-1 font-bold"
+  end
+
+  def dev_bulletpoint() do
+    ""
   end
 
   def computation_state() do
-    "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre-line overflow-x-auto text-left indent-0"
+    "mt-2 p-2 mr-2 text-gray-600 bg-blue-50 border rounded text-xs font-mono whitespace-pre overflow-x-auto text-left"
   end
 
   # -----------------
@@ -247,5 +259,9 @@ defmodule DemoWeb.Live.Classes do
     " border-2 focus:border-green-500 focus:ring-green-500 focus:ring-2 " <>
       " w-full placeholder:text-slate-400 mt-4 text-base italic rounded-md text-left text-blue-old-glory font-semibold focus:ring-grey-500 focus:border-grey-500 focus:text-xl " <>
       if enabled?, do: " bg-gray-100 border-green-500 ", else: " bg-gray-200 border-gray-300 "
+  end
+
+  def devs_chevron() do
+    "cursor-pointer bg-blue-50 hover:bg-blue-100 p-4 border border-gray-200 rounded-lg mt-4 transition-colors"
   end
 end

@@ -54,14 +54,15 @@ defmodule Demo.HoroscopeGraph do
             [
               {:birth_month, &provided?/1},
               {:birth_day, &provided?/1},
-              {:name_validation,
-               fn validation ->
-                 validation.node_value == "valid"
-               end}
+              {:name_validation, &name_is_valid?/1}
             ]
           }),
           &compute_zodiac_sign/1,
           f_on_save: fn execution_id, result ->
+            Logger.info(
+              "Journey f_on_save called for zodiac_sign: execution_id=#{execution_id}, result=#{inspect(result)}"
+            )
+
             notify(execution_id, :zodiac_sign, result)
           end
         ),
@@ -104,7 +105,7 @@ defmodule Demo.HoroscopeGraph do
           unblocked_when({
             :and,
             [
-              {:subscribe_weekly, fn sub -> sub.node_value == true end},
+              {:subscribe_weekly, &true?/1},
               {:horoscope, &provided?/1}
             ]
           }),
@@ -120,7 +121,7 @@ defmodule Demo.HoroscopeGraph do
           unblocked_when({
             :and,
             [
-              {:subscribe_weekly, fn sub -> sub.node_value == true end},
+              {:subscribe_weekly, &true?/1},
               {:weekly_reminder_schedule, &provided?/1},
               {:email_address, &provided?/1}
             ]
@@ -148,9 +149,22 @@ defmodule Demo.HoroscopeGraph do
             notify(execution_id, :auto_archive, result)
           end
         ),
-        input(:show_computation_states)
+        input(:dev_show_execution_history),
+        input(:dev_show_computation_states),
+        input(:show_all_computations),
+        input(:dev_show_all_values),
+        input(:dev_show_journey_execution_summary),
+        input(:dev_show_flow_analytics_table),
+        input(:dev_show_flow_analytics_json),
+        input(:dev_show_workflow_graph),
+        input(:dev_show_other_computed_values),
+        input(:dev_show_more)
       ]
     )
+  end
+
+  defp name_is_valid?(validation_node) do
+    validation_node.node_value == "valid"
   end
 
   # === Business Logic Functions ===
@@ -169,6 +183,7 @@ defmodule Demo.HoroscopeGraph do
   end
 
   def compute_zodiac_sign(%{birth_month: month, birth_day: day}) do
+    Logger.info("Journey compute_zodiac_sign called: month=#{month}, day=#{day}")
     # In production, this would use a proper astrological calculation
     # or API service for accurate zodiac determination
     sign =

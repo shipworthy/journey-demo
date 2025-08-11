@@ -8,6 +8,11 @@ defmodule Demo.MixProject do
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      test_coverage: [
+        summary: [
+          threshold: 49
+        ]
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -32,7 +37,9 @@ defmodule Demo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:journey, "~> 0.10.13", organization: "shipworthy"},
+      # {:journey, "~> 0.10.13", organization: "shipworthy"},
+      # {:journey, path: "/Users/markmark/src/j/j2"},
+      {:journey, git: "git@github.com:markmark206/journey.git", tag: "v0.10.15"},
       {:phoenix, "~> 1.7.21"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
@@ -41,6 +48,7 @@ defmodule Demo.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.0"},
       {:floki, ">= 0.30.0", only: :test},
+      {:lazy_html, "~> 0.1.6", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
@@ -78,7 +86,13 @@ defmodule Demo.MixProject do
         "run priv/repo/seeds.exs"
       ],
       "ecto.reset": ["ecto.drop -r Journey.Repo", "ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      test: [
+        "ecto.create --quiet",
+        "ecto.create -r Journey.Repo",
+        "ecto.migrate -r Journey.Repo",
+        "ecto.migrate --quiet",
+        "test"
+      ],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind demo", "esbuild demo"],
       "assets.deploy": [
