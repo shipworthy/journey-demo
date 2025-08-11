@@ -18,7 +18,7 @@
   "heroicons": {:git, "https://github.com/tailwindlabs/heroicons.git", "88ab3a0d790e6a47404cba02800a6b25d2afae50", [tag: "v2.1.1", sparse: "optimized", depth: 1]},
   "hpax": {:hex, :hpax, "1.0.3", "ed67ef51ad4df91e75cc6a1494f851850c0bd98ebc0be6e81b026e765ee535aa", [:mix], [], "hexpm", "8eab6e1cfa8d5918c2ce4ba43588e894af35dbd8e91e6e55c817bca5847df34a"},
   "jason": {:hex, :jason, "1.4.4", "b9226785a9aa77b6857ca22832cffa5d5011a667207eb2a0ad56adb5db443b8a", [:mix], [{:decimal, "~> 1.0 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "c5eb0cab91f094599f94d55bc63409236a8ec69a21a67814529e8d5f6cc90b3b"},
-  "journey": {:git, "git@github.com:markmark206/journey.git", "94ab63a3814cacbac4eb9e5fb0765bcd5798f6f4", [tag: "v0.10.13"]},
+  "journey": {:git, "git@github.com:markmark206/journey.git", "aba0e5a90dd681d9a7ff8537c41b040b52c2340b", [tag: "v0.10.14"]},
   "keyword_validator": {:hex, :keyword_validator, "2.1.0", "03dea179912e9ef280f4784affbfecd12957ef578d88b7aea4bbef68b7db3882", [:mix], [], "hexpm", "9c8cff861cadea92d9b9469983ba58bc35d03a2ceb38c39665e401e8668e324f"},
   "lazy_html": {:hex, :lazy_html, "0.1.6", "bff2c5901b008fd75d41f777eb54a19fcf47544cc8c5e5509d84c2b3ea471c69", [:make, :mix], [{:cc_precompiler, "~> 0.1", [hex: :cc_precompiler, repo: "hexpm", optional: false]}, {:elixir_make, "~> 0.9.0", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:fine, "~> 0.1.0", [hex: :fine, repo: "hexpm", optional: false]}], "hexpm", "e04bddfaa09d38e5c3e39278a470550faa7d45d0a30ebc87eb2bd740c364aaaa"},
   "mime": {:hex, :mime, "2.0.7", "b8d739037be7cd402aee1ba0306edfdef982687ee7e9859bee6198c1e7e2f128", [:mix], [], "hexpm", "6171188e399ee16023ffc5b76ce445eb6d9672e2e241d2df6050f3c771e80ccd"},
