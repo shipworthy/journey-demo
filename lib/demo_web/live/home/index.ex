@@ -284,7 +284,8 @@ defmodule DemoWeb.Live.Home.Index do
       email_horoscope: Journey.Tools.what_am_i_waiting_for(execution_id, :email_horoscope),
       weekly_reminder_schedule:
         Journey.Tools.what_am_i_waiting_for(execution_id, :weekly_reminder_schedule),
-      send_weekly_reminder: Journey.Tools.what_am_i_waiting_for(execution_id, :send_weekly_reminder),
+      send_weekly_reminder:
+        Journey.Tools.what_am_i_waiting_for(execution_id, :send_weekly_reminder),
       schedule_archive: Journey.Tools.what_am_i_waiting_for(execution_id, :schedule_archive),
       auto_archive: Journey.Tools.what_am_i_waiting_for(execution_id, :auto_archive)
     }
