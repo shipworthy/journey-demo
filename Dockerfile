@@ -21,8 +21,14 @@ ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 FROM ${BUILDER_IMAGE} as builder
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git \
+RUN apt-get update -y && apt-get install -y build-essential openssh-client git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+
+RUN mkdir -p -m 0700 ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+RUN --mount=type=ssh git clone git@github.com:markmark206/journey.git deps/journey
 
 # prepare build dir
 WORKDIR /app
