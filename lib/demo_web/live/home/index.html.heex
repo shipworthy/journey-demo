@@ -180,10 +180,10 @@
               id="input-email-address-id"
               type="email"
               value={Map.get(@values, :email_address, "")}
+              disabled={true}
               phx-blur="update_value"
               phx-value-field="email_address"
-              disabled={!@connected?}
-              class={Classes.editable_value()}
+              class={Classes.editable_value() <> " text-gray-500"}
             />
           </div>
 

@@ -32,7 +32,9 @@ defmodule DemoWeb.Live.Home.Index do
         graph = Demo.HoroscopeGraph.graph()
 
         if loaded_execution == nil do
-          new_execution = Journey.start_execution(graph)
+          new_execution =
+            Journey.start_execution(graph)
+            |> Journey.set_value(:email_address, "me@example.com")
 
           socket
           |> push_navigate(to: "/s/#{new_execution.id}")
@@ -233,7 +235,10 @@ defmodule DemoWeb.Live.Home.Index do
     if is_nil(socket.assigns.execution_id) do
       # Create new execution
       graph = Demo.HoroscopeGraph.graph()
-      new_execution = Journey.start_execution(graph)
+
+      new_execution =
+        Journey.start_execution(graph)
+        |> Journey.set_value(:email_address, "me@example.com")
 
       # Subscribe to PubSub for updates
       :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{new_execution.id}")
