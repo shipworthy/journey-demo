@@ -15,54 +15,29 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
   alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
 
-  # alias DemoWeb.Live.Home.Components.Footer
-  # alias DemoWeb.Live.Home.Components.ButtonsPrevNext
-  # alias DemoWeb.Live.Home.Components.ButtonPrev
-  # alias DemoWeb.Live.Home.Components.ButtonNext
-
   @impl true
   def mount(%{"execution_id" => execution_id} = _params, _session, socket) do
     Logger.info("home.mount execution_id: #{execution_id}")
 
-    socket = socket |> assign(:connected?, connected?(socket))
+    socket =
+      socket
+      |> assign(:connected?, connected?(socket))
+      |> set_system_stats_if_needed()
+
+    loaded_execution = Journey.load(execution_id)
 
     socket =
-      if connected?(socket) do
-        loaded_execution = Journey.load(execution_id)
-        graph = Demo.HoroscopeGraph.graph()
-
-        if loaded_execution == nil do
-          new_execution =
-            Journey.start_execution(graph)
-            |> Journey.set_value(:email_address, "me@example.com")
-
-          socket
-          |> push_navigate(to: "/s/#{new_execution.id}")
-        else
-          # Subscribe to PubSub for this execution
-          :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{execution_id}")
-
-          flow_analytics =
-            Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
-
-          graph_mermaid = Journey.Tools.generate_mermaid_graph(graph)
-
-          socket
-          |> assign(:execution_id, execution_id)
-          |> assign(:flow_analytics, flow_analytics)
-          |> assign(:graph_mermaid, graph_mermaid)
-          |> refresh_execution_state(loaded_execution)
-        end
+      if loaded_execution == nil do
+        socket
+        |> assign(:execution_id, nil)
+        |> create_execution_if_needed()
       else
+        # Subscribe to PubSub for this execution
+        :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{execution_id}")
+
         socket
         |> assign(:execution_id, execution_id)
-        |> assign(:values, %{})
-        |> assign(:all_values, %{})
-        |> assign(:execution_summary, nil)
-        |> assign(:flow_analytics, nil)
-        |> assign(:graph_mermaid, nil)
-        |> assign(:computation_states, %{})
-        |> assign(:execution_history, [])
+        |> refresh_execution_state(loaded_execution)
       end
 
     {:ok, socket}
@@ -72,49 +47,22 @@ defmodule DemoWeb.Live.Home.Index do
   def mount(_params, _session, socket) do
     Logger.info("home.mount")
 
-    graph = Demo.HoroscopeGraph.graph()
-
-    flow_analytics =
-      Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
-
-    graph_mermaid = Journey.Tools.generate_mermaid_graph(graph)
-
     socket =
       socket
       |> assign(:connected?, connected?(socket))
+      |> set_system_stats_if_needed()
       |> assign(:execution_id, nil)
       |> assign(:values, %{})
       |> assign(:all_values, %{})
       |> assign(:execution_summary, nil)
-      |> assign(:flow_analytics, flow_analytics)
-      |> assign(:graph_mermaid, graph_mermaid)
       |> assign(:computation_states, %{})
       |> assign(:execution_history, [])
 
     {:ok, socket}
   end
 
-  # defp set_execution_to_socket(execution, socket) do
-  #   socket =
-  #     execution
-  #     |> Journey.values_all()
-  #     |> IO.inspect(label: "values_all")
-  #     |> Enum.reduce(socket, fn
-  #       {key, :not_set}, soc ->
-  #         soc |> assign(key, nil)
-
-  #       {key, {:set, value}}, soc ->
-  #         soc |> assign(key, value)
-  #     end)
-  #     |> assign(:execution_id, execution.id)
-
-  #   IO.inspect(socket.assigns, label: "socket.assigns")
-  #   socket
-  # end
-
   @impl true
   def handle_params(params, uri, socket) do
-    # Called after push_patch, no action needed as state is already updated
     Logger.info("handle_params: params: #{inspect(params)}, uri: #{inspect(uri)}")
     {:noreply, socket}
   end
@@ -243,27 +191,34 @@ defmodule DemoWeb.Live.Home.Index do
       # Subscribe to PubSub for updates
       :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{new_execution.id}")
 
-      # Get flow analytics if not already loaded
-      flow_analytics =
-        socket.assigns[:flow_analytics] ||
-          Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
+      Logger.info("create_execution_if_needed: created a new execution #{new_execution.id}")
 
-      # Get graph mermaid if not already loaded
-      graph_mermaid =
-        socket.assigns[:graph_mermaid] ||
-          Journey.Tools.generate_mermaid_graph(graph)
-
-      # Update socket with execution state and push URL update
       socket
       |> assign(:execution_id, new_execution.id)
-      |> assign(:flow_analytics, flow_analytics)
-      |> assign(:graph_mermaid, graph_mermaid)
       |> refresh_execution_state(new_execution)
       |> push_patch(to: "/s/#{new_execution.id}")
     else
       # Execution already exists, do nothing
       socket
     end
+  end
+
+  defp set_system_stats_if_needed(socket) do
+    # Get flow analytics if not already loaded
+    graph = Demo.HoroscopeGraph.graph()
+
+    flow_analytics =
+      socket.assigns[:flow_analytics] ||
+        Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
+
+    # Get graph mermaid if not already loaded
+    graph_mermaid =
+      socket.assigns[:graph_mermaid] ||
+        Journey.Tools.generate_mermaid_graph(graph)
+
+    socket
+    |> assign(:flow_analytics, flow_analytics)
+    |> assign(:graph_mermaid, graph_mermaid)
   end
 
   # Centralized function to refresh execution state in socket
