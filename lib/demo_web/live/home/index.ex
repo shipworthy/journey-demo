@@ -265,7 +265,7 @@ defmodule DemoWeb.Live.Home.Index do
           computation_or_value: :computation,
           node_name: node_name,
           node_type: node_type,
-          ex_revision_at_completion: revision
+          revision: revision
         } ->
           acc ++ [{revision, "computation `#{node_name}` (#{inspect(node_type)}) completed"}]
 
@@ -273,12 +273,13 @@ defmodule DemoWeb.Live.Home.Index do
           computation_or_value: :value,
           node_name: node_name,
           value: value,
-          ex_revision_at_completion: revision
+          revision: revision
         } ->
           formatted_value = format_history_value(value)
           acc ++ [{revision, "value `#{node_name}` was set (#{formatted_value})"}]
 
         _ ->
+          Logger.warning("format_history: unexpected entry: #{inspect(entry)}")
           acc
       end
     end)
