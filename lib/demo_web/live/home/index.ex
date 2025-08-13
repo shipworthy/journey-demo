@@ -71,9 +71,10 @@ defmodule DemoWeb.Live.Home.Index do
   def handle_event("on-dev-show-more-click", _params, socket) do
     socket = create_execution_if_needed(socket)
 
-    execution = Journey.load(socket.assigns.execution_id)
-    current_value = Map.get(Journey.values(execution), :dev_show_more, false)
-    updated_execution = Journey.set_value(execution, :dev_show_more, !current_value)
+    current_value = Map.get(socket.assigns.values, :dev_show_more, false)
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :dev_show_more, !current_value)
 
     socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
@@ -122,12 +123,8 @@ defmodule DemoWeb.Live.Home.Index do
     if !Map.has_key?(socket.assigns.values, field_atom) and parsed_value == "" do
       {:noreply, socket}
     else
-      # Load execution, set the value, and reload to get updated values
-      execution = Journey.load(socket.assigns.execution_id)
-      updated_execution = Journey.set_value(execution, field_atom, parsed_value)
-
+      updated_execution = Journey.set_value(socket.assigns.execution_id, field_atom, parsed_value)
       socket = refresh_execution_state(socket, updated_execution)
-
       {:noreply, socket}
     end
   end
@@ -142,15 +139,11 @@ defmodule DemoWeb.Live.Home.Index do
 
     field_atom = String.to_existing_atom(field)
 
-    execution = Journey.load(socket.assigns.execution_id)
-
     updated_execution =
       if value == "" do
-        # TODO: update this after publishing the change in journey.
-        # Journey.unset_value(execution, field_atom)
-        Journey.set_value(execution, field_atom, value)
+        Journey.unset_value(socket.assigns.execution_id, field_atom)
       else
-        Journey.set_value(execution, field_atom, value)
+        Journey.set_value(socket.assigns.execution_id, field_atom, value)
       end
 
     socket = refresh_execution_state(socket, updated_execution)
@@ -161,8 +154,7 @@ defmodule DemoWeb.Live.Home.Index do
   # Shared helper for applying toggle values
   defp apply_toggle_value(socket, field_name, bool_value) do
     Logger.info("toggle value: #{bool_value}, field: #{field_name}")
-    execution = Journey.load(socket.assigns.execution_id)
-    updated_execution = Journey.set_value(execution, field_name, bool_value)
+    updated_execution = Journey.set_value(socket.assigns.execution_id, field_name, bool_value)
     refresh_execution_state(socket, updated_execution)
   end
 
@@ -224,7 +216,7 @@ defmodule DemoWeb.Live.Home.Index do
   # Centralized function to refresh execution state in socket
   # Always refreshes all execution data for simplicity
   defp refresh_execution_state(socket, execution) do
-    execution_history = Journey.Executions.history(execution.id) |> format_history()
+    execution_history = Journey.history(execution.id) |> format_history()
 
     socket
     |> assign(:values, Journey.values(execution))
@@ -273,7 +265,7 @@ defmodule DemoWeb.Live.Home.Index do
           computation_or_value: :computation,
           node_name: node_name,
           node_type: node_type,
-          ex_revision_at_completion: revision
+          revision: revision
         } ->
           acc ++ [{revision, "computation `#{node_name}` (#{inspect(node_type)}) completed"}]
 
@@ -281,12 +273,13 @@ defmodule DemoWeb.Live.Home.Index do
           computation_or_value: :value,
           node_name: node_name,
           value: value,
-          ex_revision_at_completion: revision
+          revision: revision
         } ->
           formatted_value = format_history_value(value)
           acc ++ [{revision, "value `#{node_name}` was set (#{formatted_value})"}]
 
         _ ->
+          Logger.warning("format_history: unexpected entry: #{inspect(entry)}")
           acc
       end
     end)
