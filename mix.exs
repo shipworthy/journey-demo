@@ -39,7 +39,7 @@ defmodule Demo.MixProject do
     [
       # {:journey, "~> 0.10.13", organization: "shipworthy"},
       # {:journey, path: "/Users/markmark/src/j/j2"},
-      {:journey, git: "git@github.com:markmark206/journey.git", tag: "v0.10.15"},
+      {:journey, git: "git@github.com:markmark206/journey.git", tag: "v0.10.18"},
       {:phoenix, "~> 1.7.21"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
