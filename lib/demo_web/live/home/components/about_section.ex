@@ -79,7 +79,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             <div class={Classes.dev_bulletpoint()}>
               * this app uses
               <a
-                href="https://shipworthy.hexdocs.pm/journey"
+                href="https://hexdocs.pm/journey"
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >
@@ -100,6 +100,19 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >here</a>.
+            </div>
+            <div class={Classes.dev_paragraph()}>
+              Fun fact: the state of each of the
+              <span class="font-sans font-semibold">"Devs: ..."</span>
+              toggles on this page is also persisted in the
+              <a
+                href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
+                target="_blank"
+                class="text-blue-600 hover:underline"
+              >
+                Journey Graph
+              </a>
+              and survives page reloads, deployments, and reboots.
             </div>
           </div>
         </div>
