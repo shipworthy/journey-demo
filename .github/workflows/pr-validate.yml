@@ -18,10 +18,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_JOURNEY_REPO }}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -57,9 +53,6 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_JOURNEY_REPO }}
       - name: Install OTP and Elixir
         uses: erlef/setup-beam@v1
         with:
