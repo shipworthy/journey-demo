@@ -175,10 +175,10 @@ defmodule Demo.HoroscopeGraph do
     # validate name format, check for profanity, etc.
     case String.downcase(String.trim(name)) do
       "bowser" ->
-        {:ok, :bad_bad_bad}
+        {:ok, "no horoscope for Bowser!"}
 
       _ ->
-        {:ok, :valid}
+        {:ok, "not bowser"}
     end
   end
 

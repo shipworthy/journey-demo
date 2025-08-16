@@ -17,13 +17,13 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             Elements of Functionality
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Once you start your session, the URL in your browser includes the session's ID. Example:
+            * Once you start interacting with the page, the URL in your browser changes to include session's ID. Example:
             <a href={"/s/#{@execution_id}"} target="_blank" class="text-blue-600 hover:underline">
               {"/s/#{@execution_id}"}
             </a>
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure.
+            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure. No, really – try reloading the page – notice that this text remains expanded.
           </div>
           <div class={Classes.dev_bulletpoint()}>
             * If your name is "Bowser", you can't use the app, sorry. ;)
