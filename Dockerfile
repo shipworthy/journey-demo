@@ -28,8 +28,6 @@ RUN apt-get update -y && apt-get install -y build-essential openssh-client git \
 RUN mkdir -p -m 0700 ~/.ssh && \
     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-RUN --mount=type=ssh git clone git@github.com:markmark206/journey.git deps/journey
-
 # prepare build dir
 WORKDIR /app
 
@@ -42,7 +40,7 @@ ENV MIX_ENV="prod"
 
 # install mix dependencies
 COPY mix.exs mix.lock ./
-RUN --mount=type=ssh mix deps.get --only $MIX_ENV
+RUN mix deps.get --only $MIX_ENV
 RUN mkdir config
 
 # copy compile-time config files before we compile dependencies
