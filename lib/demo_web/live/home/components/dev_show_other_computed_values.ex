@@ -40,21 +40,6 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
 
       <div class="space-y-4">
         <div>
-          <label class={Classes.label()}>name_validation</label>
-          <div
-            id="output-name-validation-id"
-            class={Classes.read_only_value(Map.has_key?(@values, :name_validation))}
-          >
-            {Map.get(@values, :name_validation, "not set")}
-          </div>
-          <ComputationState.render
-            execution_id={@execution_id}
-            node_name={:name_validation}
-            computation_states={@computation_states}
-          />
-        </div>
-
-        <div>
           <label class={Classes.label()}>weekly_reminder_schedule</label>
           <div class={Classes.read_only_value(Map.has_key?(@values, :weekly_reminder_schedule))}>
             {format_timestamp(Map.get(@values, :weekly_reminder_schedule))}

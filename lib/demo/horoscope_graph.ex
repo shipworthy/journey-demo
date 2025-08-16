@@ -164,7 +164,7 @@ defmodule Demo.HoroscopeGraph do
   end
 
   defp name_is_valid?(validation_node) do
-    validation_node.node_value == "valid"
+    validation_node.node_value == "not bowser"
   end
 
   # === Business Logic Functions ===
@@ -175,10 +175,10 @@ defmodule Demo.HoroscopeGraph do
     # validate name format, check for profanity, etc.
     case String.downcase(String.trim(name)) do
       "bowser" ->
-        {:ok, :bad_bad_bad}
+        {:ok, "no horoscope for Bowser!"}
 
       _ ->
-        {:ok, :valid}
+        {:ok, "not bowser"}
     end
   end
 

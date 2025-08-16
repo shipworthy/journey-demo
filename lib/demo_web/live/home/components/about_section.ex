@@ -17,13 +17,13 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             Elements of Functionality
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Once you start your session, the URL in your browser includes the session's ID. Example:
+            * Once you start interacting with the page, the URL in your browser changes to include session's ID. Example:
             <a href={"/s/#{@execution_id}"} target="_blank" class="text-blue-600 hover:underline">
               {"/s/#{@execution_id}"}
             </a>
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure.
+            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure. No, really – try reloading the page – notice that this text remains expanded.
           </div>
           <div class={Classes.dev_bulletpoint()}>
             * If your name is "Bowser", you can't use the app, sorry. ;)
@@ -79,7 +79,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             <div class={Classes.dev_bulletpoint()}>
               * this app uses
               <a
-                href="https://shipworthy.hexdocs.pm/journey"
+                href="https://hexdocs.pm/journey"
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >
@@ -100,6 +100,19 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >here</a>.
+            </div>
+            <div class={Classes.dev_paragraph()}>
+              Fun fact: the state of each of the
+              <span class="font-sans font-semibold">"Devs: ..."</span>
+              toggles on this page is also persisted in the
+              <a
+                href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
+                target="_blank"
+                class="text-blue-600 hover:underline"
+              >
+                Journey Graph
+              </a>
+              and survives page reloads, deployments, and reboots.
             </div>
           </div>
         </div>

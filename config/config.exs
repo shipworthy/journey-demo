@@ -53,7 +53,7 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
-config :journey, log_level: :info
+config :journey, log_level: :warning
 
 config :journey, :graphs, [
   &Demo.HoroscopeGraph.graph/0
