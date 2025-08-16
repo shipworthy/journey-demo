@@ -261,13 +261,6 @@
       <div class="space-y-4">
         <div>
           <div>
-            <div
-              :if={Map.get(@values, :name_validation, "") == "bad_bad_bad"}
-              class="border-2 border-red-500 text-red-500 p-2 my-2 rounded-lg bg-red-50"
-            >
-              No horoscope for Bowser!
-            </div>
-
             <label class={Classes.label()}>name_validation</label>
             <div
               id="output-name-validation-id"
