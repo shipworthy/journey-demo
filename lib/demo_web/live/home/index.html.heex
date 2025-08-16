@@ -260,6 +260,31 @@
 
       <div class="space-y-4">
         <div>
+          <div>
+            <div
+              :if={Map.get(@values, :name_validation, "") == "bad_bad_bad"}
+              class="border-2 border-red-500 text-red-500 p-2 my-2 rounded-lg bg-red-50"
+            >
+              No horoscope for Bowser!
+            </div>
+
+            <label class={Classes.label()}>name_validation</label>
+            <div
+              id="output-name-validation-id"
+              class={
+              Classes.read_only_value(Map.has_key?(@values, :name_validation)) <> 
+              if(Map.get(@values, :name_validation, "") == "no horoscope for Bowser!", do: " text-red-500 border-red-500", else: "")
+            }
+            >
+              {Map.get(@values, :name_validation, "not set")}
+            </div>
+            <ComputationState.render
+              :if={Map.get(@values, :dev_show_computation_states, false)}
+              execution_id={@execution_id}
+              node_name={:name_validation}
+              computation_states={@computation_states}
+            />
+          </div>
           <label class={Classes.label()}>zodiac_sign</label>
           <div
             id="output-zodiac-sign-id"
