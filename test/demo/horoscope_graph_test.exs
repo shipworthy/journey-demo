@@ -12,7 +12,7 @@ defmodule Demo.HoroscopeGraphTest do
 
       # Wait for the computation to complete and check the result
       assert Journey.get_value(execution, :name_validation, wait_new: true) ==
-               {:ok, "bad_bad_bad"}
+               {:ok, "no horoscope for Bowser!"}
     end
   end
 

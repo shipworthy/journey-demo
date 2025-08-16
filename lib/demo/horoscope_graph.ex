@@ -164,7 +164,7 @@ defmodule Demo.HoroscopeGraph do
   end
 
   defp name_is_valid?(validation_node) do
-    validation_node.node_value == "valid"
+    validation_node.node_value == "not bowser"
   end
 
   # === Business Logic Functions ===
