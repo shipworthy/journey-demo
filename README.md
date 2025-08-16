@@ -3,26 +3,26 @@
 
 ## Summary
 
-This simple Elixir Phoenix Liveview Horoscopes web application demonstrates using [Journey](https://hex.pm/packages/journey).
+This simple Elixir Phoenix Liveview Horoscopes web application demonstrates the use of [Journey](https://hex.pm/packages/journey) for a simpler implementation.
 
 You can see this application running at https://demo.gojourney.dev/
 
-THe application prompts the user for some inputs (name, birthday, pet preferences), validates the data (is the user's name "Bowser"?), computes the results as the data becomes available (zodiac sign, horoscope, "emailing" the horoscope to the user), and schedules recurring actions for the future (weekly horoscope "emails"). The session will also archive itself after a two weeks of inactivity. The application also gives the user some UI toggles, to get some insights into what happens behind the scenes.  
+The application prompts the user for some inputs (name, birthday, pet preferences), validates the data (is the user's name "Bowser"?), computes the results as the data becomes available (zodiac sign, horoscope, "emailing" the horoscope to the user), and schedules recurring actions for the future (weekly horoscope "emails"). The session will also archive itself after two weeks of inactivity. The application also gives the user some UI toggles, to get some insights into what happens behind the scenes.  
 
 The application uses Journey to define its flow – inputs and computations, and their dependencies.
 
-The application also uses Journey for creating and executing instance of that flow – from the moment the user engages with the page, at which point the id of the execution becomes part of the URL. 
+The application also uses Journey for creating and executing an instance of that flow – from the moment the user engages with the page, at which point the id of the execution becomes part of the URL. 
 
 The application also uses Journey for persisting user-provided and computed data points.
 
-The application also uses Journey for persisting the state of the toggles in the UI -- the user's selection is preserved across page reloads. 
+The application also uses Journey for persisting the state of UI toggles -- the user's selection is preserved across page reloads. 
 
 The application also uses Journey to get some analytics about the state of the flow, and the visual representation of the graph itself.
 
 
 ## Running the app
 
-To clone and run the application (assuming you already have elixir installed). THe sequence gives yu the option of running a postgres db in a container.
+To clone and run the application (assuming you already have elixir installed). The sequence gives you the option of running a Postgres DB in a container.
 
 ```
 ~/src $ git clone git@github.com:shipworthy/journey-demo.git
@@ -40,7 +40,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser an
 
 ## Learn more
 
-  * see this running live https://demo.gojourney.dev
+  * See this application running live: https://demo.gojourney.dev
   * Journey documentation: https://hexdocs.pm/journey/Journey.html
   * Journey source code: https://github.com/markmark206/journey
   * About Journey: https://gojourney.dev
