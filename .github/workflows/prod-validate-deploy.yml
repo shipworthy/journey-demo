@@ -39,7 +39,6 @@ jobs:
       run: |-
         DOCKER_BUILDKIT=1 docker build \
           --build-arg COMMIT_SHA=${{ github.sha }} \
-          --ssh default \
           --tag "${{ env.GOOGLE_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GOOGLE_ARTIFACT_REGISTRY_NAME }}/${{ env.SERVICE }}:${{ github.sha }}" \
           ./
 
@@ -47,7 +46,7 @@ jobs:
       run: |-
         # push image to the registry.
         docker push "${{ env.GOOGLE_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GOOGLE_ARTIFACT_REGISTRY_NAME }}/${{ env.SERVICE }}:${{ github.sha }}"
-        docker build --build-arg COMMIT_SHA=${{ github.sha }} --ssh default -t "${{ env.GOOGLE_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GOOGLE_ARTIFACT_REGISTRY_NAME }}/${{ env.SERVICE }}:${{ env.LATEST_TAG }}" ./
+        docker build --build-arg COMMIT_SHA=${{ github.sha }} -t "${{ env.GOOGLE_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GOOGLE_ARTIFACT_REGISTRY_NAME }}/${{ env.SERVICE }}:${{ env.LATEST_TAG }}" ./
         docker push "${{ env.GOOGLE_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GOOGLE_ARTIFACT_REGISTRY_NAME }}/${{ env.SERVICE }}:${{ env.LATEST_TAG }}"
 
 
