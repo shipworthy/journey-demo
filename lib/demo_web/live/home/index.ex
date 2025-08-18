@@ -204,6 +204,11 @@ defmodule DemoWeb.Live.Home.Index do
       socket.assigns[:flow_analytics] ||
         Journey.Insights.FlowAnalytics.flow_analytics(graph.name, graph.version)
 
+    # Generate Journey's text representation
+    flow_analytics_text =
+      socket.assigns[:flow_analytics_text] ||
+        Journey.Insights.FlowAnalytics.to_text(flow_analytics)
+
     # Get graph mermaid if not already loaded
     graph_mermaid =
       socket.assigns[:graph_mermaid] ||
@@ -211,6 +216,7 @@ defmodule DemoWeb.Live.Home.Index do
 
     socket
     |> assign(:flow_analytics, flow_analytics)
+    |> assign(:flow_analytics_text, flow_analytics_text)
     |> assign(:graph_mermaid, graph_mermaid)
   end
 

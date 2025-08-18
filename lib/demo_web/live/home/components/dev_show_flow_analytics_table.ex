@@ -18,7 +18,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_flow_analytics_table, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> See Flow Analytics Table</span>
+        <span><Gear.render /> See Flow Analytics Text</span>
       </div>
     </div>
 
@@ -26,7 +26,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
       :if={@flow_analytics && Map.get(@values, :dev_show_flow_analytics_table, false)}
       id="section-flow-analytics-table-id"
     >
-      <FlowAnalytics.render flow_analytics={@flow_analytics} />
+      <FlowAnalytics.render
+        flow_analytics={@flow_analytics}
+        flow_analytics_text={@flow_analytics_text}
+      />
     </div>
     """
   end
