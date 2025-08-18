@@ -13,8 +13,7 @@ env:
   GOOGLE_ARTIFACT_REGISTRY_LOCATION: ${{ secrets.GCP_REGION }}
   GOOGLE_ARTIFACT_REGISTRY_NAME: docker-images
   SERVICE: journey-demo-prod
-  REGION: us-west3
-  # ${{ secrets.GCP_REGION }}
+  REGION: ${{ secrets.GCP_REGION }}
   LATEST_TAG: prod_latest
 
 jobs:
@@ -91,7 +90,7 @@ jobs:
         env:
           MIX_ENV: test
           COMMIT_SHA: ${{ github.sha }}
-        run: make format-check
+        run: make format-check lint
       - name: Test
         env:
           MIX_ENV: test
