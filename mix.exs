@@ -46,6 +46,7 @@ defmodule Demo.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:phoenix_live_view, "~> 1.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:lazy_html, "~> 0.1.6", only: :test},

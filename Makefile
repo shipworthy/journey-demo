@@ -54,6 +54,10 @@ format-check:
 	mix format --check-formatted
 
 
+lint:
+	mix credo --all --strict
+
+
 run-dev:
 	mix compile --warnings-as-errors
 	mix assets.build
