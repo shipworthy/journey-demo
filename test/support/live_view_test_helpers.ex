@@ -89,11 +89,7 @@ defmodule DemoWeb.LiveViewTestHelpers do
     max_attempts = div(timeout, interval)
 
     Enum.reduce_while(1..max_attempts, false, fn _attempt, _ ->
-      # Ensure all pending messages (including PubSub) are processed
-      # This is critical for LiveViews that receive async updates via handle_info
       html = render(lv)
-
-      # Parse the HTML properly - it might be coming as a string that needs parsing
       parsed_html = Floki.parse_document!(html)
 
       found =
@@ -102,11 +98,12 @@ defmodule DemoWeb.LiveViewTestHelpers do
             false
 
           elements ->
-            text = Floki.text(elements) |> String.trim()
+            el_value = Floki.text(elements) |> String.trim()
 
+            # credo:disable-for-next-line Credo.Check.Refactor.Nesting
             case expected_text do
-              %Regex{} = regex -> text =~ regex
-              string -> text == string || text =~ string
+              %Regex{} = regex -> el_value =~ regex
+              string -> el_value == string || el_value =~ string
             end
         end
 
@@ -134,12 +131,13 @@ defmodule DemoWeb.LiveViewTestHelpers do
             false
 
           elements ->
-            value =
+            el_value =
               Floki.attribute(elements, "value") |> List.first() |> to_string() |> String.trim()
 
+            # credo:disable-for-next-line Credo.Check.Refactor.Nesting
             case expected_value do
-              %Regex{} = regex -> value =~ regex
-              string -> value == string
+              %Regex{} = regex -> el_value =~ regex
+              string -> el_value == string
             end
         end
 

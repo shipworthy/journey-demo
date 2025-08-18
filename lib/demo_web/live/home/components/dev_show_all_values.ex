@@ -1,7 +1,7 @@
 defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.Gear
 

@@ -1,9 +1,7 @@
 defmodule DemoWeb.Live.Home.Index do
-  use DemoWeb, :live_view
-
   @moduledoc false
 
-  require Logger
+  use DemoWeb, :live_view
 
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.AboutSection
@@ -15,6 +13,8 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
   alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
   alias DemoWeb.Live.Home.Components.Gear
+
+  require Logger
 
   @impl true
   def mount(%{"execution_id" => execution_id} = _params, _session, socket) do
