@@ -1,9 +1,10 @@
 defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.FlowAnalytics
+  alias DemoWeb.Live.Home.Components.Gear
 
   def render(assigns) do
     ~H"""
@@ -17,7 +18,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_flow_analytics_table, false), do: "▲", else: "▼"}
         </span>
-        <span>Devs: See Flow Analytics Table</span>
+        <span><Gear.render /> See Flow Analytics Table</span>
       </div>
     </div>
 

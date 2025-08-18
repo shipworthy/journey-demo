@@ -182,6 +182,7 @@ defmodule Demo.HoroscopeGraph do
     end
   end
 
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   def compute_zodiac_sign(%{birth_month: month, birth_day: day}) do
     Logger.info("Journey compute_zodiac_sign called: month=#{month}, day=#{day}")
     # In production, this would use a proper astrological calculation

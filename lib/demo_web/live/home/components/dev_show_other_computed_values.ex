@@ -1,9 +1,10 @@
 defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.ComputationState
+  alias DemoWeb.Live.Home.Components.Gear
 
   # Helper function to format timestamp fields
   defp format_timestamp(nil), do: "not set"
@@ -27,7 +28,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_other_computed_values, false), do: "▲", else: "▼"}
         </span>
-        <span>Devs: See All Other Computed Values</span>
+        <span><Gear.render /> See All Other Computed Values</span>
       </div>
     </div>
 

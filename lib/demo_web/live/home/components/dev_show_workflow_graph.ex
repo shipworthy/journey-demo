@@ -1,8 +1,9 @@
 defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.Gear
 
   def render(assigns) do
     ~H"""
@@ -16,7 +17,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_workflow_graph, false), do: "▲", else: "▼"}
         </span>
-        <span>Devs: See Workflow Graph Definition (Mermaid)</span>
+        <span><Gear.render /> See Workflow Graph Definition (Mermaid)</span>
       </div>
     </div>
 

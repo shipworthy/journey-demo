@@ -1,8 +1,9 @@
 defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.Gear
 
   def render(assigns) do
     ~H"""
@@ -15,7 +16,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_journey_execution_summary, false), do: "▲", else: "▼"}
         </span>
-        <span>Devs: See Journey Execution Summary</span>
+        <span><Gear.render /> See Journey Execution Summary</span>
       </div>
     </div>
 
