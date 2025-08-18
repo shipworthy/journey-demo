@@ -3,6 +3,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
 
   @moduledoc false
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.Gear
 
   def render(assigns) do
     ~H"""
@@ -15,7 +16,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_all_values, false), do: "▲", else: "▼"}
         </span>
-        <span>Devs: See All Values (raw data)</span>
+        <span><Gear.render /> See All Values (raw data)</span>
       </div>
     </div>
 
