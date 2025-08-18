@@ -3,6 +3,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
 
   @moduledoc false
   alias DemoWeb.Live.Classes
+  alias DemoWeb.Live.Home.Components.Gear
 
   def render(assigns) do
     ~H"""
@@ -102,9 +103,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               >here</a>.
             </div>
             <div class={Classes.dev_paragraph()}>
-              Fun fact: the state of each of the
-              <span class="font-sans font-semibold">"Devs: ..."</span>
-              toggles on this page is also persisted in the
+              Fun fact: the state of each of the "<Gear.render />" toggles on this page is persisted in the
               <a
                 href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
                 target="_blank"
@@ -121,14 +120,14 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
           class="my-2 text-blue-600"
           phx-click="on-dev-show-more-click"
         >
-          Show more <span>▼</span>
+          <Gear.render /> Show more <span>▼</span>
         </div>
         <div
           :if={Map.get(@values, :dev_show_more, false)}
           class="my-2 text-blue-600"
           phx-click="on-dev-show-more-click"
         >
-          Show less <span>▲</span>
+          <Gear.render /> Show less <span>▲</span>
         </div>
       </div>
     </div>

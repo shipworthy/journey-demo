@@ -14,6 +14,7 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Home.Components.DevShowOtherComputedValues
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
   alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
+  alias DemoWeb.Live.Home.Components.Gear
 
   @impl true
   def mount(%{"execution_id" => execution_id} = _params, _session, socket) do
