@@ -1,4 +1,6 @@
 defmodule DemoWeb.Live.Classes do
+  @moduledoc false
+
   # Home page classes (starting)
 
   # Home page classes (ending)

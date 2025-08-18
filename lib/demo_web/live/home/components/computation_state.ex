@@ -1,7 +1,7 @@
 defmodule DemoWeb.Live.Home.Components.ComputationState do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
   alias DemoWeb.Live.Classes
 
   def render(assigns) do

@@ -1,7 +1,7 @@
 defmodule DemoWeb.Live.Home.Components.Gear do
-  use Phoenix.Component
-
   @moduledoc false
+
+  use Phoenix.Component
 
   def render(assigns) do
     ~H"""
