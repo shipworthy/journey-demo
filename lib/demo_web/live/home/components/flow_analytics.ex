@@ -2,12 +2,22 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalytics do
   @moduledoc false
 
   use Phoenix.Component
+  alias DemoWeb.Live.Classes
+
+  attr :flow_analytics, :map, required: true
+  attr :flow_analytics_text, :string, default: nil
 
   def render(assigns) do
     ~H"""
     <div id="flow-analytics-table" class="mt-2 p-4 bg-white border rounded">
       <div class="space-y-4">
-        <!-- Overview Stats -->
+        <!-- Journey Text Representation -->
+        <div :if={@flow_analytics_text}>
+          <h4 class="font-semibold text-md mb-2">Journey Text Output</h4>
+          <pre class={Classes.debug_pre()}><%= "iex> g = Demo.HoroscopeGraph.graph()\niex> Journey.Insights.FlowAnalytics.flow_analytics(g.name, g.version) |> Journey.Insights.FlowAnalytics.to_text()\n\n#{@flow_analytics_text}" %></pre>
+        </div>
+        
+    <!-- Overview Stats -->
         <div class="bg-gray-50 p-3 rounded">
           <h4 class="font-semibold text-md mb-2">
             Overview: {@flow_analytics.graph_name} ({@flow_analytics.graph_version})
