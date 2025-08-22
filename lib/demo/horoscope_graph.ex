@@ -40,10 +40,7 @@ defmodule Demo.HoroscopeGraph do
         compute(
           :name_validation,
           [:name],
-          &keep_bowser_out/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :name_validation, result)
-          end
+          &keep_bowser_out/1
         ),
 
         # === Zodiac Computation ===
@@ -57,24 +54,14 @@ defmodule Demo.HoroscopeGraph do
               {:name_validation, &name_is_valid?/1}
             ]
           }),
-          &compute_zodiac_sign/1,
-          f_on_save: fn execution_id, result ->
-            Logger.info(
-              "Journey f_on_save called for zodiac_sign: execution_id=#{execution_id}, result=#{inspect(result)}"
-            )
-
-            notify(execution_id, :zodiac_sign, result)
-          end
+          &compute_zodiac_sign/1
         ),
 
         # === Horoscope Generation ===
         compute(
           :horoscope,
           [:zodiac_sign, :pet_preference, :name],
-          &generate_horoscope/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :horoscope, result)
-          end
+          &generate_horoscope/1
         ),
 
         # === Data Mutation (Privacy) ===
@@ -83,20 +70,14 @@ defmodule Demo.HoroscopeGraph do
           # Only anonymize after validation passes
           [:name_validation],
           &anonymize_name_value/1,
-          mutates: :name,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :anonymize_name, result)
-          end
+          mutates: :name
         ),
 
         # === Email Horoscope ===
         compute(
           :email_horoscope,
           [:horoscope, :email_address, :name],
-          &send_horoscope_email/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :email_horoscope, result)
-          end
+          &send_horoscope_email/1
         ),
 
         # === Weekly Reminder Scheduling ===
@@ -109,10 +90,7 @@ defmodule Demo.HoroscopeGraph do
               {:horoscope, &provided?/1}
             ]
           }),
-          &schedule_weekly_reminders/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :weekly_reminder_schedule, result)
-          end
+          &schedule_weekly_reminders/1
         ),
 
         # === Send Weekly Reminder ===
@@ -127,27 +105,18 @@ defmodule Demo.HoroscopeGraph do
             ]
           }),
           # [:weekly_reminder_schedule, :email_address, :name],
-          &send_weekly_reminder_email/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :send_weekly_reminder, result)
-          end
+          &send_weekly_reminder_email/1
         ),
 
         # === Auto-archive after 2 weeks of inactivity ===
         schedule_once(
           :schedule_archive,
           [:last_updated_at],
-          &schedule_archive_time/1,
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :schedule_archive, result)
-          end
+          &schedule_archive_time/1
         ),
         archive(
           :auto_archive,
-          [:schedule_archive],
-          f_on_save: fn execution_id, result ->
-            notify(execution_id, :auto_archive, result)
-          end
+          [:schedule_archive]
         ),
         input(:dev_show_execution_history),
         input(:dev_show_computation_states),
@@ -159,7 +128,10 @@ defmodule Demo.HoroscopeGraph do
         input(:dev_show_workflow_graph),
         input(:dev_show_other_computed_values),
         input(:dev_show_more)
-      ]
+      ],
+      f_on_save: fn execution_id, node_name, result ->
+        notify(execution_id, node_name, result)
+      end
     )
   end
 
