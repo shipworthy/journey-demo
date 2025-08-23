@@ -1,6 +1,5 @@
 # Horoscopes Website – Journey Demo Application
 
-
 ## Summary
 
 This simple Elixir Phoenix Liveview Horoscopes web application demonstrates the use of [Journey](https://hex.pm/packages/journey) for a simpler implementation.
