@@ -199,7 +199,7 @@ defmodule Demo.HoroscopeGraph do
     pet_modifier = get_pet_modifier(pet_pref)
 
     horoscope =
-      "#{base_horoscope} #{pet_modifier} This cosmic wisdom is specifically calibrated for #{String.first(name)}****."
+      "#{base_horoscope} #{pet_modifier} This cosmic wisdom was code-crafted for #{String.first(name)}****."
 
     {:ok, horoscope}
   end
@@ -233,16 +233,12 @@ defmodule Demo.HoroscopeGraph do
   end
 
   def anonymize_name_value(%{name: name}) do
-    # In production, this might be more sophisticated PII handling
-    # following GDPR, CCPA, or other privacy regulations
     case String.length(name) do
       0 ->
         {:ok, ""}
 
-      1 ->
-        {:ok, "*"}
-
       len ->
+        len = max(len, 2)
         first_char = String.first(name)
         asterisks = String.duplicate("*", len - 1)
         {:ok, first_char <> asterisks}
@@ -260,42 +256,40 @@ defmodule Demo.HoroscopeGraph do
   defp get_base_horoscope(sign) do
     # Hardcoded funny horoscopes for demo purposes
     horoscopes = %{
-      "Aries" => "Your fiery energy will combust a small appliance today.",
-      "Taurus" => "The stars suggest you should eat more cheese. The stars are very wise.",
-      "Gemini" => "You will have two conversations at once and confuse yourself magnificently.",
-      "Cancer" => "Your shell is showing. Consider wearing a better disguise.",
-      "Leo" => "Today you will roar at something inappropriate. Own it.",
-      "Virgo" =>
-        "Your perfectionism will be tested by a crooked picture frame that haunts your dreams.",
-      "Libra" => "The cosmic scales are unbalanced. Blame Mercury, not your poor life choices.",
-      "Scorpio" => "Your mysterious aura will mystify a cashier at the grocery store.",
-      "Sagittarius" => "Adventure calls, but so does your couch. The couch will win.",
-      "Capricorn" =>
-        "Your mountain-climbing spirit will be challenged by a particularly steep curb.",
+      "Aries" => "Tomorrow, someone will think of you and smile.",
+      "Taurus" => "The stars suggest treating yourself to a lovely meal and/or a walk.",
+      "Gemini" => "This is a great week to write your promises on stickies.",
+      "Cancer" => "An old friend is wondering how you are, would love to hear from you.",
+      "Leo" => "Something delightful will happen this week. Keep your eyes open.",
+      "Virgo" => "Someone will be thinking of you fondly.",
+      "Libra" => "This week you will make some great choices.",
+      "Scorpio" => "The cashier that rung you up thought you were delightful.",
+      "Sagittarius" => "This week, you and your word will become closer friends.",
+      "Capricorn" => "This week, you will choose something that you will then love.",
       "Aquarius" =>
-        "Your unique perspective will confuse three people and enlighten a houseplant.",
-      "Pisces" => "You will swim upstream today, metaphorically speaking. Probably."
+        "There is a grateful houseplant out there that would not exist if not for you.",
+      "Pisces" => "This is a good week to be home, wherever you actually are."
     }
 
-    Map.get(horoscopes, sign, "The universe has mixed feelings about you today.")
+    Map.get(horoscopes, sign, "The universe is delighted you are here.")
   end
 
   defp get_pet_modifier(preference) do
     case preference do
       "cats" ->
-        "A feline will judge you silently but approvingly."
+        "A curious kitty will side-glance at you approvingly."
 
       "dogs" ->
-        "A canine's enthusiasm will briefly restore your faith in existence."
+        "There are 8 dogs in your vicinity that would like to play with you."
 
       "both" ->
-        "The eternal cat-dog conflict within your soul will reach a temporary ceasefire."
+        "Dogs are happy that you exist. (Cats, too, but they'll never actually say it.)"
 
       "neither" ->
-        "Your lack of pet preference disturbs the cosmic pet balance. Consider a houseplant."
+        "Dogs have questions. Cats are wondering. Houseplants are excited."
 
       _ ->
-        "The universe questions your pet-related decision-making abilities."
+        "The universe likes your unique perspective on pets."
     end
   end
 end
