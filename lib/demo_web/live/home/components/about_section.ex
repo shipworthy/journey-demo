@@ -9,7 +9,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
     ~H"""
     <div id="about-id" class={" my-4 " <> Classes.debug_info()}>
       <div class={Classes.dev_paragraph()}>
-        This web application computes your horoscope based on your name, birth date and your pet preferences.
+        This web application computes your horoscope based on your name (unless your name is "Bowser"), birth date and your pet preferences.
       </div>
       <div class={Classes.dev_paragraph()}>
         This app is also an interactive technical demo. If you are an engineer or just curious, see what is happening
