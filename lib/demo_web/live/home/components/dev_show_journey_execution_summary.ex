@@ -16,7 +16,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_journey_execution_summary, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> See Journey Execution Summary</span>
+        <span>
+          <Gear.render checked={Map.get(@values, :dev_show_journey_execution_summary, false)} />
+          Journey Execution Summary
+        </span>
       </div>
     </div>
 
@@ -25,7 +28,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
       id="section-execution-summary-id"
       class=""
     >
-      <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
+      <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize_as_text() |> IO.puts()\n#{@execution_summary}" %></pre>
     </div>
     """
   end

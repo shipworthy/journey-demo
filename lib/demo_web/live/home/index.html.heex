@@ -3,7 +3,10 @@
 
   <AboutSection.render values={@values} execution_id={@execution_id} />
 
-  <div class="flex items-center bg-blue-50 p-4 rounded-lg">
+  <div
+    :if={Map.get(@values, :dev_show_more, false)}
+    class="flex items-center bg-blue-50 p-4 rounded-lg"
+  >
     <form
       id="form-dev-show-execution-history-id"
       phx-value-toggle_field_name="dev_show_execution_history"
@@ -18,7 +21,8 @@
         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
       />
       <label for="dev_show_execution_history-id" class="ml-2 inline-block text-sm text-gray-700">
-        <Gear.render /> See Execution History
+        <Gear.render checked={Map.get(@values, :dev_show_execution_history, false)} />
+        Execution History
       </label>
     </form>
   </div>
@@ -233,9 +237,12 @@
     </div>
 
     <div :if={@connected?} id="section-computed-results-id" class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Your Computed Results</h2>
+      <h2 class="text-xl font-semibold mb-4">Your Results</h2>
 
-      <div class="my-4 flex items-center bg-blue-50 p-4 rounded-lg">
+      <div
+        :if={Map.get(@values, :dev_show_more, false)}
+        class="my-4 flex items-center bg-blue-50 p-4 rounded-lg"
+      >
         <form
           id="form-dev-show-computation-states-id"
           phx-value-toggle_field_name="dev_show_computation_states"
@@ -253,7 +260,8 @@
             for="dev_show_computation_states-id"
             class="ml-2 inline-block text-sm text-gray-700"
           >
-            <Gear.render /> See Upstream Dependencies for Each Computation
+            <Gear.render checked={Map.get(@values, :dev_show_computation_states, false)} />
+            Upstream Dependencies and Inputs for Each Computation
           </label>
         </form>
       </div>
@@ -272,7 +280,10 @@
               {Map.get(@values, :name_validation, "not set")}
             </div>
             <ComputationState.render
-              :if={Map.get(@values, :dev_show_computation_states, false)}
+              :if={
+                Map.get(@values, :dev_show_computation_states, false) and
+                  Map.get(@values, :dev_show_more, false)
+              }
               execution_id={@execution_id}
               node_name={:name_validation}
               computation_states={@computation_states}
@@ -286,7 +297,10 @@
             {Map.get(@values, :zodiac_sign, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :dev_show_computation_states, false)}
+            :if={
+              Map.get(@values, :dev_show_computation_states, false) and
+                Map.get(@values, :dev_show_more, false)
+            }
             execution_id={@execution_id}
             node_name={:zodiac_sign}
             computation_states={@computation_states}
@@ -302,7 +316,10 @@
             {Map.get(@values, :horoscope, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :dev_show_computation_states, false)}
+            :if={
+              Map.get(@values, :dev_show_computation_states, false) and
+                Map.get(@values, :dev_show_more, false)
+            }
             execution_id={@execution_id}
             node_name={:horoscope}
             computation_states={@computation_states}
@@ -318,7 +335,10 @@
             {Map.get(@values, :email_horoscope, "not set")}
           </div>
           <ComputationState.render
-            :if={Map.get(@values, :dev_show_computation_states, false)}
+            :if={
+              Map.get(@values, :dev_show_computation_states, false) and
+                Map.get(@values, :dev_show_more, false)
+            }
             execution_id={@execution_id}
             node_name={:email_horoscope}
             computation_states={@computation_states}
@@ -328,13 +348,14 @@
     </div>
 
     <DevShowOtherComputedValues.render
+      :if={Map.get(@values, :dev_show_more, false)}
       values={@values}
       connected?={@connected?}
       execution_id={@execution_id}
       computation_states={@computation_states}
     />
 
-    <div :if={@connected?}>
+    <div :if={@connected? and Map.get(@values, :dev_show_more, false)}>
       <DevShowAllValues.render
         values={@values}
         connected?={@connected?}

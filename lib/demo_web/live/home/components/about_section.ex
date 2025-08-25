@@ -12,11 +12,16 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
         This web application computes your horoscope based on your name, birth date and your pet preferences.
       </div>
       <div class={Classes.dev_paragraph()}>
-        This app is also an interactive technical demo. If you are an engineer, here is a bit more data.
-        <div :if={Map.get(@values, :dev_show_more, false)}>
-          <div class={Classes.dev_header()}>
-            Elements of Functionality
-          </div>
+        This app is also an interactive technical demo. If you are an engineer or just curious, see what is happening
+        <span class="text-blue-600" phx-click="on-dev-show-more-click">
+          <span class="hover:bg-blue-100 p-2 rounded-md cursor-pointer">
+            <Gear.render checked={Map.get(@values, :dev_show_more, false)} /> behind the scenes.
+            <span :if={!Map.get(@values, :dev_show_more, false)} class="ml-2"> ▼</span>
+            <span :if={Map.get(@values, :dev_show_more, false)} class="ml-2"> ▲</span>
+          </span>
+        </span>
+
+        <div :if={Map.get(@values, :dev_show_more, false)} class="mt-2">
           <div class={Classes.dev_bulletpoint()}>
             * Once you start interacting with the page, the URL in your browser changes to include session's ID. Example:
             <a href={"/s/#{@execution_id}"} target="_blank" class="text-blue-600 hover:underline">
@@ -75,10 +80,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               application.
             </div>
             <div class={Classes.dev_bulletpoint()}>
-              * This app uses Postgres for persistence.
-            </div>
-            <div class={Classes.dev_bulletpoint()}>
-              * this app uses
+              * This app uses
               <a
                 href="https://hexdocs.pm/journey"
                 target="_blank"
@@ -86,7 +88,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               >
                 Journey
               </a>
-              for defining and executing the flow with persistence, reliability and scalability, and for various conveniences (introspection, visualization, analytics, scheduling).
+              for defining and executing the flow with persistence (via Postgres), reliability and scalability, and for various conveniences (introspection, visualization, analytics, scheduling).
             </div>
             <div class={Classes.dev_bulletpoint()}>
               * The source code of this app is avialable on github, <a
@@ -103,7 +105,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               >here</a>.
             </div>
             <div class={Classes.dev_paragraph()}>
-              Fun fact: the state of each of the "<Gear.render />" toggles on this page is persisted in the
+              Fun fact: the state of each of the "<Gear.render checked={false} />" toggles on this page is persisted in the
               <a
                 href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
                 target="_blank"
@@ -114,20 +116,6 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               and survives page reloads, deployments, and reboots.
             </div>
           </div>
-        </div>
-        <div
-          :if={!Map.get(@values, :dev_show_more, false)}
-          class="my-2 text-blue-600"
-          phx-click="on-dev-show-more-click"
-        >
-          <Gear.render /> Show more <span>▼</span>
-        </div>
-        <div
-          :if={Map.get(@values, :dev_show_more, false)}
-          class="my-2 text-blue-600"
-          phx-click="on-dev-show-more-click"
-        >
-          <Gear.render /> Show less <span>▲</span>
         </div>
       </div>
     </div>
