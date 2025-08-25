@@ -273,7 +273,7 @@ defmodule Demo.HoroscopeGraph do
       "Leo" => "Something delightful will happen this week. Keep your eyes open.",
       "Virgo" => "Someone will be thinking of you fondly.",
       "Libra" => "This week you will make some great choices.",
-      "Scorpio" => "The cashier that rung you up thought you were delightful.",
+      "Scorpio" => "The cashier who rang you up thought you were delightful.",
       "Sagittarius" => "This week, you and your word will become closer friends.",
       "Capricorn" => "This week, you will choose something that you will then love.",
       "Aquarius" =>

@@ -18,7 +18,7 @@ defmodule DemoWeb.Live.Home.Components.Dialogs.ContactUs do
 
           <div class="space-y-4 text-gray-800 text-lg">
             <p class="leading-relaxed">
-              Have anything to tell us? We are all ears!
+              We'd love to hear your feedback!
             </p>
             <div class="w-full">
               <form>
