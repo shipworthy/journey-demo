@@ -23,13 +23,13 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
 
         <div :if={Map.get(@values, :dev_show_more, false)} class="mt-2">
           <div class={Classes.dev_bulletpoint()}>
-            * Once you start interacting with the page, the URL in your browser changes to include session's ID. Example:
+            * Once you start interacting with the page, you may notice the URL in your browser changes to include its persistent session's ID. Example:
             <a href={"/s/#{@execution_id}"} target="_blank" class="text-blue-600 hover:underline">
               {"/s/#{@execution_id}"}
             </a>
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure. No, really – try reloading the page – notice that this text remains expanded.
+            * Your session is persistent – its data and its computations (including in-flight computations) will survive page reloads, re-deployments, up-/down-scaling or crashes of replicas or of the infrastructure. Try reloading the page, and notice that the state of the page is preserved.
           </div>
           <div class={Classes.dev_bulletpoint()}>
             * If your name is "Bowser", you can't use the app, sorry. ;)
@@ -56,7 +56,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             * Computations will take place on any of the replicas of the service, with a retry policy.
           </div>
           <div class={Classes.dev_bulletpoint()}>
-            * Introspection, analytics: the page provides some introspection (live history of events, the dump of all values – computed or provided, visial representation of the flow, some analytics around user flows).
+            * Introspection, analytics: the page provides some introspection (live history of events, the dump of all values – computed or provided, visual representation of the flow, some analytics around user flows).
           </div>
         </div>
         <div :if={Map.get(@values, :dev_show_more, false)}>
@@ -91,7 +91,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               for defining and executing the flow with persistence (via Postgres), reliability and scalability, and for various conveniences (introspection, visualization, analytics, scheduling).
             </div>
             <div class={Classes.dev_bulletpoint()}>
-              * The source code of this app is avialable on github, <a
+              * The source code of this app is available on github, <a
                 href="https://github.com/shipworthy/journey-demo"
                 target="_blank"
                 class="text-blue-600 hover:underline"

@@ -33,6 +33,33 @@ defmodule DemoWeb.LiveViewTestHelpers do
     end
   end
 
+  def element_has_class?(html, selector, class_name) do
+    parsed_html = Floki.parse_document!(html)
+
+    case Floki.find(parsed_html, selector) do
+      [] ->
+        false
+
+      elements ->
+        class_attr = Floki.attribute(elements, "class") |> List.first() |> to_string()
+        class_attr =~ class_name
+    end
+  end
+
+  def element_has_value?(html, selector, expected_value) do
+    parsed_html = Floki.parse_document!(html)
+
+    case Floki.find(parsed_html, selector) do
+      [] ->
+        false
+
+      elements ->
+        # For textarea/input, check text content
+        actual_value = Floki.text(elements) |> String.trim()
+        actual_value == expected_value
+    end
+  end
+
   def element_exists?(lv, selector) do
     html = render(lv)
     parsed_html = Floki.parse_document!(html)

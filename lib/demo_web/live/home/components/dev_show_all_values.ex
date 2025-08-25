@@ -18,7 +18,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
         </span>
         <span>
           <Gear.render checked={Map.get(@values, :dev_show_all_values, false)} />
-          All Values (raw data)
+          All values in this session (raw data)
         </span>
       </div>
     </div>
