@@ -1,9 +1,10 @@
 defmodule DemoWeb.Live.Home.Components.Footer do
+  @moduledoc false
+
   use Phoenix.Component
   use DemoWeb, :html
   import DemoWeb.Live.Classes
 
-  @moduledoc false
   def render(assigns) do
     ~H"""
     <div aria-label="Footer" class="flex justify-center border-t-2 p-3">

@@ -1,8 +1,9 @@
 defmodule DemoWeb.Live.Home.Components.BuildInfo do
+  @moduledoc false
+
   use Phoenix.Component
   use DemoWeb, :html
 
-  @moduledoc false
   def render(assigns) do
     ~H"""
     <div class="w-full flex flex-col text-gray-600 items-center justify-center">

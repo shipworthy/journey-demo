@@ -1,8 +1,8 @@
 defmodule DemoWeb.Live.Home.Components.Dialogs.About do
-  use Phoenix.Component
-
-  import DemoWeb.Live.Classes
   @moduledoc false
+
+  use Phoenix.Component
+  import DemoWeb.Live.Classes
 
   def render(assigns) do
     ~H"""

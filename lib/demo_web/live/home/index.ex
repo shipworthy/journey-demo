@@ -5,15 +5,15 @@ defmodule DemoWeb.Live.Home.Index do
 
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.AboutSection
-  alias DemoWeb.Live.Home.Components.ComputationState
-  alias DemoWeb.Live.Home.Components.Dialogs.ContactUs
-  alias DemoWeb.Live.Home.Components.Dialogs.About
   alias DemoWeb.Live.Home.Components.BuildInfo
+  alias DemoWeb.Live.Home.Components.ComputationState
   alias DemoWeb.Live.Home.Components.DevShowAllValues
   alias DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable
   alias DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary
   alias DemoWeb.Live.Home.Components.DevShowOtherComputedValues
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
+  alias DemoWeb.Live.Home.Components.Dialogs.About
+  alias DemoWeb.Live.Home.Components.Dialogs.ContactUs
   alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
   alias DemoWeb.Live.Home.Components.Footer
   alias DemoWeb.Live.Home.Components.Gear

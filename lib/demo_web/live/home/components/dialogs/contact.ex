@@ -1,13 +1,13 @@
 defmodule DemoWeb.Live.Home.Components.Dialogs.ContactUs do
-  use Phoenix.Component
-
-  import DemoWeb.Live.Classes
   @moduledoc false
+
+  use Phoenix.Component
+  import DemoWeb.Live.Classes
 
   def render(assigns) do
     ~H"""
     <div
-      id="about-dialog-id"
+      id="contact-dialog-id"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     >
       <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-xl border border-gray-200 transform transition-all">
