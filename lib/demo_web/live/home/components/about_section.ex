@@ -78,7 +78,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               * This app uses Postgres for persistence.
             </div>
             <div class={Classes.dev_bulletpoint()}>
-              * this app uses
+              * This app uses
               <a
                 href="https://hexdocs.pm/journey"
                 target="_blank"
