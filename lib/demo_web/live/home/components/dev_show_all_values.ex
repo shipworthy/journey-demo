@@ -16,7 +16,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowAllValues do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_all_values, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> See All Values (raw data)</span>
+        <span>
+          <Gear.render checked={Map.get(@values, :dev_show_all_values, false)} />
+          All Values (raw data)
+        </span>
       </div>
     </div>
 
