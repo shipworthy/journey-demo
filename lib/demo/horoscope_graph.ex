@@ -204,15 +204,16 @@ defmodule Demo.HoroscopeGraph do
     {:ok, horoscope}
   end
 
-  def send_horoscope_email(%{horoscope: _horoscope, email_address: email, name: name}) do
+  def send_horoscope_email(%{horoscope: _horoscope, email_address: email, name: name} = values) do
     # In production, this would integrate with SendGrid, Mailgun, AWS SES, etc.
     # and send an actual email with the horoscope content
     # Simulate API call delay
     Process.sleep(500)
 
-    # Simulate occasional API failures for demo purposes
-    # 10% failure rate
-    if :rand.uniform(100) <= 10 do
+    dev_mode? = Map.get(values, :dev_show_more, false)
+
+    # In the dev mode, simulate occasional API failures.
+    if dev_mode? and :rand.uniform(100) <= 10 do
       {:error, "Email service temporarily unavailable. Mercury must be in microwave mode."}
     else
       {:ok, "Horoscope successfully sent to #{email} for #{name}!"}

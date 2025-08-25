@@ -33,6 +33,10 @@ defmodule DemoWeb.Live.HomeLiveTest do
       assert element_checked?(html, "#subscribe_weekly-id")
 
       # Test dev toggles
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
+
       toggle_checkbox(lv, "#form-dev-show-execution-history-id", "#dev_show_execution_history-id")
       assert wait_for_element_appearance(lv, "#section-execution-history-id")
 

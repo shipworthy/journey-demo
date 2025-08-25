@@ -7,6 +7,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
     test "dev_show_execution_history toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
+
       # Initially should not be visible
       refute element_exists?(lv, "#section-execution-history-id")
 
@@ -21,6 +25,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before, so execution history should be visible
       assert element_exists?(lv2, "#section-execution-history-id")
 
       # Toggle OFF - should disappear
@@ -35,6 +40,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_computation_states toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Add some data to trigger computation
       fill_input(lv, "#input-name-id", "Test User")
@@ -63,6 +72,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#computation-state-zodiac_sign-id")
 
       # Toggle OFF - should hide computation states
@@ -78,6 +88,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
     test "dev_show_other_computed_values toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
+
       # Initially should not be visible
       refute element_exists?(lv, "#section-other-computed-values-id")
 
@@ -92,6 +106,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-other-computed-values-id")
 
       # Toggle OFF - should disappear
@@ -101,6 +116,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_all_values toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Initially should not be visible
       refute element_exists?(lv, "#section-all-values-id")
@@ -116,6 +135,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-all-values-id")
 
       # Toggle OFF - should disappear
@@ -125,6 +145,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_journey_execution_summary toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Initially should not be visible
       refute element_exists?(lv, "#section-execution-summary-id")
@@ -140,6 +164,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-execution-summary-id")
 
       # Toggle OFF - should disappear
@@ -149,6 +174,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_flow_analytics_table toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Initially should not be visible
       refute element_exists?(lv, "#section-flow-analytics-table-id")
@@ -164,6 +193,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-flow-analytics-table-id")
 
       # Toggle OFF - should disappear
@@ -173,6 +203,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_flow_analytics_json toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Initially should not be visible
       refute element_exists?(lv, "#section-flow-analytics-json-id")
@@ -188,6 +222,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-flow-analytics-json-id")
 
       # Toggle OFF - should disappear
@@ -197,6 +232,10 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
 
     test "dev_show_workflow_graph toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
 
       # Initially should not be visible
       refute element_exists?(lv, "#section-workflow-graph-id")
@@ -212,6 +251,7 @@ defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
       {:ok, lv2, _html} = live(conn, current_path)
 
       # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
       assert element_exists?(lv2, "#section-workflow-graph-id")
 
       # Toggle OFF - should disappear

@@ -25,7 +25,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary do
       id="section-execution-summary-id"
       class=""
     >
-      <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize() |> IO.puts()\n#{@execution_summary}" %></pre>
+      <pre class={Classes.debug_pre()}><%= "iex> \"#{@execution_id}\" |> Journey.Tools.summarize_as_text() |> IO.puts()\n#{@execution_summary}" %></pre>
     </div>
     """
   end
