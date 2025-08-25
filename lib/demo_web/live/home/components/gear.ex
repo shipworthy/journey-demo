@@ -10,7 +10,6 @@ defmodule DemoWeb.Live.Home.Components.Gear do
     ~H"""
     <.icon
       name={if(@checked, do: "hero-wrench-screwdriver-solid", else: "hero-wrench-screwdriver")}
-      aria-label="Developer settings"
       class={"w-8 h-8 p-1 " <> if(@checked, do: " text-blue-500 ", else: " text-gray-500")}
     />
     """
