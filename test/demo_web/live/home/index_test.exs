@@ -1,4 +1,4 @@
-defmodule DemoWeb.Live.HomeLiveTest do
+defmodule DemoWeb.Live.Home.IndexTest do
   use DemoWeb.ConnCase
   import Phoenix.LiveViewTest
   import DemoWeb.LiveViewTestHelpers
@@ -22,7 +22,7 @@ defmodule DemoWeb.Live.HomeLiveTest do
       assert wait_for_element_text(
                lv,
                "#output-horoscope-id",
-               ~r/cosmic|wisdom|upstream|feline/i
+               ~r/Computed with Journey/i
              )
 
       # fill_input(lv, "#input-email-address-id", "sarah@example.com")

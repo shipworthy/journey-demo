@@ -390,4 +390,16 @@
       />
     </div>
   </div>
+
+  <About.render :if={@show_about_dialog} />
+  <ContactUs.render
+    :if={@show_contact_dialog}
+    feedback_text={Map.get(@values, :feedback_text, "")}
+  />
+
+  <Footer.render
+    feedback_emoji={Map.get(@values, :feedback_emoji, nil)}
+    feedback_text={Map.get(@values, :feedback_text, "")}
+  />
+  <BuildInfo.render build_info={@build_info} />
 </div>

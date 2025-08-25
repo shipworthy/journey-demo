@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       colors: {
         brand: "#FD4F00",
+        'gold-cta': 'rgb(255,215,0)',
       }
     },
   },
