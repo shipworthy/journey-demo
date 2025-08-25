@@ -1,4 +1,4 @@
-defmodule DemoWeb.Live.HomeLiveTest do
+defmodule DemoWeb.Live.Home.IndexTest do
   use DemoWeb.ConnCase
   import Phoenix.LiveViewTest
   import DemoWeb.LiveViewTestHelpers

@@ -9,12 +9,18 @@ defmodule DemoWeb.Live.Home.Components.Footer do
     ~H"""
     <div aria-label="Footer" class="flex justify-center border-t-2 p-3">
       <span>
-        <span aria-label="About Us" class={footer_icon()} phx-click="on-show-about-dialog-click">
+        <span
+          id="footer-about-icon-id"
+          aria-label="About Us"
+          class={footer_icon()}
+          phx-click="on-show-about-dialog-click"
+        >
           <.icon name="hero-question-mark-circle" class="h-8 w-8 " />
         </span>
         |
         <span
-          aria-label="Feedback – happy smiley face"
+          id="footer-emoji-smiley-id"
+          aria-label="Feedback – happy smiley face"
           class={footer_icon() <> if @feedback_emoji == "smiley", do: " bg-gold-cta rounded-xl ", else: ""}
           phx-click="on-feedback-emoji-smiley-click"
         >
@@ -22,7 +28,8 @@ defmodule DemoWeb.Live.Home.Components.Footer do
         </span>
         |
         <span
-          aria-label="Feedback – frowney face"
+          id="footer-emoji-frowney-id"
+          aria-label="Feedback – frowney face"
           class={footer_icon()  <> if @feedback_emoji == "frowney", do: " bg-gold-cta rounded-xl ", else: ""}
           phx-click="on-feedback-emoji-frowney-click"
         >
@@ -30,6 +37,7 @@ defmodule DemoWeb.Live.Home.Components.Footer do
         </span>
         |
         <span
+          id="footer-contact-icon-id"
           aria-label="Contact us"
           class={footer_icon() <> if @feedback_text != "", do: " bg-gold-cta rounded-xl ", else: "" }
           phx-click="on-show-contact-us-dialog-click"

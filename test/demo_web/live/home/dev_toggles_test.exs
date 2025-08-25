@@ -1,4 +1,4 @@
-defmodule DemoWeb.Live.HomeLiveDevTogglesTest do
+defmodule DemoWeb.Live.Home.DevTogglesTest do
   use DemoWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
   import DemoWeb.LiveViewTestHelpers
