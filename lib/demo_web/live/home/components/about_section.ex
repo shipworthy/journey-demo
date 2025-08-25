@@ -15,7 +15,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
         This app is also an interactive technical demo. If you are an engineer or just curious, see what is happening
         <span class="text-blue-600" phx-click="on-dev-show-more-click">
           <span class="hover:bg-blue-100 p-2 rounded-md cursor-pointer">
-            <Gear.render /> behind the scenes.
+            <Gear.render checked={Map.get(@values, :dev_show_more, false)} /> behind the scenes.
             <span :if={!Map.get(@values, :dev_show_more, false)} class="ml-2"> ▼</span>
             <span :if={Map.get(@values, :dev_show_more, false)} class="ml-2"> ▲</span>
           </span>
@@ -105,7 +105,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
               >here</a>.
             </div>
             <div class={Classes.dev_paragraph()}>
-              Fun fact: the state of each of the "<Gear.render />" toggles on this page is persisted in the
+              Fun fact: the state of each of the "<Gear.render checked={false} />" toggles on this page is persisted in the
               <a
                 href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
                 target="_blank"

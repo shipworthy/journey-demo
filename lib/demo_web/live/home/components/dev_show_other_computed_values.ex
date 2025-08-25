@@ -28,7 +28,10 @@ defmodule DemoWeb.Live.Home.Components.DevShowOtherComputedValues do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_other_computed_values, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> All Other Computed Values</span>
+        <span>
+          <Gear.render checked={Map.get(@values, :dev_show_other_computed_values, false)} />
+          All Other Computed Values
+        </span>
       </div>
     </div>
 

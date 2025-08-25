@@ -16,7 +16,10 @@ defmodule DemoWeb.Live.Home.Components.FlowAnalyticsJson do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_flow_analytics_json, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> Analytics (as raw data)</span>
+        <span>
+          <Gear.render checked={Map.get(@values, :dev_show_flow_analytics_json, false)} />
+          Analytics (as raw data)
+        </span>
       </div>
     </div>
 
