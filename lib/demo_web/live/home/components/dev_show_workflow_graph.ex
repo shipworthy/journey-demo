@@ -17,7 +17,7 @@ defmodule DemoWeb.Live.Home.Components.DevShowWorkflowGraph do
         <span class="mr-2">
           {if Map.get(@values, :dev_show_workflow_graph, false), do: "▲", else: "▼"}
         </span>
-        <span><Gear.render /> See Workflow Graph Definition (Mermaid)</span>
+        <span><Gear.render /> Visual representation of the graph (Mermaid)</span>
       </div>
     </div>
 
