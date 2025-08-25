@@ -176,7 +176,7 @@ defmodule DemoWeb.Live.Home.FooterTest do
       parsed_html = Floki.parse_document!(html)
       dialog_content = Floki.find(parsed_html, "#contact-dialog-id") |> Floki.text()
       assert dialog_content =~ "Contact Us"
-      assert dialog_content =~ "Have anything to tell us?"
+      assert dialog_content =~ "We'd love to hear your feedback!"
 
       # Click OK button to close
       element(lv, "#hide-contact-us-dialog-button-id")
