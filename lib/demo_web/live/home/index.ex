@@ -6,12 +6,16 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Classes
   alias DemoWeb.Live.Home.Components.AboutSection
   alias DemoWeb.Live.Home.Components.ComputationState
+  alias DemoWeb.Live.Home.Components.Dialogs.ContactUs
+  alias DemoWeb.Live.Home.Components.Dialogs.About
+  alias DemoWeb.Live.Home.Components.BuildInfo
   alias DemoWeb.Live.Home.Components.DevShowAllValues
   alias DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable
   alias DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary
   alias DemoWeb.Live.Home.Components.DevShowOtherComputedValues
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
   alias DemoWeb.Live.Home.Components.FlowAnalyticsJson
+  alias DemoWeb.Live.Home.Components.Footer
   alias DemoWeb.Live.Home.Components.Gear
 
   require Logger
@@ -23,6 +27,9 @@ defmodule DemoWeb.Live.Home.Index do
     socket =
       socket
       |> assign(:connected?, connected?(socket))
+      |> assign(:show_contact_dialog, false)
+      |> assign(:show_about_dialog, false)
+      |> assign(:build_info, "")
       |> set_system_stats_if_needed()
 
     loaded_execution = Journey.load(execution_id)
@@ -52,6 +59,9 @@ defmodule DemoWeb.Live.Home.Index do
       socket
       |> assign(:connected?, connected?(socket))
       |> set_system_stats_if_needed()
+      |> assign(:show_contact_dialog, false)
+      |> assign(:show_about_dialog, false)
+      |> assign(:build_info, "")
       |> assign(:execution_id, nil)
       |> assign(:values, %{})
       |> assign(:all_values, %{})
@@ -163,6 +173,147 @@ defmodule DemoWeb.Live.Home.Index do
       )
 
     socket = refresh_execution_state(socket, updated_execution)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-feedback-emoji-frowney-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    new_feedback =
+      Map.get(socket.assigns.values, :feedback_emoji, nil)
+      |> case do
+        nil ->
+          "frowney"
+
+        "frowney" ->
+          nil
+
+        "smiley" ->
+          "frowney"
+
+        _ ->
+          "frowney"
+      end
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+
+    socket = refresh_execution_state(socket, updated_execution)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-feedback-emoji-smiley-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    new_feedback =
+      Map.get(socket.assigns.values, :feedback_emoji, nil)
+      |> case do
+        nil ->
+          "smiley"
+
+        "smiley" ->
+          nil
+
+        "frowney" ->
+          "smiley"
+
+        _ ->
+          "smiley"
+      end
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+
+    socket = refresh_execution_state(socket, updated_execution)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "on-feedback-text-change" = event,
+        %{"feedback-text-field-name" => feedback_text} = _params,
+        socket
+      ) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :feedback_text, feedback_text)
+
+    socket = refresh_execution_state(socket, updated_execution)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-show-contact-us-dialog-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :contact_visited, true)
+
+    socket =
+      socket
+      |> refresh_execution_state(updated_execution)
+      |> assign(:show_contact_dialog, true)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-hide-contact-us-dialog-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = socket |> assign(:show_contact_dialog, false)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-show-about-dialog-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :about_visited, true)
+
+    socket =
+      socket
+      |> refresh_execution_state(updated_execution)
+      |> assign(:show_about_dialog, true)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-hide-about-dialog-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = socket |> assign(:show_about_dialog, false)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("on-build-info-click" = event, _params, socket) do
+    Logger.info("handle_event[#{event}]")
+    socket = create_execution_if_needed(socket)
+
+    updated_execution =
+      Journey.set_value(socket.assigns.execution_id, :build_info_checked, true)
+
+    new_build_info =
+      socket.assigns.build_info
+      |> case do
+        "" -> " for democracy"
+        _ -> ""
+      end
+
+    socket =
+      socket
+      |> refresh_execution_state(updated_execution)
+      |> assign(:build_info, new_build_info)
+
     {:noreply, socket}
   end
 

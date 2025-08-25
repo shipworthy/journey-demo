@@ -127,7 +127,12 @@ defmodule Demo.HoroscopeGraph do
         input(:dev_show_flow_analytics_json),
         input(:dev_show_workflow_graph),
         input(:dev_show_other_computed_values),
-        input(:dev_show_more)
+        input(:dev_show_more),
+        input(:feedback_emoji),
+        input(:feedback_text),
+        input(:contact_visited),
+        input(:about_visited),
+        input(:build_info_checked)
       ],
       f_on_save: fn execution_id, node_name, result ->
         notify(execution_id, node_name, result)
@@ -199,7 +204,11 @@ defmodule Demo.HoroscopeGraph do
     pet_modifier = get_pet_modifier(pet_pref)
 
     horoscope =
-      "#{base_horoscope} #{pet_modifier} This cosmic wisdom was code-crafted for #{String.first(name)}****."
+      """
+      #{base_horoscope}
+      #{pet_modifier}
+      Computed with Journey, for #{String.first(name)}****.
+      """
 
     {:ok, horoscope}
   end
@@ -216,7 +225,7 @@ defmodule Demo.HoroscopeGraph do
     if dev_mode? and :rand.uniform(100) <= 10 do
       {:error, "Email service temporarily unavailable. Mercury must be in microwave mode."}
     else
-      {:ok, "Horoscope successfully sent to #{email} for #{name}!"}
+      {:ok, "Horoscope successfully sent to #{name} at #{email}. (but not really;)"}
     end
   end
 
@@ -284,10 +293,10 @@ defmodule Demo.HoroscopeGraph do
         "There are 8 dogs in your vicinity that would like to play with you."
 
       "both" ->
-        "Dogs are happy that you exist. (Cats, too, but they'll never actually say it.)"
+        "Dogs are happy that you exist. Cats, too, but they don't care to admit it."
 
       "neither" ->
-        "Dogs have questions. Cats are wondering. Houseplants are excited."
+        "Dogs have questions. Cats are too busy to care. Houseplants are excited."
 
       _ ->
         "The universe likes your unique perspective on pets."
