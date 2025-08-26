@@ -122,6 +122,7 @@ defmodule Demo.HoroscopeGraph do
         input(:dev_show_computation_states),
         input(:show_all_computations),
         input(:dev_show_all_values),
+        input(:dev_show_recent_executions),
         input(:dev_show_journey_execution_summary),
         input(:dev_show_flow_analytics_table),
         input(:dev_show_flow_analytics_json),

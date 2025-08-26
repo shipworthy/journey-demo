@@ -143,6 +143,35 @@ defmodule DemoWeb.Live.Home.DevTogglesTest do
       assert wait_for_element_disappearance(lv2, "#section-all-values-id")
     end
 
+    test "dev_show_recent_executions toggle visibility and persistence", %{conn: conn} do
+      {:ok, lv, _html} = live(conn, "/")
+
+      # First enable dev_show_more to make dev toggles visible
+      element(lv, "[phx-click='on-dev-show-more-click']")
+      |> render_click()
+
+      # Initially should not be visible
+      refute element_exists?(lv, "#section-recent-executions-id")
+
+      # Toggle ON - should become visible
+      click_chevron_toggle(lv, "dev_show_recent_executions")
+      assert wait_for_element_appearance(lv, "#section-recent-executions-id")
+
+      # Use assert_patch to capture the URL change and get the new path
+      current_path = assert_patch(lv)
+
+      # Reload the page at that URL
+      {:ok, lv2, _html} = live(conn, current_path)
+
+      # Verify toggle state persisted across reload
+      # dev_show_more should be persisted from before
+      assert element_exists?(lv2, "#section-recent-executions-id")
+
+      # Toggle OFF - should disappear
+      click_chevron_toggle(lv2, "dev_show_recent_executions")
+      assert wait_for_element_disappearance(lv2, "#section-recent-executions-id")
+    end
+
     test "dev_show_journey_execution_summary toggle visibility and persistence", %{conn: conn} do
       {:ok, lv, _html} = live(conn, "/")
 
