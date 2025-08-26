@@ -22,6 +22,8 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def mount(%{"execution_id" => execution_id} = _params, _session, socket) do
+    Logger.metadata(eid: execution_id)
+
     Logger.info("home.mount execution_id: #{execution_id}")
 
     socket =
@@ -53,6 +55,7 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    Logger.metadata(eid: "none")
     Logger.info("home.mount")
 
     socket =
@@ -349,6 +352,7 @@ defmodule DemoWeb.Live.Home.Index do
       # Subscribe to PubSub for updates
       :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{new_execution.id}")
 
+      Logger.metadata(eid: new_execution.id)
       Logger.info("create_execution_if_needed: created a new execution #{new_execution.id}")
 
       socket
