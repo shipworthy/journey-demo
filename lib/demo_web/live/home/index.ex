@@ -11,6 +11,7 @@ defmodule DemoWeb.Live.Home.Index do
   alias DemoWeb.Live.Home.Components.DevShowFlowAnalyticsTable
   alias DemoWeb.Live.Home.Components.DevShowJourneyExecutionSummary
   alias DemoWeb.Live.Home.Components.DevShowOtherComputedValues
+  alias DemoWeb.Live.Home.Components.DevShowRecentExecutions
   alias DemoWeb.Live.Home.Components.DevShowWorkflowGraph
   alias DemoWeb.Live.Home.Components.Dialogs.About
   alias DemoWeb.Live.Home.Components.Dialogs.ContactUs
