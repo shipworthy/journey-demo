@@ -477,4 +477,7 @@ defmodule DemoWeb.Live.Home.Index do
   defp format_history_value(value) when is_integer(value), do: value
   defp format_history_value(value) when is_atom(value), do: inspect(value)
   defp format_history_value(value), do: inspect(value)
+
+  defp downcase(nil), do: nil
+  defp downcase(value) when is_binary(value), do: String.downcase(value)
 end
