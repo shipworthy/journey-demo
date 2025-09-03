@@ -43,6 +43,7 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:execution_id, nil)
         |> create_execution_if_needed()
       else
+        Logger.info("Successfully loaded execution #{execution_id}")
         # Subscribe to PubSub for this execution
         :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{execution_id}")
 
@@ -127,11 +128,12 @@ defmodule DemoWeb.Live.Home.Index do
         value
       end
 
-    if parsed_value == "" do
-      async_save_value(socket, field_atom, nil, :unset)
-    else
-      async_save_value(socket, field_atom, parsed_value, :set)
-    end
+    socket =
+      if parsed_value == "" do
+        async_save_value(socket, field_atom, nil, :unset)
+      else
+        async_save_value(socket, field_atom, parsed_value, :set)
+      end
 
     {:noreply, socket}
   end
@@ -150,8 +152,6 @@ defmodule DemoWeb.Live.Home.Index do
       else
         async_save_value(socket, field_atom, value, :set)
       end
-
-    # socket = refresh_execution_state(socket, updated_execution)
 
     {:noreply, socket}
   end
@@ -389,17 +389,14 @@ defmodule DemoWeb.Live.Home.Index do
 
     Task.start(fn ->
       try do
-        Logger.info(
-          "async_save_value[#{execution_id}]: starting. saving value #{value_name} to #{value} #{inspect(set_or_unset)}"
-        )
-
-        case set_or_unset do
-          :set -> Journey.set_value(execution_id, value_name, value)
-          :unset -> Journey.unset_value(execution_id, value_name)
-        end
+        execution =
+          case set_or_unset do
+            :set -> Journey.set_value(execution_id, value_name, value)
+            :unset -> Journey.unset_value(execution_id, value_name)
+          end
 
         Logger.info(
-          "async_save_value[#{execution_id}]: completed. saving value #{value_name} to #{value} #{inspect(set_or_unset)}"
+          "async_save_value[#{execution_id}]: completed. saving value #{value_name} to #{value} #{inspect(set_or_unset)}. revision: #{execution.revision}"
         )
       rescue
         e ->
