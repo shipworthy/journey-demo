@@ -43,6 +43,7 @@ defmodule DemoWeb.Live.Home.Index do
         |> assign(:execution_id, nil)
         |> create_execution_if_needed()
       else
+        Logger.info("Successfully loaded execution #{execution_id}")
         # Subscribe to PubSub for this execution
         :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{execution_id}")
 
@@ -84,42 +85,34 @@ defmodule DemoWeb.Live.Home.Index do
 
   @impl true
   def handle_event("on-dev-show-more-click", _params, socket) do
-    socket = create_execution_if_needed(socket)
-
     current_value = Map.get(socket.assigns.values, :dev_show_more, false)
+    new_value = !current_value
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :dev_show_more, !current_value)
-
-    socket = refresh_execution_state(socket, updated_execution)
+    socket = async_save_value(socket, :dev_show_more, new_value)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("dev_toggle", params, socket) do
-    socket = create_execution_if_needed(socket)
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
     bool_value = Map.get(params, "dev_toggle", "off") == "on"
 
-    socket = apply_toggle_value(socket, field_name, bool_value)
+    socket = async_save_value(socket, field_name, bool_value)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("chevron_toggle", params, socket) do
-    socket = create_execution_if_needed(socket)
     field_name = Map.get(params, "toggle_field_name") |> String.to_existing_atom()
     current_value = Map.get(socket.assigns.values, field_name, false)
     bool_value = !current_value
 
-    socket = apply_toggle_value(socket, field_name, bool_value)
+    socket = async_save_value(socket, field_name, bool_value)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("update_value", %{"field" => field, "value" => value}, socket) do
-    socket = create_execution_if_needed(socket)
-
     Logger.info("update_value field: #{field} value: #{value}")
 
     field_atom = String.to_existing_atom(field)
@@ -135,33 +128,30 @@ defmodule DemoWeb.Live.Home.Index do
         value
       end
 
-    if !Map.has_key?(socket.assigns.values, field_atom) and parsed_value == "" do
-      {:noreply, socket}
-    else
-      updated_execution = Journey.set_value(socket.assigns.execution_id, field_atom, parsed_value)
-      socket = refresh_execution_state(socket, updated_execution)
-      {:noreply, socket}
-    end
+    socket =
+      if parsed_value == "" do
+        async_save_value(socket, field_atom, nil, :unset)
+      else
+        async_save_value(socket, field_atom, parsed_value, :set)
+      end
+
+    {:noreply, socket}
   end
 
   @impl true
   def handle_event("update_select", %{"field" => field} = params, socket) do
-    socket = create_execution_if_needed(socket)
-
     # For select elements, the value comes as params[field]
     value = Map.get(params, field, "")
     Logger.info("update_select field: #{field} value: #{value}")
 
     field_atom = String.to_existing_atom(field)
 
-    updated_execution =
+    socket =
       if value == "" do
-        Journey.unset_value(socket.assigns.execution_id, field_atom)
+        async_save_value(socket, field_atom, nil, :unset)
       else
-        Journey.set_value(socket.assigns.execution_id, field_atom, value)
+        async_save_value(socket, field_atom, value, :set)
       end
-
-    socket = refresh_execution_state(socket, updated_execution)
 
     {:noreply, socket}
   end
@@ -183,7 +173,6 @@ defmodule DemoWeb.Live.Home.Index do
   @impl true
   def handle_event("on-feedback-emoji-frowney-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
 
     new_feedback =
       Map.get(socket.assigns.values, :feedback_emoji, nil)
@@ -201,17 +190,16 @@ defmodule DemoWeb.Live.Home.Index do
           "frowney"
       end
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+    socket =
+      socket
+      |> async_save_value(:feedback_emoji, new_feedback)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("on-feedback-emoji-smiley-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
 
     new_feedback =
       Map.get(socket.assigns.values, :feedback_emoji, nil)
@@ -229,10 +217,10 @@ defmodule DemoWeb.Live.Home.Index do
           "smiley"
       end
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+    socket =
+      socket
+      |> async_save_value(:feedback_emoji, new_feedback)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
@@ -243,26 +231,21 @@ defmodule DemoWeb.Live.Home.Index do
         socket
       ) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_text, feedback_text)
+    socket =
+      socket
+      |> async_save_value(:feedback_text, feedback_text)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("on-show-contact-us-dialog-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
-
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :contact_visited, true)
 
     socket =
       socket
-      |> refresh_execution_state(updated_execution)
+      |> async_save_value(:contact_visited, true)
       |> assign(:show_contact_dialog, true)
 
     {:noreply, socket}
@@ -278,14 +261,10 @@ defmodule DemoWeb.Live.Home.Index do
   @impl true
   def handle_event("on-show-about-dialog-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
-
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :about_visited, true)
 
     socket =
       socket
-      |> refresh_execution_state(updated_execution)
+      |> async_save_value(:about_visited, true)
       |> assign(:show_about_dialog, true)
 
     {:noreply, socket}
@@ -301,10 +280,6 @@ defmodule DemoWeb.Live.Home.Index do
   @impl true
   def handle_event("on-build-info-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
-
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :build_info_checked, true)
 
     new_build_info =
       socket.assigns.build_info
@@ -315,27 +290,31 @@ defmodule DemoWeb.Live.Home.Index do
 
     socket =
       socket
-      |> refresh_execution_state(updated_execution)
+      |> async_save_value(:build_info_checked, true)
       |> assign(:build_info, new_build_info)
 
     {:noreply, socket}
   end
 
-  # Shared helper for applying toggle values
-  defp apply_toggle_value(socket, field_name, bool_value) do
-    Logger.info("toggle value: #{bool_value}, field: #{field_name}")
-    updated_execution = Journey.set_value(socket.assigns.execution_id, field_name, bool_value)
-    refresh_execution_state(socket, updated_execution)
-  end
-
   @impl true
   def handle_info({:refresh, step_name, _value}, socket) do
-    Logger.info("Received refresh notification for step: #{step_name}")
+    Logger.info(
+      "handle_info[#{socket.assigns.execution_id}] Received refresh notification for step: #{step_name}"
+    )
 
     # Reload the execution to get the latest values
     execution = Journey.load(socket.assigns.execution_id)
 
-    socket = refresh_execution_state(socket, execution)
+    socket =
+      if execution == nil do
+        Logger.warning(
+          "handle_info[#{socket.assigns.execution_id}] Execution not found, skipping refresh"
+        )
+
+        socket
+      else
+        refresh_execution_state(socket, execution)
+      end
 
     {:noreply, socket}
   end
@@ -403,6 +382,38 @@ defmodule DemoWeb.Live.Home.Index do
     |> assign(:execution_history, execution_history)
   end
 
+  defp async_save_value(socket, value_name, value, set_or_unset \\ :set) do
+    socket = socket |> create_execution_if_needed()
+
+    execution_id = socket.assigns.execution_id
+
+    Task.start(fn ->
+      try do
+        execution =
+          case set_or_unset do
+            :set -> Journey.set_value(execution_id, value_name, value)
+            :unset -> Journey.unset_value(execution_id, value_name)
+          end
+
+        Logger.info(
+          "async_save_value[#{execution_id}]: completed. saving value #{value_name} to #{value} #{inspect(set_or_unset)}. revision: #{execution.revision}"
+        )
+      rescue
+        e ->
+          Logger.warning(
+            "async_save_value[#{execution_id}]: failed to save value #{value_name}: #{inspect(e)}"
+          )
+      end
+    end)
+
+    new_values =
+      socket.assigns.values
+      |> Map.put(value_name, value)
+
+    socket
+    |> assign(:values, new_values)
+  end
+
   # Helper function to get computation states for all computed nodes
   defp get_computation_states(execution_id) do
     %{
@@ -466,4 +477,7 @@ defmodule DemoWeb.Live.Home.Index do
   defp format_history_value(value) when is_integer(value), do: value
   defp format_history_value(value) when is_atom(value), do: inspect(value)
   defp format_history_value(value), do: inspect(value)
+
+  defp downcase(nil), do: nil
+  defp downcase(value) when is_binary(value), do: String.downcase(value)
 end
