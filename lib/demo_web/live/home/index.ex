@@ -201,10 +201,8 @@ defmodule DemoWeb.Live.Home.Index do
           "frowney"
       end
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+    socket = async_save_value(socket, :feedback_emoji, new_feedback)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
@@ -229,10 +227,8 @@ defmodule DemoWeb.Live.Home.Index do
           "smiley"
       end
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_emoji, new_feedback)
+    socket = async_save_value(socket, :feedback_emoji, new_feedback)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
@@ -243,12 +239,12 @@ defmodule DemoWeb.Live.Home.Index do
         socket
       ) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :feedback_text, feedback_text)
+    socket =
+      socket
+      |> create_execution_if_needed()
+      |> async_save_value(:feedback_text, feedback_text)
 
-    socket = refresh_execution_state(socket, updated_execution)
     {:noreply, socket}
   end
 
@@ -257,12 +253,9 @@ defmodule DemoWeb.Live.Home.Index do
     Logger.info("handle_event[#{event}]")
     socket = create_execution_if_needed(socket)
 
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :contact_visited, true)
-
     socket =
       socket
-      |> refresh_execution_state(updated_execution)
+      |> async_save_value(:contact_visited, true)
       |> assign(:show_contact_dialog, true)
 
     {:noreply, socket}
@@ -278,14 +271,11 @@ defmodule DemoWeb.Live.Home.Index do
   @impl true
   def handle_event("on-show-about-dialog-click" = event, _params, socket) do
     Logger.info("handle_event[#{event}]")
-    socket = create_execution_if_needed(socket)
-
-    updated_execution =
-      Journey.set_value(socket.assigns.execution_id, :about_visited, true)
 
     socket =
       socket
-      |> refresh_execution_state(updated_execution)
+      |> create_execution_if_needed()
+      |> async_save_value(:about_visited, true)
       |> assign(:show_about_dialog, true)
 
     {:noreply, socket}
@@ -401,6 +391,28 @@ defmodule DemoWeb.Live.Home.Index do
     |> assign(:execution_summary, Journey.Tools.summarize_as_text(execution.id))
     |> assign(:computation_states, get_computation_states(execution.id))
     |> assign(:execution_history, execution_history)
+  end
+
+  defp async_save_value(socket, value_name, value) do
+    execution_id = socket.assigns.execution_id
+
+    Task.start(fn ->
+      try do
+        Journey.set_value(execution_id, value_name, value)
+      rescue
+        e ->
+          Logger.warning(
+            "async_save_value[#{execution_id}]: failed to save value #{value_name}: #{inspect(e)}"
+          )
+      end
+    end)
+
+    new_values =
+      socket.assigns.values
+      |> Map.put(value_name, value)
+
+    socket
+    |> assign(:values, new_values)
   end
 
   # Helper function to get computation states for all computed nodes
