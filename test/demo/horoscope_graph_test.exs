@@ -8,7 +8,7 @@ defmodule Demo.HoroscopeGraphTest do
       execution =
         HoroscopeGraph.graph()
         |> Journey.start_execution()
-        |> Journey.set_value(:name, "Bowser")
+        |> Journey.set(:name, "Bowser")
 
       # Wait for the computation to complete and check the result
       assert Journey.get_value(execution, :name_validation, wait_new: true) ==
