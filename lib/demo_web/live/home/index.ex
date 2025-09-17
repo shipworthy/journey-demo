@@ -327,7 +327,7 @@ defmodule DemoWeb.Live.Home.Index do
 
       new_execution =
         Journey.start_execution(graph)
-        |> Journey.set_value(:email_address, "me@example.com")
+        |> Journey.set(:email_address, "me@example.com")
 
       # Subscribe to PubSub for updates
       :ok = Phoenix.PubSub.subscribe(Demo.PubSub, "execution:#{new_execution.id}")
@@ -391,8 +391,8 @@ defmodule DemoWeb.Live.Home.Index do
       try do
         execution =
           case set_or_unset do
-            :set -> Journey.set_value(execution_id, value_name, value)
-            :unset -> Journey.unset_value(execution_id, value_name)
+            :set -> Journey.set(execution_id, value_name, value)
+            :unset -> Journey.unset(execution_id, value_name)
           end
 
         Logger.info(
