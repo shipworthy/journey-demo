@@ -92,14 +92,14 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             </div>
             <div class={Classes.dev_bulletpoint()}>
               * The source code of this app is available on github, <a
-                href="https://github.com/shipworthy/journey-demo"
+                href="https://github.com/shipworthy/journey_horoscopes"
                 target="_blank"
                 class="text-blue-600 hover:underline"
-              >https://github.com/shipworthy/journey-demo/</a>.
+              >https://github.com/shipworthy/journey_horoscopes</a>.
             </div>
             <div class={Classes.dev_bulletpoint()}>
               * The core of the app (values, functions for computing them, and their dependencies) are defined in the app's Journey Graph, <a
-                href="https://github.com/shipworthy/journey-demo/blob/main/lib/demo/horoscope_graph.ex"
+                href="https://github.com/shipworthy/journey_horoscopes/blob/main/lib/demo/horoscope_graph.ex"
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >here</a>.
@@ -107,7 +107,7 @@ defmodule DemoWeb.Live.Home.Components.AboutSection do
             <div class={Classes.dev_paragraph()}>
               Fun fact: the state of each of the "<Gear.render checked={false} />" toggles on this page is persisted in the
               <a
-                href="https://github.com/shipworthy/journey-demo/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
+                href="https://github.com/shipworthy/journey_horoscopes/blob/d100f77d353a9590055f8c0d9cf66cf6dbe95399/lib/demo/horoscope_graph.ex#L152-L161"
                 target="_blank"
                 class="text-blue-600 hover:underline"
               >
