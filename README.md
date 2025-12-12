@@ -24,11 +24,11 @@ The application also uses Journey to get some analytics about the state of the f
 To clone and run the application (assuming you already have elixir installed). The sequence gives you the option of running a Postgres DB in a container.
 
 ```
-~/src $ git clone git@github.com:shipworthy/journey-horoscopes.git
-~/src/journey-horoscopes $ mix deps.get
-~/src/journey-horoscopes $ # if you want to create the db running in a container:
-~/src/journey-horoscopes $ # make db-local-rebuild
-~/src/journey-horoscopes $ make run-dev
+~/src $ git clone git@github.com:shipworthy/journey_horoscopes.git
+~/src/journey_horoscopes $ mix deps.get
+~/src/journey_horoscopes $ # if you want to create the db running in a container:
+~/src/journey_horoscopes $ # make db-local-rebuild
+~/src/journey_horoscopes $ make run-dev
 ...
 [info] Access DemoWeb.Endpoint at http://localhost:4000
 ...
