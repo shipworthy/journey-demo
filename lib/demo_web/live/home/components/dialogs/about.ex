@@ -35,17 +35,17 @@ defmodule DemoWeb.Live.Home.Components.Dialogs.About do
             </p>
             <p class="">
               * Journey's source code: <a
-                href="https://github.com/markmark206/journey"
+                href="https://github.com/shipworthy/journey"
                 class={href_inline()}
                 target="_blank"
-              >https://github.com/markmark206/journey</a>.
+              >https://github.com/shipworthy/journey</a>.
             </p>
             <p class="">
               * This web app's source code: <a
-                href="https://github.com/shipworthy/journey-demo"
+                href="https://github.com/shipworthy/journey_horoscopes"
                 class={href_inline()}
                 target="_blank"
-              >https://github.com/shipworthy/journey-demo</a>.
+              >https://github.com/shipworthy/journey_horoscopes</a>.
             </p>
           </div>
 
